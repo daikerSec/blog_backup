@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+
+
+  <meta name="keywords" content="ctf,Web,代码审计," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="0x00 序列化 所有php里面的值都可以使用函数serialize()来返回一个包含字节流的字符串来表示。unserialize()函数能够重新把字符串变回php原来的值。 序列化一个对象将会保存对象的所有变量，但是不会保存对象的方法，只会保存类的名字。 所有php里面的值都可以使用函数serialize()来返回一个包含字节流的字符串来表示。unserialize()函数能够重新把字符串变回p">
+<meta name="keywords" content="ctf,Web,代码审计">
+<meta property="og:type" content="article">
+<meta property="og:title" content="php-object-injection">
+<meta property="og:url" content="http://www.daiker.com.cn/2017/12/22/php-object-injection/index.html">
+<meta property="og:site_name" content="daiker&#39;s blog">
+<meta property="og:description" content="0x00 序列化 所有php里面的值都可以使用函数serialize()来返回一个包含字节流的字符串来表示。unserialize()函数能够重新把字符串变回php原来的值。 序列化一个对象将会保存对象的所有变量，但是不会保存对象的方法，只会保存类的名字。 所有php里面的值都可以使用函数serialize()来返回一个包含字节流的字符串来表示。unserialize()函数能够重新把字符串变回p">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5443560-3bcc27f4dd42c0ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5443560-0065570ad023bfa1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5443560-7375d79ef4cd9841.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-01-05T08:51:17.961Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="php-object-injection">
+<meta name="twitter:description" content="0x00 序列化 所有php里面的值都可以使用函数serialize()来返回一个包含字节流的字符串来表示。unserialize()函数能够重新把字符串变回php原来的值。 序列化一个对象将会保存对象的所有变量，但是不会保存对象的方法，只会保存类的名字。 所有php里面的值都可以使用函数serialize()来返回一个包含字节流的字符串来表示。unserialize()函数能够重新把字符串变回p">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/5443560-3bcc27f4dd42c0ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: "",
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.daiker.com.cn/2017/12/22/php-object-injection/"/>
+
+
+
+
+
+  <title>php-object-injection | daiker's blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?3988d3d58ab83d1f28fe4dc81646809f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">daiker's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.daiker.com.cn/2017/12/22/php-object-injection/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="daiker">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="daiker's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">php-object-injection</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-22T20:47:40+08:00">
+                2017-12-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/代码审计/" itemprop="url" rel="index">
+                    <span itemprop="name">代码审计</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="0x00-序列化"><a href="#0x00-序列化" class="headerlink" title="0x00 序列化"></a>0x00 序列化</h2><blockquote>
+<p>所有php里面的值都可以使用函数serialize()来返回一个包含字节流的字符串来表示。unserialize()函数能够重新把字符串变回php原来的值。 序列化一个对象将会保存对象的所有变量，但是不会保存对象的方法，只会保存类的名字。 所有php里面的值都可以使用函数<br><a href="http://php.net/manual/zh/function.serialize.php" target="_blank" rel="noopener">serialize()</a><br>来返回一个包含字节流的字符串来表示。<br><a href="http://php.net/manual/zh/function.unserialize.php" target="_blank" rel="noopener">unserialize()</a><br>函数能够重新把字符串变回php原来的值。 序列化一个对象将会保存对象的所有变量，但是不会保存对象的方法，只会保存类的名字。</p>
+</blockquote>
+<p>序列化的例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">/**</span><br><span class="line"> * </span><br><span class="line"> * @authors daiker (daikersec@gmail.com)</span><br><span class="line"> * @date    2017-12-22 15:39:43</span><br><span class="line"> * @version $Id$</span><br><span class="line"> */</span><br><span class="line">error_reporting(E_ALL);</span><br><span class="line">$var_int = 1;</span><br><span class="line">$var_str = &quot;123&quot;;</span><br><span class="line">$var_float = 1.2;</span><br><span class="line">$var_bool =  true;</span><br><span class="line">$var_arr = array(&apos;1&apos; =&gt; 1,1.2,false );</span><br><span class="line">class ClassName   &#123;</span><br><span class="line">    var $var_name = 1;</span><br><span class="line">    function  myfunction()&#123;</span><br><span class="line">        return &quot;1&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">   $arrayName = array($var_int,$var_str,$var_float,$var_bool,$var_arr,new ClassName ());</span><br><span class="line"></span><br><span class="line">   foreach ($arrayName as $key =&gt; $value) &#123;</span><br><span class="line">    echo serialize($value).&quot;&lt;br/&gt;&quot;;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>结果是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">i:1;</span><br><span class="line">s:3:&quot;123&quot;;</span><br><span class="line">d:1.2;</span><br><span class="line">b:1;</span><br><span class="line">a:3:&#123;i:1;i:1;i:2;d:1.2;i:3;b:0;&#125;</span><br><span class="line">O:9:&quot;ClassName&quot;:1:&#123;s:8:&quot;var_name&quot;;i:1;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>从例子中我们可以看到，变量，数组，对象可以被序列化。变量的值会被保存下来。以<code>:</code>隔开，类名会被保存下来，类变量，类变量名和类变量值会被保存下来，类方法不会被保存起来。</p>
+<h2 id="0x01-反序列化"><a href="#0x01-反序列化" class="headerlink" title="0x01 反序列化"></a>0x01 反序列化</h2><p>反序列化就是将序列化后的字符串转化回数组和对象<br>看例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">/**</span><br><span class="line"> * </span><br><span class="line"> * @authors daiker (daikersec@gmail.com)</span><br><span class="line"> * @date    2017-12-22 16:02:17</span><br><span class="line"> * @version $Id$</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">$un_arr_str = &apos;a:3:&#123;i:1;i:1;i:2;d:1.2;i:3;b:0;&#125;&apos;;//$var_arr = array(&apos;1&apos; =&gt; 1,1.2,false );</span><br><span class="line">$un_class_str = &apos;O:9:&quot;ClassName&quot;:1:&#123;s:8:&quot;var_name&quot;;i:1;&#125;&apos;;</span><br><span class="line">var_dump(unserialize($un_arr_str));</span><br><span class="line">$O = unserialize($un_class_str);</span><br><span class="line">// var_dump($O);</span><br><span class="line">var_dump($O-&gt;var_name);</span><br></pre></td></tr></table></figure></p>
+<p>这里的结果是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">array(3) &#123; [1]=&gt; int(1) [2]=&gt; float(1.2) [3]=&gt; bool(false) &#125; </span><br><span class="line">NULL</span><br></pre></td></tr></table></figure></p>
+<p>比较奇怪的是为什么第二个会是NULL。因为将对象序列化之后，只是保存它的关键数据，对于这个类的具体内容一无所知。所以反序列回一个对象的时候，需要反序列的上下文中存在模板(这里就是类的定义)。</p>
+<h2 id="0x02-魔术函数"><a href="#0x02-魔术函数" class="headerlink" title="0x02 魔术函数"></a>0x02 魔术函数</h2><blockquote>
+<p>PHP 将所有以 __（两个下划线）开头的类方法保留为魔术方法。<br>下面举一个例子。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">class ClassName  &#123;</span><br><span class="line">    </span><br><span class="line">    function __construct()&#123;</span><br><span class="line">        echo &quot;Hello,I am __construct&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">new ClassName();</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>这里的输出结果是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hello,I am __construct</span><br></pre></td></tr></table></figure></p>
+<p>其实这里的一个对象实例化的过程中默认会调用的__construct()。<br>php常用的魔术函数有<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__construct()， __destruct()， __call()， __callStatic()， __get()， __set()， __isset()， __unset()， __sleep()， __wakeup()， __toString()， __invoke()， __set_state()， __clone() 和 __debugInfo()</span><br></pre></td></tr></table></figure></p>
+<p>这里们并非每个都会在这里面用到，下面用一个例子来说下看几个常用到的魔术函数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">/**</span><br><span class="line"> * </span><br><span class="line"> * @authors daiker (daikersec@gmail.com)</span><br><span class="line"> * @date    2017-12-22 16:24:32</span><br><span class="line"> * @version $Id$</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">class ClassName  &#123;</span><br><span class="line">    private $name =&quot;123&quot;;</span><br><span class="line">    function __construct()&#123;</span><br><span class="line">        echo &quot;Hello,I am __construct&quot;.&quot;&lt;br/&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    function __destruct()&#123;</span><br><span class="line">        echo &quot;Hello,I am __destruct&quot;.&quot;&lt;br/&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    function __wakeup()&#123;</span><br><span class="line">        echo &quot;Hello,I am __wakeup&quot;.&quot;&lt;br/&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    function __sleep()&#123;</span><br><span class="line">        echo &quot;Hello,I am __sleep&quot;.&quot;&lt;br/&gt;&quot;;</span><br><span class="line">        return array($this-&gt;name);</span><br><span class="line">    &#125;</span><br><span class="line">    function __get($name)&#123;</span><br><span class="line">        echo &quot;Hello,I am __get&quot;.&quot;&lt;br/&gt;&quot;;</span><br><span class="line">        return $this-&gt;name;</span><br><span class="line">    &#125;</span><br><span class="line">    function __toString()&#123;</span><br><span class="line">        echo &quot;Hello,I am __toString&quot;.&quot;&lt;br/&gt;&quot;;</span><br><span class="line">        return &quot;Hello&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$O = new ClassName();</span><br><span class="line">$s= serialize($O);</span><br><span class="line">echo $s.&quot;&lt;br/&gt;&quot;;</span><br><span class="line">$O = unserialize($s);</span><br><span class="line">$O.&quot;&lt;br/&gt;&quot;;</span><br><span class="line">$O-&gt;nothing;</span><br></pre></td></tr></table></figure></p>
+<p>从例子我们可以看出，当初序列化一个对象是默认会调用<code>__sleep</code>，反序列化是会调用<code>__wakeup</code>，而<code>__construct</code>会在实例化一个对象是被调用，<code>__desturct</code>会在对象不再使用或者程序退出时自动调用, <code>__toString</code>会在对象被当做字符串时使用(特别注意字符串连接符<code>.</code>)。<code>__get</code>会在读取不可访问的属性的值的时候调用</p>
+<h2 id="0x05-反序列化漏洞"><a href="#0x05-反序列化漏洞" class="headerlink" title="0x05 反序列化漏洞"></a>0x05 反序列化漏洞</h2><p>先举一个反序列化漏洞例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">/**</span><br><span class="line"> * </span><br><span class="line"> * @authors daiker (daikersec@gmail.com)</span><br><span class="line"> * @date    2017-12-22 16:45:11</span><br><span class="line"> * @version $Id$</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">class ClassName &#123;</span><br><span class="line">    var $ip;</span><br><span class="line">    function __wakeup()&#123;</span><br><span class="line">        system(&apos;ping -c 4&apos;.$this-&gt;ip);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">$O = unserialize($_GET[&apos;daiker&apos;]);</span><br></pre></td></tr></table></figure></p>
+<p>我们分析这串代码，可以得出一下结论</p>
+<ol>
+<li>反序列化的的字符串我们可控</li>
+<li>反序列化默认会调用<code>__wakeup()</code></li>
+<li>变量ip是会保存在反序列化的字符串里面的，我们可控<br>所以我们下面构造payload。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">/**</span><br><span class="line"> * </span><br><span class="line"> * @authors daiker (daikersec@gmail.com)</span><br><span class="line"> * @date    2017-12-22 16:45:11</span><br><span class="line"> * @version $Id$</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">class ClassName &#123;</span><br><span class="line">    var $ip = &quot;|whoami&quot;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">echo urlencode(serialize(new ClassName()));</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>然后<br><code>http://127.0.0.1/php-obj/example4.php?daiker=O%3A9%3A%22ClassName%22%3A1%3A%7Bs%3A2%3A%22ip%22%3Bs%3A7%3A%22%7Cwhoami%22%3B%7D</code><br>就可以执行<code>whoami</code>,所以这里就导致RCE<br>所以总结来讲，PHP对象注入(又叫反序列化漏洞)，需要几点条件。</p>
+<ol>
+<li>反序列化字符串可控<br>2.有魔术方法会调用对象属性</li>
+</ol>
+<p>对于反序列化的漏洞利用的效果取决于魔术方法里面对成员属性的调用方式，如上面的<code>system()</code>就会导致RCE，也可能是注入，任意文件上传等问题。</p>
+<h2 id="0x03-类变量的注意点"><a href="#0x03-类变量的注意点" class="headerlink" title="0x03 类变量的注意点"></a>0x03 类变量的注意点</h2><p>看下面一个例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">/**</span><br><span class="line"> * </span><br><span class="line"> * @authors daiker (daikersec@gmail.com)</span><br><span class="line"> * @date    2017-12-22 19:08:38</span><br><span class="line"> * @version $Id$</span><br><span class="line"> */</span><br><span class="line">class ClassName&#123;</span><br><span class="line">    </span><br><span class="line">    private $a = 1;</span><br><span class="line">    protected  $b =2;</span><br><span class="line">    public  $c =3;//</span><br><span class="line">&#125;</span><br><span class="line">echo serialize(new ClassName()).&quot;&lt;br/&gt;&quot;;</span><br><span class="line">echo urlencode(serialize(new ClassName()));</span><br></pre></td></tr></table></figure></p>
+<p>看输出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">O:9:&quot;ClassName&quot;:3:&#123;s:12:&quot;ClassNamea&quot;;i:1;s:4:&quot;*b&quot;;i:2;s:1:&quot;c&quot;;i:3;&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">O%3A9%3A%22ClassName%22%3A3%3A%7Bs%3A12%3A%22%00ClassName%00a%22%3Bi%3A1%3Bs%3A4%3A%22%00%2A%00b%22%3Bi%3A2%3Bs%3A1%3A%22c%22%3Bi%3A3%3B%7D%</span><br></pre></td></tr></table></figure>
+<p>一个个比较，我们会发现不可打印字符打印不出来。如果我们把可打印字符用作payload，会利用失败.<br>如果是private 的变量，序列化的时候就会变成<code>\x00类名\x变量名</code>，这里就是<code>\xClassName\x00a</code>，urlencode之后变成<code>%00ClassName%00a</code>。<br>如果是protected的变量，序列化之后就会变成<code>\x00\x2A\x00变量名</code>。</p>
+<h2 id="0x04-POP-Chain"><a href="#0x04-POP-Chain" class="headerlink" title="0x04 POP Chain"></a>0x04 POP Chain</h2><p>前面说到，要找反序列化漏洞，要有两个点。第一个是反序列化的参数可控，第二个是有魔术方法调用对象属性。但是我们往往会遇到一个问题，就是我们反序列化的参数可控，但是，没有合适的魔术方法，或者是魔术方法对对象属性的调用方法无法利用。这时候就有人提出了一个新的思路叫做POP Chain(跟二进制里面的ROP Chain 思路很像)。POP chain利用的条件是找到的魔术方法不可以直接利用，但它有调用其它方法或者使用其它的变量时，可以在其它的类中寻找同名的方法或是变量，直到可以利用的点。<br>下面看一个简单的例子。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">/**</span><br><span class="line"> * </span><br><span class="line"> * @authors daiker (daikersec@gmail.com)</span><br><span class="line"> * @date    2017-12-22 19:41:17</span><br><span class="line"> * @version $Id$</span><br><span class="line"> */</span><br><span class="line">class One&#123;</span><br><span class="line">    function myfunction()&#123;</span><br><span class="line">        echo &quot;Hello,world&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">class Another&#123;</span><br><span class="line">    var $cmd ;</span><br><span class="line">    function myfunction()&#123;</span><br><span class="line">        $this-&gt;attack();</span><br><span class="line">    &#125;</span><br><span class="line">    function attack()&#123;</span><br><span class="line">        system($this-&gt;cmd);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">class ClassName  &#123;</span><br><span class="line">    var $class ;</span><br><span class="line">    function __construct()&#123;</span><br><span class="line">        $this-&gt;class=new One();</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    function __wakeup()&#123;</span><br><span class="line">        $this-&gt;class-&gt;myfunction();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">$O = unserialize($_GET[&apos;daiker&apos;]);</span><br></pre></td></tr></table></figure></p>
+<p>我们分析下代码，可以发现一下几点</p>
+<ol>
+<li>反序列化参数可控</li>
+<li>存在魔术方法__construct()，这里不可以直接利用</li>
+<li>__construct()调用了myfunction(),myfunction()不可以利用</li>
+<li>其他类存在同名函数myfunction()，且另外一个类里面的Myfunction不可以单独被利用，但是存在可被利用的函数<code>system()</code><br>构造payload<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">/**</span><br><span class="line"> * </span><br><span class="line"> * @authors daiker (daikersec@gmail.com)</span><br><span class="line"> * @date    2017-12-22 20:26:02</span><br><span class="line"> * @version $Id$</span><br><span class="line"> */</span><br><span class="line">class Another&#123;</span><br><span class="line">    var $cmd;</span><br><span class="line">    function __construct()&#123;</span><br><span class="line">        $this-&gt;cmd = &quot;whoami&quot;;</span><br><span class="line">    &#125;//跟直接写 var $cmd = &quot;whoami&apos;，不写__construct一样，这里演示还有这种写法</span><br><span class="line">&#125;</span><br><span class="line">class ClassName  &#123;</span><br><span class="line">    var $class ;</span><br><span class="line">    function __construct()&#123;</span><br><span class="line">        $this-&gt;class=new Another();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">echo serialize(new ClassName());</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>然后提交<br><code>http://127.0.0.1/php-obj/pop.php?daiker=O:9:%22ClassName%22:1:{s:5:%22class%22;O:7:%22Another%22:1:{s:3:%22cmd%22;s:6:%22whoami%22;}}</code></p>
+<h2 id="0x05-CVE-2016-7124-未完待续"><a href="#0x05-CVE-2016-7124-未完待续" class="headerlink" title="0x05 CVE-2016-7124(未完待续)"></a>0x05 CVE-2016-7124(未完待续)</h2><h2 id="0x06-经典案例-未完待续"><a href="#0x06-经典案例-未完待续" class="headerlink" title="0x06 经典案例(未完待续)"></a>0x06 经典案例(未完待续)</h2><p>1.typecho 反序列化漏洞复现</p>
+<ul>
+<li>版本:</li>
+<li>下载地址:</li>
+<li>漏洞分析:<br>来到install.php的232行<br><img src="http://upload-images.jianshu.io/upload_images/5443560-3bcc27f4dd42c0ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>这里存在一个反序列化漏洞。我们先来验证漏洞是否存在.反序列化参数最主要的是反序列化参数可控。这里的反序列化参数是<code>base64_decode(Typecho_Cookie::get(&#39;__typecho_config&#39;))</code><br>接下来，我们跟进<code>Typecho_Cookie::get</code>。<br>在Cookie.php中得到如下源码:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">private static $_prefix = &apos;&apos;;</span><br><span class="line">...</span><br><span class="line">public static function get($key, $default = NULL)</span><br><span class="line">&#123;</span><br><span class="line">    $key = self::$_prefix . $key;</span><br><span class="line">    $value = isset($_COOKIE[$key]) ? $_COOKIE[$key] : (isset($_POST[$key]) ? $_POST[$key] : $default);</span><br><span class="line">    return is_array($value) ? $default : $value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>从上面代码可以看出，没有任何过滤，并且可以通过POST或者Cookie传输。<br>找到漏洞利用的位置，接下来我们考虑，这句话什么情况会被触发。往前看。58到64行<br><img src="http://upload-images.jianshu.io/upload_images/5443560-0065570ad023bfa1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>这里要三个条件都为真才会退出，只要传入GET参数finish,就可以绕过这个。接下来看65到78行。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">if (!empty($_GET) || !empty($_POST)) &#123;</span><br><span class="line">    if (empty($_SERVER[&apos;HTTP_REFERER&apos;])) &#123;</span><br><span class="line">        exit;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    $parts = parse_url($_SERVER[&apos;HTTP_REFERER&apos;]);</span><br><span class="line">    if (!empty($parts[&apos;port&apos;])) &#123;</span><br><span class="line">        $parts[&apos;host&apos;] = &quot;&#123;$parts[&apos;host&apos;]&#125;:&#123;$parts[&apos;port&apos;]&#125;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (empty($parts[&apos;host&apos;]) || $_SERVER[&apos;HTTP_HOST&apos;] != $parts[&apos;host&apos;]) &#123;</span><br><span class="line">        exit;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里主要要求Referer不为空且必须为站内URL。<br>所以到这步先总结下,<br>只要满足传入GET参数finish，并设置referer为站内url。即可执行到漏洞利用点。然后反序列化的参数我们可以通过POST或者COOKIE传入。<br>下面，来完成最后一步，利用漏洞。<br>先找可能出触发的魔术函数。<br>在238行有<br><code>$db = new Typecho_Db($config[&#39;adapter&#39;], $config[&#39;prefix&#39;]);</code><br>所以我们构造的反序列化参数应该是一个数组,跟进<code>Typecho_Db</code>,在Db.php第120行，可以看到这行<br> <code>$adapterName = &#39;Typecho_Db_Adapter_&#39; . $adapterName;</code>。这里的话如果$adapterName是一个类，就会触发这个类的<code>__toString()</code>这个魔术函数，而$adapterName刚好就是我们传进的<code>$config[&#39;adapter&#39;]</code>。这里如果构造的反序列化是一个数组，其中adapter设置为某个类，就可以触发相应类的<strong>toString方法(详见上面魔术引号关于</strong>toString的介绍)。<br>下面全局寻找一个类，这个类是含有魔术函数<code>__toString()</code>且可被利用,<br><img src="http://upload-images.jianshu.io/upload_images/5443560-7375d79ef4cd9841.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>这里没有找到合适的，这时我们考虑POP chain<br>在var/Typecho/Feed.php的290行，有这样一句话。<br><code>$item[&#39;author&#39;]-&gt;screenName;</code><br>$item的值可以通过$_items获得，而$_items是类变量，可控，所以只要我们构造$item[‘author’]是一个类，这个类里面无法直接读取screenName，就会调用<strong>get()方法，参数是screenName。(详见上面魔术函数里面</strong>get的描述)</p>
+<p>接下来全局查找具有 <code>__get()</code>且可以利用的函数。<br>在var/Typecho/requests.php第270行中有<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public function __get($key)</span><br><span class="line">&#123;</span><br><span class="line">    return $this-&gt;get($key);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>跟进去，有<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public function get($key, $default = NULL)</span><br><span class="line">&#123;</span><br><span class="line">    switch (true) &#123;</span><br><span class="line">        case isset($this-&gt;_params[$key]):</span><br><span class="line">            $value = $this-&gt;_params[$key];</span><br><span class="line">            break;</span><br><span class="line">        case isset(self::$_httpParams[$key]):</span><br><span class="line">            $value = self::$_httpParams[$key];</span><br><span class="line">            break;</span><br><span class="line">        default:</span><br><span class="line">            $value = $default;</span><br><span class="line">            break;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    $value = !is_array($value) &amp;&amp; strlen($value) &gt; 0 ? $value : $default;</span><br><span class="line">    return $this-&gt;_applyFilter($value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里_params可控，我们构造为一个数组，key为<code>screenName</code>,value的值为$value,传进<code>_applyFilter</code>里面，我们跟进去。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">private function _applyFilter($value)</span><br><span class="line">&#123;</span><br><span class="line">    if ($this-&gt;_filter) &#123;</span><br><span class="line">        foreach ($this-&gt;_filter as $filter) &#123;</span><br><span class="line">            $value = is_array($value) ? array_map($filter, $value) :</span><br><span class="line">            call_user_func($filter, $value);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        $this-&gt;_filter = array();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return $value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里的<code>_filter</code>可控,$value可控，利用<code>call_user_func</code>可以造成命令执行漏洞</p>
+<ul>
+<li>POC</li>
+</ul>
+<p>2.SugarCRM v6.5.23反序列化漏洞复现</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ctf/" rel="tag"># ctf</a>
+          
+            <a href="/tags/Web/" rel="tag"># Web</a>
+          
+            <a href="/tags/代码审计/" rel="tag"># 代码审计</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/09/危险函数总结(随时补充)/" rel="next" title="PHP危险函数总结(随时补充)">
+                <i class="fa fa-chevron-left"></i> PHP危险函数总结(随时补充)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">daiker</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-序列化"><span class="nav-number">1.</span> <span class="nav-text"><a href="#0x00-&#x5E8F;&#x5217;&#x5316;" class="headerlink" title="0x00 &#x5E8F;&#x5217;&#x5316;"></a>0x00 &#x5E8F;&#x5217;&#x5316;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-反序列化"><span class="nav-number">2.</span> <span class="nav-text"><a href="#0x01-&#x53CD;&#x5E8F;&#x5217;&#x5316;" class="headerlink" title="0x01 &#x53CD;&#x5E8F;&#x5217;&#x5316;"></a>0x01 &#x53CD;&#x5E8F;&#x5217;&#x5316;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-魔术函数"><span class="nav-number">3.</span> <span class="nav-text"><a href="#0x02-&#x9B54;&#x672F;&#x51FD;&#x6570;" class="headerlink" title="0x02 &#x9B54;&#x672F;&#x51FD;&#x6570;"></a>0x02 &#x9B54;&#x672F;&#x51FD;&#x6570;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x05-反序列化漏洞"><span class="nav-number">4.</span> <span class="nav-text"><a href="#0x05-&#x53CD;&#x5E8F;&#x5217;&#x5316;&#x6F0F;&#x6D1E;" class="headerlink" title="0x05 &#x53CD;&#x5E8F;&#x5217;&#x5316;&#x6F0F;&#x6D1E;"></a>0x05 &#x53CD;&#x5E8F;&#x5217;&#x5316;&#x6F0F;&#x6D1E;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-类变量的注意点"><span class="nav-number">5.</span> <span class="nav-text"><a href="#0x03-&#x7C7B;&#x53D8;&#x91CF;&#x7684;&#x6CE8;&#x610F;&#x70B9;" class="headerlink" title="0x03 &#x7C7B;&#x53D8;&#x91CF;&#x7684;&#x6CE8;&#x610F;&#x70B9;"></a>0x03 &#x7C7B;&#x53D8;&#x91CF;&#x7684;&#x6CE8;&#x610F;&#x70B9;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x04-POP-Chain"><span class="nav-number">6.</span> <span class="nav-text"><a href="#0x04-POP-Chain" class="headerlink" title="0x04 POP Chain"></a>0x04 POP Chain</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x05-CVE-2016-7124-未完待续"><span class="nav-number">7.</span> <span class="nav-text"><a href="#0x05-CVE-2016-7124-&#x672A;&#x5B8C;&#x5F85;&#x7EED;" class="headerlink" title="0x05 CVE-2016-7124(&#x672A;&#x5B8C;&#x5F85;&#x7EED;)"></a>0x05 CVE-2016-7124(&#x672A;&#x5B8C;&#x5F85;&#x7EED;)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x06-经典案例-未完待续"><span class="nav-number">8.</span> <span class="nav-text"><a href="#0x06-&#x7ECF;&#x5178;&#x6848;&#x4F8B;-&#x672A;&#x5B8C;&#x5F85;&#x7EED;" class="headerlink" title="0x06 &#x7ECF;&#x5178;&#x6848;&#x4F8B;(&#x672A;&#x5B8C;&#x5F85;&#x7EED;)"></a>0x06 &#x7ECF;&#x5178;&#x6848;&#x4F8B;(&#x672A;&#x5B8C;&#x5F85;&#x7EED;)</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">daiker</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next gemini" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+
+
+  <meta name="keywords" content="ctf,Web,代码审计," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="0x00 闲谈想上手代码审计很久了，鉴于PHP是世界上最好的语言，就从php下手，主要是PHP的弱类型 0x01 弱类型 强类型的语言遇到函数引数类型和实际调用类型不匹配的情况经常会直接出错或者编译失败；而弱类型的语言常常会实行隐式转换，或者产生难以意料的结果  也就是说，其实弱类型式其实式语言帮我们做了转换，好处是我们编程的时候可以省很多力，但是方便的同时也带来一些问题。注意的是，python并">
+<meta name="keywords" content="ctf,Web,代码审计">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP弱类型总结(未完)">
+<meta property="og:url" content="http://www.daiker.com.cn/2017/05/04/PHP弱类型总结(未完)/index.html">
+<meta property="og:site_name" content="daiker&#39;s blog">
+<meta property="og:description" content="0x00 闲谈想上手代码审计很久了，鉴于PHP是世界上最好的语言，就从php下手，主要是PHP的弱类型 0x01 弱类型 强类型的语言遇到函数引数类型和实际调用类型不匹配的情况经常会直接出错或者编译失败；而弱类型的语言常常会实行隐式转换，或者产生难以意料的结果  也就是说，其实弱类型式其实式语言帮我们做了转换，好处是我们编程的时候可以省很多力，但是方便的同时也带来一些问题。注意的是，python并">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-01T16:14:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PHP弱类型总结(未完)">
+<meta name="twitter:description" content="0x00 闲谈想上手代码审计很久了，鉴于PHP是世界上最好的语言，就从php下手，主要是PHP的弱类型 0x01 弱类型 强类型的语言遇到函数引数类型和实际调用类型不匹配的情况经常会直接出错或者编译失败；而弱类型的语言常常会实行隐式转换，或者产生难以意料的结果  也就是说，其实弱类型式其实式语言帮我们做了转换，好处是我们编程的时候可以省很多力，但是方便的同时也带来一些问题。注意的是，python并">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: "",
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.daiker.com.cn/2017/05/04/PHP弱类型总结(未完)/"/>
+
+
+
+
+
+  <title>PHP弱类型总结(未完) | daiker's blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?3988d3d58ab83d1f28fe4dc81646809f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">daiker's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.daiker.com.cn/2017/05/04/PHP弱类型总结(未完)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="daiker">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="daiker's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">PHP弱类型总结(未完)</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-04T21:14:14+08:00">
+                2017-05-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ctf/" itemprop="url" rel="index">
+                    <span itemprop="name">ctf</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="0x00-闲谈"><a href="#0x00-闲谈" class="headerlink" title="0x00 闲谈"></a>0x00 闲谈</h3><p>想上手代码审计很久了，鉴于PHP是世界上最好的语言，就从php下手，主要是PHP的弱类型</p>
+<h3 id="0x01-弱类型"><a href="#0x01-弱类型" class="headerlink" title="0x01 弱类型"></a>0x01 弱类型</h3><blockquote>
+<p>强类型的语言遇到函数引数类型和实际调用类型不匹配的情况经常会直接出错或者编译失败；而弱类型的语言常常会实行隐式转换，或者产生难以意料的结果</p>
+</blockquote>
+<p>也就是说，其实弱类型式其实式语言帮我们做了转换，好处是我们编程的时候可以省很多力，但是方便的同时也带来一些问题。注意的是，<code>python</code>并不是一门弱类型的语言。</p>
+<h3 id="0x02-string转int"><a href="#0x02-string转int" class="headerlink" title="0x02 string转int"></a>0x02 string转int</h3><p><code>php</code>在将<code>string</code>转化成<code>int</code>的时候会把后面的字母舍掉。<br>比如 ‘132a’会被转化为123。又比如’aaa‘会被转化为为0。<br>受到影响的:<code>intval()</code>,<code>==</code>,<code>&gt;</code>,’<code>&lt;</code>等。看到具体的例子。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">is_numeric(@$a[&quot;str&quot;])?die(&quot;eroor&quot;):NULL;</span><br><span class="line">    if(@$a[&quot;str&quot;])&#123;</span><br><span class="line">       if ($a[&quot;str&quot;]&gt;2016)&#123;</span><br><span class="line">       echo $flag;</span><br><span class="line">    &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这时只需要传入2017aaa就可以绕过</p>
+<h3 id="0x03-进制转化"><a href="#0x03-进制转化" class="headerlink" title="0x03 进制转化"></a>0x03 进制转化</h3><p>会自动转化进制，而且支持科学计数法<br><code>var_dump(0x10==16);
+ var_dump(020==16);
+ var_dump(2e1==20);</code><br>这些都是正确的，举个例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">?php</span><br><span class="line">$md51 = md5(&apos;QNKCDZO&apos;);</span><br><span class="line">$a = @$_GET[&apos;a&apos;];</span><br><span class="line">$md52 = @md5($a);</span><br><span class="line">if(isset($a))&#123;</span><br><span class="line">if ($a != &apos;QNKCDZO&apos; &amp;&amp; $md51 == $md52) &#123;</span><br><span class="line">    echo &quot;nctf&#123;*****************&#125;&quot;;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    echo &quot;false!!!&quot;;</span><br><span class="line">&#125;&#125;</span><br><span class="line">else&#123;echo &quot;please input a&quot;;&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p>
+<p>这时只要找出两个数的md5都是0e开头的就可以。<br>具体哪些，看这一篇<a href="http://www.cnblogs.com/Primzahl/p/6018158.html" target="_blank" rel="noopener">PHP处理0e开头md5哈希字符串缺陷/bug</a></p>
+<h3 id="0x04-一些容易出问题的函数"><a href="#0x04-一些容易出问题的函数" class="headerlink" title="0x04 一些容易出问题的函数"></a>0x04 一些容易出问题的函数</h3><h4 id="strcmp"><a href="#strcmp" class="headerlink" title="strcmp"></a>strcmp</h4><p>strcmp(array,string)=null=0<br>具体例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$pass=@$_POST[&apos;pass&apos;];</span><br><span class="line">$pass1=***********;//被隐藏起来的密码</span><br><span class="line">if(isset($pass))</span><br><span class="line">&#123;</span><br><span class="line">    if(@!strcmp($pass,$pass1))&#123;</span><br><span class="line">    echo &quot;flag:nctf&#123;*&#125;&quot;;</span><br><span class="line">  &#125;else&#123;</span><br><span class="line">  echo &quot;the pass is wrong!&quot;;</span><br><span class="line">&#125;</span><br><span class="line">&#125;else&#123;</span><br><span class="line">  echo &quot;please input pass!&quot;;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p>
+<p>传进一个数组就行</p>
+<h4 id="array-search-与in-array"><a href="#array-search-与in-array" class="headerlink" title="array_search()与in_array()"></a>array_search()与in_array()</h4><p>传进的string被转化为0的情况<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$array=array(13);</span><br><span class="line">var_dump(strcmp($array,&apos;abc&apos;)==true );</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$array=array(0=&gt;&apos;a&apos;,&apos;b&apos;);</span><br><span class="line">var_dump(array_search(&apos;b&apos;,$array) == false ); //false</span><br><span class="line">var_dump(array_search(&apos;c&apos;,$array) == false ); //true</span><br><span class="line">var_dump(array_search(&apos;a&apos;,$array) == false ); //true  特例，刚好找到是0 0==flase</span><br></pre></td></tr></table></figure>
+<h4 id="md5"><a href="#md5" class="headerlink" title="md5"></a>md5</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$array=array(0=&gt;&apos;a&apos;,&apos;b&apos;);</span><br><span class="line">$b=array(0);</span><br><span class="line">var_dump(md5($array)===md5($b)); //true</span><br></pre></td></tr></table></figure>
+<p>两个数组的md5一样</p>
+<h4 id="eregi"><a href="#eregi" class="headerlink" title="eregi"></a>eregi</h4><p>可以被截断<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$c=@$_GET[&apos;cat&apos;];</span><br><span class="line">$d=@$_GET[&apos;dog&apos;];</span><br><span class="line">if(@$c[1])&#123;</span><br><span class="line">    if(!strcmp($c[1],$d) &amp;&amp; $c[1]!==$d)&#123;</span><br><span class="line">		</span><br><span class="line">        eregi(&quot;3|1|c&quot;,$d.$c[0])?die(&quot;nope&quot;):NULL;</span><br><span class="line">        strpos(($c[0].$d), &quot;isccctf2017&quot;)?$v3=1:NULL;</span><br><span class="line">		</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>构造截断就好</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ctf/" rel="tag"># ctf</a>
+          
+            <a href="/tags/Web/" rel="tag"># Web</a>
+          
+            <a href="/tags/代码审计/" rel="tag"># 代码审计</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/28/一次简单渗透/" rel="next" title="一次简单渗透">
+                <i class="fa fa-chevron-left"></i> 一次简单渗透
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/09/insert 注入/" rel="prev" title="insert 注入">
+                insert 注入 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">daiker</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#0x00-闲谈"><span class="nav-number">1.</span> <span class="nav-text"><a href="#0x00-&#x95F2;&#x8C08;" class="headerlink" title="0x00 &#x95F2;&#x8C08;"></a>0x00 &#x95F2;&#x8C08;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x01-弱类型"><span class="nav-number">2.</span> <span class="nav-text"><a href="#0x01-&#x5F31;&#x7C7B;&#x578B;" class="headerlink" title="0x01 &#x5F31;&#x7C7B;&#x578B;"></a>0x01 &#x5F31;&#x7C7B;&#x578B;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x02-string转int"><span class="nav-number">3.</span> <span class="nav-text"><a href="#0x02-string&#x8F6C;int" class="headerlink" title="0x02 string&#x8F6C;int"></a>0x02 string&#x8F6C;int</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x03-进制转化"><span class="nav-number">4.</span> <span class="nav-text"><a href="#0x03-&#x8FDB;&#x5236;&#x8F6C;&#x5316;" class="headerlink" title="0x03 &#x8FDB;&#x5236;&#x8F6C;&#x5316;"></a>0x03 &#x8FDB;&#x5236;&#x8F6C;&#x5316;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x04-一些容易出问题的函数"><span class="nav-number">5.</span> <span class="nav-text"><a href="#0x04-&#x4E00;&#x4E9B;&#x5BB9;&#x6613;&#x51FA;&#x95EE;&#x9898;&#x7684;&#x51FD;&#x6570;" class="headerlink" title="0x04 &#x4E00;&#x4E9B;&#x5BB9;&#x6613;&#x51FA;&#x95EE;&#x9898;&#x7684;&#x51FD;&#x6570;"></a>0x04 &#x4E00;&#x4E9B;&#x5BB9;&#x6613;&#x51FA;&#x95EE;&#x9898;&#x7684;&#x51FD;&#x6570;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#strcmp"><span class="nav-number">5.1.</span> <span class="nav-text"><a href="#strcmp" class="headerlink" title="strcmp"></a>strcmp</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#array-search-与in-array"><span class="nav-number">5.2.</span> <span class="nav-text"><a href="#array-search-&#x4E0E;in-array" class="headerlink" title="array_search()&#x4E0E;in_array()"></a>array_search()&#x4E0E;in_array()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#md5"><span class="nav-number">5.3.</span> <span class="nav-text"><a href="#md5" class="headerlink" title="md5"></a>md5</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#eregi"><span class="nav-number">5.4.</span> <span class="nav-text"><a href="#eregi" class="headerlink" title="eregi"></a>eregi</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">daiker</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
