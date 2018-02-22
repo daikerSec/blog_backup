@@ -432,11 +432,11 @@ body >header a {
   }
 }
 #imglogo img {
-  width: 10em;
+  width: 8em;
 }
 @media only screen and (min-width: 1024px) {
   #imglogo img {
-    width: 12em;
+    width: 10em;
   }
 }
 #textlogo {
