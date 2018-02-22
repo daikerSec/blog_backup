@@ -432,17 +432,11 @@ body >header a {
   }
 }
 #imglogo img {
-  width: 4em;
-  border-radius: 100%;
-}
-@media only screen and (min-width: 768px) {
-  #imglogo img {
-    width: 5.5em;
-  }
+  width: 10em;
 }
 @media only screen and (min-width: 1024px) {
   #imglogo img {
-    width: 6em;
+    width: 12em;
   }
 }
 #textlogo {
