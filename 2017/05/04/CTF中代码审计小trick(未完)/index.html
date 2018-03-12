@@ -19,7 +19,7 @@
 <meta property="og:site_name">
 <meta property="og:description" content="0x00 弱类型强类的语言遇到函数引数类型和实际调用类型不匹配的情况经常会直接出错或者编译失败；而弱类型的语言常常会实行隐式转换，或者产生难以意料的结果 也就是说，其实弱类型式其实式语言帮我们做了转换，好处是我们编程的时候可以省很多力，但是方便的同时也带来一些问题。注意的是，python并不是一门弱类型的语言。  string转intphp在将string转化成int的时候会把后面的字母舍掉。比如">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-21T04:07:06.593Z">
+<meta property="og:updated_time" content="2018-03-06T16:04:30.375Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CTF中代码审计小trick(未完)">
 <meta name="twitter:description" content="0x00 弱类型强类的语言遇到函数引数类型和实际调用类型不匹配的情况经常会直接出错或者编译失败；而弱类型的语言常常会实行隐式转换，或者产生难以意料的结果 也就是说，其实弱类型式其实式语言帮我们做了转换，好处是我们编程的时候可以省很多力，但是方便的同时也带来一些问题。注意的是，python并不是一门弱类型的语言。  string转intphp在将string转化成int的时候会把后面的字母舍掉。比如">
@@ -107,24 +107,25 @@
 		<h1 id="0x00-弱类型"><a href="#0x00-弱类型" class="headerlink" title="0x00 弱类型"></a>0x00 弱类型</h1><p>强类的语言遇到函数引数类型和实际调用类型不匹配的情况经常会直接出错或者编译失败；而弱类型的语言常常会实行隐式转换，或者产生难以意料的结果</p>
 <p>也就是说，其实弱类型式其实式语言帮我们做了转换，好处是我们编程的时候可以省很多力，但是方便的同时也带来一些问题。注意的是，<code>python</code>并不是一门弱类型的语言。</p>
 <ol>
-<li>string转int<br><code>php</code>在将<code>string</code>转化成<code>int</code>的时候会把后面的字母舍掉。<br>比如 ‘132a’会被转化为123。又比如’aaa‘会被转化为为0。<br>受到影响的:<code>intval()</code>,<code>==</code>,<code>&gt;</code>,’<code>&lt;</code>等。看到具体的例子。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">is_numeric(@$a[&quot;str&quot;])?die(&quot;eroor&quot;):NULL;</span><br><span class="line">    if(@$a[&quot;str&quot;])&#123;</span><br><span class="line">       if ($a[&quot;str&quot;]&gt;2016)&#123;</span><br><span class="line">       echo $flag;</span><br><span class="line">    &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<li>string转int<br><code>php</code>在将<code>string</code>转化成<code>int</code>的时候会把后面的字母舍掉。<br>比如 ‘132a’会被转化为123。又比如’aaa‘会被转化为为0。<br>受到影响的:<code>intval()</code>,<code>==</code>,<code>&gt;</code>,’<code>&lt;</code>等。看到具体的例子。<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">is_numeric(@$a[<span class="string">"str"</span>])?<span class="keyword">die</span>(<span class="string">"eroor"</span>):<span class="keyword">NULL</span>;</span><br><span class="line">    <span class="keyword">if</span>(@$a[<span class="string">"str"</span>])&#123;</span><br><span class="line">       <span class="keyword">if</span> ($a[<span class="string">"str"</span>]&gt;<span class="number">2016</span>)&#123;</span><br><span class="line">       <span class="keyword">echo</span> $flag;</span><br><span class="line">    &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <p>这时只需要传入2017aaa就可以绕过</p>
 <ol>
-<li>进制转化<br>会自动转化进制，而且支持科学计数法<br><code>var_dump(0x10==16);
+<li>进制转化<br>会自动转化进制，而且支持科学计数法<br><code>php
+var_dump(0x10==16);
 var_dump(020==16);
-var_dump(2e1==20);</code><br>这些都是正确的，举个例子<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">?php</span><br><span class="line">$md51 = md5(&apos;QNKCDZO&apos;);</span><br><span class="line">$a = @$_GET[&apos;a&apos;];</span><br><span class="line">$md52 = @md5($a);</span><br><span class="line">if(isset($a))&#123;</span><br><span class="line">if ($a != &apos;QNKCDZO&apos; &amp;&amp; $md51 == $md52) &#123;</span><br><span class="line">    echo &quot;nctf&#123;*****************&#125;&quot;;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    echo &quot;false!!!&quot;;</span><br><span class="line">&#125;&#125;</span><br><span class="line">else&#123;echo &quot;please input a&quot;;&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+var_dump(2e1==20);</code><br>这些都是正确的，举个例子<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">?php</span><br><span class="line">$md51 = md5(<span class="string">'QNKCDZO'</span>);</span><br><span class="line">$a = @$_GET[<span class="string">'a'</span>];</span><br><span class="line">$md52 = @md5($a);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($a))&#123;</span><br><span class="line"><span class="keyword">if</span> ($a != <span class="string">'QNKCDZO'</span> &amp;&amp; $md51 == $md52) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"nctf&#123;*****************&#125;"</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"false!!!"</span>;</span><br><span class="line">&#125;&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;<span class="keyword">echo</span> <span class="string">"please input a"</span>;&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <p>这时只要找出两个数的md5都是0e开头的就可以。<br>具体哪些，看这一篇<a href="http://www.cnblogs.com/Primzahl/p/6018158.html" target="_blank" rel="noopener">PHP处理0e开头md5哈希字符串缺陷/bug</a><br><a id="more"></a></p>
-<h1 id="0x01-strcmp"><a href="#0x01-strcmp" class="headerlink" title="0x01 strcmp"></a>0x01 strcmp</h1><p>strcmp(array,string)=null=0<br>具体例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$pass=@$_POST[&apos;pass&apos;];</span><br><span class="line">$pass1=***********;//被隐藏起来的密码</span><br><span class="line">if(isset($pass))</span><br><span class="line">&#123;</span><br><span class="line">    if(@!strcmp($pass,$pass1))&#123;</span><br><span class="line">    echo &quot;flag:nctf&#123;*&#125;&quot;;</span><br><span class="line">  &#125;else&#123;</span><br><span class="line">  echo &quot;the pass is wrong!&quot;;</span><br><span class="line">&#125;</span><br><span class="line">&#125;else&#123;</span><br><span class="line">  echo &quot;please input pass!&quot;;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p>
+<h1 id="0x01-strcmp"><a href="#0x01-strcmp" class="headerlink" title="0x01 strcmp"></a>0x01 strcmp</h1><p>strcmp(array,string)=null=0<br>具体例子<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$pass=@$_POST[<span class="string">'pass'</span>];</span><br><span class="line">$pass1=***********;<span class="comment">//被隐藏起来的密码</span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($pass))</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(@!strcmp($pass,$pass1))&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"flag:nctf&#123;*&#125;"</span>;</span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">  <span class="keyword">echo</span> <span class="string">"the pass is wrong!"</span>;</span><br><span class="line">&#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">  <span class="keyword">echo</span> <span class="string">"please input pass!"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>传进一个数组就行</p>
-<h1 id="0x02-array-search-与in-array"><a href="#0x02-array-search-与in-array" class="headerlink" title="0x02 array_search()与in_array()"></a>0x02 array_search()与in_array()</h1><p>传进的string被转化为0的情况<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$array=array(13);</span><br><span class="line">var_dump(strcmp($array,&apos;abc&apos;)==true );</span><br></pre></td></tr></table></figure></p>
+<h1 id="0x02-array-search-与in-array"><a href="#0x02-array-search-与in-array" class="headerlink" title="0x02 array_search()与in_array()"></a>0x02 array_search()与in_array()</h1><p>传进的string被转化为0的情况<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$array=<span class="keyword">array</span>(<span class="number">13</span>);</span><br><span class="line">var_dump(strcmp($array,<span class="string">'abc'</span>)==<span class="keyword">true</span> );</span><br></pre></td></tr></table></figure></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$array=array(0=&gt;&apos;a&apos;,&apos;b&apos;);</span><br><span class="line">var_dump(array_search(&apos;b&apos;,$array) == false ); //false</span><br><span class="line">var_dump(array_search(&apos;c&apos;,$array) == false ); //true</span><br><span class="line">var_dump(array_search(&apos;a&apos;,$array) == false ); //true  特例，刚好找到是0 0==flase</span><br></pre></td></tr></table></figure>
-<h1 id="0x03-md5"><a href="#0x03-md5" class="headerlink" title="0x03 md5"></a>0x03 md5</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$array=array(0=&gt;&apos;a&apos;,&apos;b&apos;);</span><br><span class="line">$b=array(0);</span><br><span class="line">var_dump(md5($array)===md5($b)); //true</span><br></pre></td></tr></table></figure>
+<h1 id="0x03-md5"><a href="#0x03-md5" class="headerlink" title="0x03 md5"></a>0x03 md5</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$array=<span class="keyword">array</span>(<span class="number">0</span>=&gt;<span class="string">'a'</span>,<span class="string">'b'</span>);</span><br><span class="line">$b=<span class="keyword">array</span>(<span class="number">0</span>);</span><br><span class="line">var_dump(md5($array)===md5($b)); <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
 <p>两个数组的md5一样</p>
-<h1 id="0x04-eregi"><a href="#0x04-eregi" class="headerlink" title="0x04 eregi"></a>0x04 eregi</h1><p>可以被截断<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$c=@$_GET[&apos;cat&apos;];</span><br><span class="line">$d=@$_GET[&apos;dog&apos;];</span><br><span class="line">if(@$c[1])&#123;</span><br><span class="line">    if(!strcmp($c[1],$d) &amp;&amp; $c[1]!==$d)&#123;</span><br><span class="line">		</span><br><span class="line">        eregi(&quot;3|1|c&quot;,$d.$c[0])?die(&quot;nope&quot;):NULL;</span><br><span class="line">        strpos(($c[0].$d), &quot;isccctf2017&quot;)?$v3=1:NULL;</span><br><span class="line">		</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="0x04-eregi"><a href="#0x04-eregi" class="headerlink" title="0x04 eregi"></a>0x04 eregi</h1><p>可以被截断<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$c=@$_GET[<span class="string">'cat'</span>];</span><br><span class="line">$d=@$_GET[<span class="string">'dog'</span>];</span><br><span class="line"><span class="keyword">if</span>(@$c[<span class="number">1</span>])&#123;</span><br><span class="line">    <span class="keyword">if</span>(!strcmp($c[<span class="number">1</span>],$d) &amp;&amp; $c[<span class="number">1</span>]!==$d)&#123;</span><br><span class="line">		</span><br><span class="line">        eregi(<span class="string">"3|1|c"</span>,$d.$c[<span class="number">0</span>])?<span class="keyword">die</span>(<span class="string">"nope"</span>):<span class="keyword">NULL</span>;</span><br><span class="line">        strpos(($c[<span class="number">0</span>].$d), <span class="string">"isccctf2017"</span>)?$v3=<span class="number">1</span>:<span class="keyword">NULL</span>;</span><br><span class="line">		</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
 <p>构造截断就好</p>
 <h1 id="0x05-file-put-content和unlink"><a href="#0x05-file-put-content和unlink" class="headerlink" title="0x05 file_put_content和unlink"></a>0x05 file_put_content和unlink</h1><h1 id="0x06-rand"><a href="#0x06-rand" class="headerlink" title="0x06 rand"></a>0x06 rand</h1><h1 id="0x07-end-array-和array-length-array-1"><a href="#0x07-end-array-和array-length-array-1" class="headerlink" title="0x07 end(array)和array[length(array)-1]"></a>0x07 end(array)和array[length(array)-1]</h1><h1 id="0x08-未初始化变量漏洞"><a href="#0x08-未初始化变量漏洞" class="headerlink" title="0x08 未初始化变量漏洞"></a>0x08 未初始化变量漏洞</h1>  
 	</div>
@@ -221,7 +222,7 @@ var_dump(2e1==20);</code><br>这些都是正确的，举个例子<figure class="
 		  
 		
 		  
-			<li><a href="/categories/注入/" title="注入">注入<sup>1</sup></a></li>
+			<li><a href="/categories/注入/" title="注入">注入<sup>2</sup></a></li>
 		  
 		
 		  
@@ -250,6 +251,10 @@ var_dump(2e1==20);</code><br>这些都是正确的，举个例子<figure class="
 			
 		
 			
+				<li><a href="/tags/注入/" title="注入">注入<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/漏洞研究/" title="漏洞研究">漏洞研究<sup>2</sup></a></li>
 			
 		
@@ -258,11 +263,15 @@ var_dump(2e1==20);</code><br>这些都是正确的，举个例子<figure class="
 			
 		
 			
-				<li><a href="/tags/注入/" title="注入">注入<sup>1</sup></a></li>
+				<li><a href="/tags/代码审计/" title="代码审计">代码审计<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/代码审计/" title="代码审计">代码审计<sup>1</sup></a></li>
+				<li><a href="/tags/CTF/" title="CTF">CTF<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/提权/" title="提权">提权<sup>1</sup></a></li>
 			
 		
 			
@@ -274,7 +283,7 @@ var_dump(2e1==20);</code><br>这些都是正确的，举个例子<figure class="
 			
 		
 			
-				<li><a href="/tags/提权/" title="提权">提权<sup>1</sup></a></li>
+				<li><a href="/tags/web/" title="web">web<sup>1</sup></a></li>
 			
 		
 		</ul>

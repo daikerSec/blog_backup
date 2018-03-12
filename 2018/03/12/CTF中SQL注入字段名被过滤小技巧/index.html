@@ -4,24 +4,25 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>daiker666 | </title>
+    <title>CTF中SQL注入字段名被过滤小技巧 | </title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="daiker">
     
 
     
-    <meta name="description" content="test">
+    <meta name="description" content="0x00 前言CTF中SQL注入字段名被过滤小技巧，后续有学习到啥好方法再加进来 0x01 问题引入1234567mysql&amp;gt; select * from users;+--------+-----------+| points | flag      |+--------+-----------+| 31     | daiker666 |+--------+-----------+1 r">
+<meta name="keywords" content="CTF,注入,web">
 <meta property="og:type" content="article">
-<meta property="og:title" content="daiker666">
-<meta property="og:url" content="http://www.daiker.com.cn/2018/03/06/daiker666/index.html">
+<meta property="og:title" content="CTF中SQL注入字段名被过滤小技巧">
+<meta property="og:url" content="http://www.daiker.com.cn/2018/03/12/CTF中SQL注入字段名被过滤小技巧/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="test">
+<meta property="og:description" content="0x00 前言CTF中SQL注入字段名被过滤小技巧，后续有学习到啥好方法再加进来 0x01 问题引入1234567mysql&amp;gt; select * from users;+--------+-----------+| points | flag      |+--------+-----------+| 31     | daiker666 |+--------+-----------+1 r">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-06T15:57:39.682Z">
+<meta property="og:updated_time" content="2018-03-12T03:05:46.343Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="daiker666">
-<meta name="twitter:description" content="test">
+<meta name="twitter:title" content="CTF中SQL注入字段名被过滤小技巧">
+<meta name="twitter:description" content="0x00 前言CTF中SQL注入字段名被过滤小技巧，后续有学习到啥好方法再加进来 0x01 问题引入1234567mysql&amp;gt; select * from users;+--------+-----------+| points | flag      |+--------+-----------+| 31     | daiker666 |+--------+-----------+1 r">
 <meta name="twitter:creator" content="@daikersec">
 
     
@@ -83,14 +84,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/03/06/daiker666/" title="daiker666" itemprop="url">daiker666</a>
+      <a href="/2018/03/12/CTF中SQL注入字段名被过滤小技巧/" title="CTF中SQL注入字段名被过滤小技巧" itemprop="url">CTF中SQL注入字段名被过滤小技巧</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="daiker" target="_blank" itemprop="author">daiker</a>
 		
   <p class="article-time">
-    <time datetime="2018-03-06T15:57:13.000Z" itemprop="datePublished"> 发表于 2018-03-06</time>
+    <time datetime="2018-03-12T03:04:07.000Z" itemprop="datePublished"> 发表于 2018-03-12</time>
     
   </p>
 </header>
@@ -99,15 +100,33 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#test"><span class="toc-number">1.</span> <span class="toc-text"><a href="#test" class="headerlink" title="test"></a>test</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-前言"><span class="toc-number">1.</span> <span class="toc-text"><a href="#0x00-&#x524D;&#x8A00;" class="headerlink" title="0x00 &#x524D;&#x8A00;"></a>0x00 &#x524D;&#x8A00;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-问题引入"><span class="toc-number">2.</span> <span class="toc-text"><a href="#0x01-&#x95EE;&#x9898;&#x5F15;&#x5165;" class="headerlink" title="0x01 &#x95EE;&#x9898;&#x5F15;&#x5165;"></a>0x01 &#x95EE;&#x9898;&#x5F15;&#x5165;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-问题思考"><span class="toc-number">3.</span> <span class="toc-text"><a href="#0x02-&#x95EE;&#x9898;&#x601D;&#x8003;" class="headerlink" title="0x02 &#x95EE;&#x9898;&#x601D;&#x8003;"></a>0x02 &#x95EE;&#x9898;&#x601D;&#x8003;</span></a></li></ol>
 		
 		</div>
 		
-		<h1 id="test"><a href="#test" class="headerlink" title="test"></a>test</h1>  
+		<h1 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h1><p>CTF中SQL注入字段名被过滤小技巧，后续有学习到啥好方法再加进来</p>
+<h1 id="0x01-问题引入"><a href="#0x01-问题引入" class="headerlink" title="0x01 问题引入"></a>0x01 问题引入</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users;</span><br><span class="line">+--------+-----------+</span><br><span class="line">| points | flag      |</span><br><span class="line">+--------+-----------+</span><br><span class="line">| 31     | daiker666 |</span><br><span class="line">+--------+-----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>然后我们已经知道表名users，要查询flag的值，但是flag被过滤了。</p>
+<h1 id="0x02-问题思考"><a href="#0x02-问题思考" class="headerlink" title="0x02 问题思考"></a>0x02 问题思考</h1><p>常规的查询是<code>select flag from users</code>,如果我要在们的查询语句中不见到<code>flag</code>，就得把<code>flag</code>这个列设置别名，mysql设置列别名有两种方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select flag as haha from users;</span><br><span class="line">+-----------+</span><br><span class="line">| haha      |</span><br><span class="line">+-----------+</span><br><span class="line">| daiker666 |</span><br><span class="line">+-----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select (flag)haha from users;</span><br><span class="line">+-----------+</span><br><span class="line">| haha      |</span><br><span class="line">+-----------+</span><br><span class="line">| daiker666 |</span><br><span class="line">+-----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+<p>但是这样我们还会出现flag这个字段。这时候想到这个<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select 1;</span><br><span class="line">+---+</span><br><span class="line">| 1 |</span><br><span class="line">+---+</span><br><span class="line">| 1 |</span><br><span class="line">+---+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select 1,2;</span><br><span class="line">+---+---+</span><br><span class="line">| 1 | 2 |</span><br><span class="line">+---+---+</span><br><span class="line">| 1 | 2 |</span><br><span class="line">+---+---+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+<p>这样列名不久变成我们想要的结果，然而我们想要的结果是users表的内容，我们可以使用联合查询<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select 1,2 union select * from users;</span><br><span class="line">+------+-----------+</span><br><span class="line">| 1    | 2         |</span><br><span class="line">+------+-----------+</span><br><span class="line">| 1    | 2         |</span><br><span class="line">| 31   | daiker666 |</span><br><span class="line">+------+-----------+</span><br><span class="line">2 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure></p>
+<p>这样我们想要的值就在表里面，，下面思考下怎么提取出来，查询的结果是一张虚表，我们可以用设置别名的方法给这张表命名<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from (select 1,2 union select * from users)c;</span><br><span class="line">+------+-----------+</span><br><span class="line">| 1    | 2         |</span><br><span class="line">+------+-----------+</span><br><span class="line">| 1    | 2         |</span><br><span class="line">| 31   | daiker666 |</span><br><span class="line">+------+-----------+</span><br><span class="line">2 rows in set (0.02 sec)</span><br></pre></td></tr></table></figure></p>
+<p>然后提取flag<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select c.2 from (select 1,2 union select * from users)c limit 1,2;</span><br><span class="line">+-----------+</span><br><span class="line">| 2         |</span><br><span class="line">+-----------+</span><br><span class="line">| daiker666 |</span><br><span class="line">+-----------+</span><br><span class="line">1 row in set (0.02 sec)</span><br></pre></td></tr></table></figure></p>
+  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/注入/">注入</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/CTF/">CTF</a><a href="/tags/注入/">注入</a><a href="/tags/web/">web</a>
+  </div>
 
 </div>
 
@@ -115,7 +134,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://www.daiker.com.cn/2018/03/06/daiker666/" data-title="daiker666 | " data-tsina="5688081717" class="share clearfix">
+	  <div data-url="http://www.daiker.com.cn/2018/03/12/CTF中SQL注入字段名被过滤小技巧/" data-title="CTF中SQL注入字段名被过滤小技巧 | " data-tsina="5688081717" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -141,7 +160,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2018/03/06/daiker666/" data-title="daiker666" data-url="http://www.daiker.com.cn/2018/03/06/daiker666/"></div>
+	<div class="ds-thread" data-thread-key="2018/03/12/CTF中SQL注入字段名被过滤小技巧/" data-title="CTF中SQL注入字段名被过滤小技巧" data-url="http://www.daiker.com.cn/2018/03/12/CTF中SQL注入字段名被过滤小技巧/"></div>
 </section>
 
 
@@ -153,7 +172,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#test"><span class="toc-number">1.</span> <span class="toc-text"><a href="#test" class="headerlink" title="test"></a>test</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-前言"><span class="toc-number">1.</span> <span class="toc-text"><a href="#0x00-&#x524D;&#x8A00;" class="headerlink" title="0x00 &#x524D;&#x8A00;"></a>0x00 &#x524D;&#x8A00;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-问题引入"><span class="toc-number">2.</span> <span class="toc-text"><a href="#0x01-&#x95EE;&#x9898;&#x5F15;&#x5165;" class="headerlink" title="0x01 &#x95EE;&#x9898;&#x5F15;&#x5165;"></a>0x01 &#x95EE;&#x9898;&#x5F15;&#x5165;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-问题思考"><span class="toc-number">3.</span> <span class="toc-text"><a href="#0x02-&#x95EE;&#x9898;&#x601D;&#x8003;" class="headerlink" title="0x02 &#x95EE;&#x9898;&#x601D;&#x8003;"></a>0x02 &#x95EE;&#x9898;&#x601D;&#x8003;</span></a></li></ol>
  
   </div>
 
@@ -180,7 +199,7 @@
 		  
 		
 		  
-			<li><a href="/categories/注入/" title="注入">注入<sup>1</sup></a></li>
+			<li><a href="/categories/注入/" title="注入">注入<sup>2</sup></a></li>
 		  
 		
 		  
@@ -209,6 +228,10 @@
 			
 		
 			
+				<li><a href="/tags/注入/" title="注入">注入<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/漏洞研究/" title="漏洞研究">漏洞研究<sup>2</sup></a></li>
 			
 		
@@ -217,11 +240,15 @@
 			
 		
 			
-				<li><a href="/tags/注入/" title="注入">注入<sup>1</sup></a></li>
+				<li><a href="/tags/代码审计/" title="代码审计">代码审计<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/代码审计/" title="代码审计">代码审计<sup>1</sup></a></li>
+				<li><a href="/tags/CTF/" title="CTF">CTF<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/提权/" title="提权">提权<sup>1</sup></a></li>
 			
 		
 			
@@ -233,7 +260,7 @@
 			
 		
 			
-				<li><a href="/tags/提权/" title="提权">提权<sup>1</sup></a></li>
+				<li><a href="/tags/web/" title="web">web<sup>1</sup></a></li>
 			
 		
 		</ul>
