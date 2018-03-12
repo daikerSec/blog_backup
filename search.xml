@@ -3,6 +3,14 @@
   
     
     <entry>
+      <title><![CDATA[daiker666]]></title>
+      <url>/2018/03/06/daiker666/</url>
+      <content type="html"><![CDATA[<h1 id="test"><a href="#test" class="headerlink" title="test"></a>test</h1>]]></content>
+      
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[happyMoctf-ping一下好吗WP]]></title>
       <url>/2018/02/15/happyMoctf-ping%E4%B8%80%E4%B8%8B%E5%A5%BD%E5%90%97WP/</url>
       <content type="html"><![CDATA[<h1 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h1><p>这道题着重点在于没有回显的命令执行，waf也侧重在于防止反弹shell，一般的命令没有过滤。对于没有回显的命令执行一般可以通过<code>DNS通道/HTTP通道</code>和<code>反弹shell</code>。</p>
@@ -78,7 +86,7 @@
 <p><img src="http://upload-images.jianshu.io/upload_images/5443560-5f8efd5ef26b8c09.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
 <p><img src="http://upload-images.jianshu.io/upload_images/5443560-cfc12545ab7f151a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
 <p>成功绕过</p>
-<h2 id="0x07-经典案例"><a href="#0x07-经典案例" class="headerlink" title="0x07 经典案例"></a>0x07 经典案例</h2><p>1.<a href="http://www.freebuf.com/vuls/152058.html" target="_blank" rel="noopener">typecho 反序列化漏洞复现</a><br>2.<a href="http://blog.knownsec.com/2016/09/sugarcrm-v6-5-23-php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" target="_blank" rel="noopener">SugarCRM v6.5.23反序列化漏洞复现</a></p>
+<h2 id="0x07-经典案例"><a href="#0x07-经典案例" class="headerlink" title="0x07 经典案例"></a>0x07 经典案例</h2><p>1.<a href="http://www.freebuf.com/vuls/152058.html" target="_blank" rel="noopener">typecho 反序列化漏洞</a><br>2.<a href="http://blog.knownsec.com/2016/09/sugarcrm-v6-5-23-php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" target="_blank" rel="noopener">SugarCRM v6.5.23反序列化漏洞</a></p>
 ]]></content>
       
         <categories>
