@@ -46,7 +46,7 @@
 				<h1 class="site-name"><a href="/" title=""></a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -64,7 +64,7 @@
  					
 						<form class="search" action="http://zhannei.baidu.com/cse/search" target="_blank">
 							<label>Search</label>
-						<input name="s" type="hidden" value= 6197743525332190000 ><input type="text" name="q" size="30" placeholder="Search"><br>
+						<input name="s" type="hidden" value= 6197743525332190000 ><input type="text" name="q" size="30" placeholder="搜索"><br>
 						</form>
 					
 					</li>
@@ -81,6 +81,75 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/03/15/解决msf内存不足不能启动的问题/" title="解决msf内存不足不能启动的问题" itemprop="url">解决msf内存不足不能启动的问题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="daiker" target="_blank" itemprop="author">daiker</a>
+		
+  <p class="article-time">
+    <time datetime="2018-03-15T06:50:54.000Z" itemprop="datePublished"> 發表於 2018-03-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>在vps里面跑msf，经常遇到内存不足，提示如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/activesupport-4.2.10/lib/active_support/core_ext/kernel/agnostics.rb:7:in ``&apos;: Cannot allocate memory - infocmp (Errno::ENOMEM)</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/activesupport-4.2.10/lib/active_support/core_ext/kernel/agnostics.rb:7:in ``&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:1815:in `get_term_capabilities&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:2027:in `_rl_init_terminal_io&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:2564:in `readline_initialize_everything&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:3849:in `rl_initialize&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:4868:in `readline&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/rex/ui/text/input/readline.rb:162:in `readline_with_output&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/rex/ui/text/input/readline.rb:100:in `pgets&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/rex/ui/text/shell.rb:375:in `get_input_line&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/rex/ui/text/shell.rb:191:in `run&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/metasploit/framework/command/console.rb:48:in `start&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/metasploit/framework/command/base.rb:82:in `start&apos;</span><br></pre></td></tr></table></figure></p>
+<p>内存不足，一直没有好的解决方案。最近看Linux的时候，看到Swap分区，想到一个解决方案</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>vps默认安装的时候是没有安装swap分区的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@daiker ~]# top</span><br><span class="line">top - 06:35:36 up 14:57,  2 users,  load average: 0.21, 0.09, 0.07</span><br><span class="line">Tasks:  86 total,   1 running,  85 sleeping,   0 stopped,   0 zombie</span><br><span class="line">%Cpu(s):  0.5 us,  0.0 sy,  0.0 ni, 99.5 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st</span><br><span class="line">KiB Mem :  1016108 total,   240924 free,   518952 used,   256232 buff/cache</span><br><span class="line">KiB Swap:        0 total,        0 free,        0 used.   247996 avail Mem</span><br></pre></td></tr></table></figure></p>
+<p>我们可以给分配一个swap分区,命令如下</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dd <span class="keyword">if</span>=/dev/zero of=/home/swap bs=1024 count=512000</span><br><span class="line">/sbin/mkswap /home/swap</span><br><span class="line">/sbin/swapon /home/swap</span><br></pre></td></tr></table></figure>
+<p>然后查看swap分区<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@daiker ~]# free -h</span><br><span class="line">              total        used        free      shared  buff/cache   available</span><br><span class="line">Mem:           992M        506M         74M         92M        411M        242M</span><br><span class="line">Swap:          499M          0B        499M</span><br></pre></td></tr></table></figure></p>
+<p>msf成功开启</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/tools/">tools</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Kali/">Kali</a><a href="/tags/Linux/">Linux</a><a href="/tags/tools/">tools</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/03/15/解决msf内存不足不能启动的问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/03/15/解决msf内存不足不能启动的问题/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/03/12/CTF中SQL注入字段名被过滤小技巧/" title="CTF中SQL注入字段名被过滤小技巧" itemprop="url">CTF中SQL注入字段名被过滤小技巧</a>
   </h1>
   <p class="article-author">By
@@ -88,7 +157,7 @@
 		<a href="/about" title="daiker" target="_blank" itemprop="author">daiker</a>
 		
   <p class="article-time">
-    <time datetime="2018-03-12T03:04:07.000Z" itemprop="datePublished"> Published 2018-03-12</time>
+    <time datetime="2018-03-12T03:04:07.000Z" itemprop="datePublished"> 發表於 2018-03-12</time>
     
   </p>
 </header>
@@ -158,7 +227,7 @@
 		<a href="/about" title="daiker" target="_blank" itemprop="author">daiker</a>
 		
   <p class="article-time">
-    <time datetime="2018-02-15T10:39:15.000Z" itemprop="datePublished"> Published 2018-02-15</time>
+    <time datetime="2018-02-15T10:39:15.000Z" itemprop="datePublished"> 發表於 2018-02-15</time>
     
   </p>
 </header>
@@ -223,7 +292,7 @@
 		<a href="/about" title="daiker" target="_blank" itemprop="author">daiker</a>
 		
   <p class="article-time">
-    <time datetime="2017-12-22T12:47:40.000Z" itemprop="datePublished"> Published 2017-12-22</time>
+    <time datetime="2017-12-22T12:47:40.000Z" itemprop="datePublished"> 發表於 2017-12-22</time>
     
   </p>
 </header>
@@ -287,7 +356,7 @@
 		<a href="/about" title="daiker" target="_blank" itemprop="author">daiker</a>
 		
   <p class="article-time">
-    <time datetime="2017-07-09T15:44:34.000Z" itemprop="datePublished"> Published 2017-07-09</time>
+    <time datetime="2017-07-09T15:44:34.000Z" itemprop="datePublished"> 發表於 2017-07-09</time>
     
   </p>
 </header>
@@ -374,86 +443,21 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/05/09/insert 注入/" title="insert 注入" itemprop="url">insert 注入</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="daiker" target="_blank" itemprop="author">daiker</a>
-		
-  <p class="article-time">
-    <time datetime="2017-05-09T14:42:34.000Z" itemprop="datePublished"> Published 2017-05-09</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>我们最常见的注入就是在查询中注入，那你有没有遇到过插入的时候也能注入。插入中最常见的就是注册用户或者撰写文章。当然，注册用户的时候可能会考虑去数据库查询下有没有这个人，这涉及到查询时候的注入，我们今天忽略这种注入。</p>
-<h2 id="0x01-例子"><a href="#0x01-例子" class="headerlink" title="0x01 例子"></a>0x01 例子</h2><p>下面我给出一个简单的例子，基于php+mysql的。方便实验<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">create database sqli;</span><br><span class="line">use sqli;</span><br><span class="line">create table user(</span><br><span class="line">name varchar(40),</span><br><span class="line">email  varchar(20),</span><br><span class="line">qq varchar(20)</span><br><span class="line">);</span><br></pre></td></tr></table></figure></p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2017/05/09/insert 注入/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/注入/">注入</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/注入/">注入</a><a href="/tags/Web/">Web</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/05/09/insert 注入/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/05/09/insert 注入/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
 <aside class="clearfix">
 
   
 <div class="github-card">
-<p class="asidetitle">Github Card</p>
+<p class="asidetitle">Github 名片</p>
 <div class="github-card" data-github="daikersec" data-theme="medium"></div>
 <script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
 </div>
@@ -462,11 +466,15 @@
 
   
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分類</p>
 		<ul>
 		
 		  
 			<li><a href="/categories/ctf/" title="ctf">ctf<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/tools/" title="tools">tools<sup>1</sup></a></li>
 		  
 		
 		  
@@ -487,7 +495,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">標簽</p>
 		<ul class="clearfix">
 		
 			
@@ -499,11 +507,11 @@
 			
 		
 			
-				<li><a href="/tags/注入/" title="注入">注入<sup>2</sup></a></li>
+				<li><a href="/tags/hackinglab/" title="hackinglab">hackinglab<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/hackinglab/" title="hackinglab">hackinglab<sup>2</sup></a></li>
+				<li><a href="/tags/注入/" title="注入">注入<sup>2</sup></a></li>
 			
 		
 			
@@ -511,11 +519,11 @@
 			
 		
 			
-				<li><a href="/tags/代码审计/" title="代码审计">代码审计<sup>1</sup></a></li>
+				<li><a href="/tags/web/" title="web">web<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/web/" title="web">web<sup>1</sup></a></li>
+				<li><a href="/tags/代码审计/" title="代码审计">代码审计<sup>1</sup></a></li>
 			
 		
 			
@@ -523,15 +531,27 @@
 			
 		
 			
+				<li><a href="/tags/提权/" title="提权">提权<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/php/" title="php">php<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/渗透/" title="渗透">渗透<sup>1</sup></a></li>
+				<li><a href="/tags/tools/" title="tools">tools<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/提权/" title="提权">提权<sup>1</sup></a></li>
+				<li><a href="/tags/Kali/" title="Kali">Kali<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/渗透/" title="渗透">渗透<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -540,13 +560,13 @@
 
   
   <div class="archiveslist">
-    <p class="asidetitle"><a href="/archives">Archives</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">3</span></li></ul>
+    <p class="asidetitle"><a href="/archives">歸檔</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">3</span></li></ul>
   </div>
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
 </div>
 
 </aside>
@@ -697,7 +717,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
