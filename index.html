@@ -46,7 +46,7 @@
 				<h1 class="site-name"><a href="/" title=""></a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -64,7 +64,7 @@
  					
 						<form class="search" action="http://zhannei.baidu.com/cse/search" target="_blank">
 							<label>Search</label>
-						<input name="s" type="hidden" value= 6197743525332190000 ><input type="text" name="q" size="30" placeholder="搜索"><br>
+						<input name="s" type="hidden" value= 6197743525332190000 ><input type="text" name="q" size="30" placeholder="Search"><br>
 						</form>
 					
 					</li>
@@ -81,6 +81,80 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/03/18/PWN环境搭建/" title="PWN环境搭建" itemprop="url">PWN环境搭建</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="daiker" target="_blank" itemprop="author">daiker</a>
+		
+  <p class="article-time">
+    <time datetime="2018-03-18T07:02:16.000Z" itemprop="datePublished"> Published 2018-03-18</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="关闭安全机制"><a href="#关闭安全机制" class="headerlink" title="关闭安全机制"></a>关闭安全机制</h2><p>1.关掉DEP/NX（堆栈不可执行）<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc  -z execstack -o pwnme pwnme.c</span><br></pre></td></tr></table></figure></p>
+<p>2.关掉Stack Protector/Canary（栈保护）<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -fno-stack-protector -o pwnme pwnme.c</span><br></pre></td></tr></table></figure></p>
+<p>3.关掉程序ASLR/PIE（程序随机化保护）<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -no-pie pwnme pwnme.c</span><br></pre></td></tr></table></figure></p>
+<p>4.关闭整个linux系统的ASLR保护<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">su - </span><br><span class="line"><span class="built_in">echo</span> 0 &gt; /proc/sys/kernel/randomize_va_space</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure></p>
+<p>5.打开整个linux系统的ASLR保护<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">su -</span><br><span class="line"><span class="built_in">echo</span> 2 &gt; /proc/sys/kernel/randomize_va_space</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>64位linux下面的GCC编译出一个32位可执行程序 加参数<code>- m32</code><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -m32 -z execstack -fno-stack-protector -o pwnme pwnme.c</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>另外说明下在ubuntu上如果要用 -m32 参数就要安装如下的库：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install build-essential module-assistant  </span><br><span class="line">$ sudo apt-get install gcc-multilib g++-multilib</span><br></pre></td></tr></table></figure></p>
+<h2 id="安装pwntools"><a href="#安装pwntools" class="headerlink" title="安装pwntools"></a>安装pwntools</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pwntools</span><br></pre></td></tr></table></figure>
+<h2 id="安装peda"><a href="#安装peda" class="headerlink" title="安装peda"></a>安装peda</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/longld/peda.git ~/peda</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"source ~/peda/peda.py"</span> &gt;&gt; ~/.gdbinit</span><br></pre></td></tr></table></figure>
+<h2 id="绑定端口"><a href="#绑定端口" class="headerlink" title="绑定端口"></a>绑定端口</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">socat tcp<span class="_">-l</span>:端口号，reuseaddr，fork <span class="built_in">exec</span>:程序位置</span><br></pre></td></tr></table></figure>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/pwn/">pwn</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/pwn/">pwn</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/03/18/PWN环境搭建/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/03/18/PWN环境搭建/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/03/15/解决msf内存不足不能启动的问题/" title="解决msf内存不足不能启动的问题" itemprop="url">解决msf内存不足不能启动的问题</a>
   </h1>
   <p class="article-author">By
@@ -88,7 +162,7 @@
 		<a href="/about" title="daiker" target="_blank" itemprop="author">daiker</a>
 		
   <p class="article-time">
-    <time datetime="2018-03-15T06:50:54.000Z" itemprop="datePublished"> 發表於 2018-03-15</time>
+    <time datetime="2018-03-15T06:50:54.000Z" itemprop="datePublished"> Published 2018-03-15</time>
     
   </p>
 </header>
@@ -157,7 +231,7 @@
 		<a href="/about" title="daiker" target="_blank" itemprop="author">daiker</a>
 		
   <p class="article-time">
-    <time datetime="2018-03-12T03:04:07.000Z" itemprop="datePublished"> 發表於 2018-03-12</time>
+    <time datetime="2018-03-12T03:04:07.000Z" itemprop="datePublished"> Published 2018-03-12</time>
     
   </p>
 </header>
@@ -227,7 +301,7 @@
 		<a href="/about" title="daiker" target="_blank" itemprop="author">daiker</a>
 		
   <p class="article-time">
-    <time datetime="2018-02-15T10:39:15.000Z" itemprop="datePublished"> 發表於 2018-02-15</time>
+    <time datetime="2018-02-15T10:39:15.000Z" itemprop="datePublished"> Published 2018-02-15</time>
     
   </p>
 </header>
@@ -292,7 +366,7 @@
 		<a href="/about" title="daiker" target="_blank" itemprop="author">daiker</a>
 		
   <p class="article-time">
-    <time datetime="2017-12-22T12:47:40.000Z" itemprop="datePublished"> 發表於 2017-12-22</time>
+    <time datetime="2017-12-22T12:47:40.000Z" itemprop="datePublished"> Published 2017-12-22</time>
     
   </p>
 </header>
@@ -343,121 +417,21 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/07/09/php危险函数总结(随时补充)/" title="PHP危险函数总结(随时补充)" itemprop="url">PHP危险函数总结(随时补充)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="daiker" target="_blank" itemprop="author">daiker</a>
-		
-  <p class="article-time">
-    <time datetime="2017-07-09T15:44:34.000Z" itemprop="datePublished"> 發表於 2017-07-09</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="1-获取当前文件路径"><a href="#1-获取当前文件路径" class="headerlink" title="1. 获取当前文件路径"></a>1. 获取当前文件路径</h3><ul>
-<li>echo <code>dirname(__FILE__)</code> ;</li>
-<li>echo<code>getcwd()</code>;</li>
-</ul>
-<h3 id="2-获取同目录下的所有文件名称"><a href="#2-获取同目录下的所有文件名称" class="headerlink" title="2. 获取同目录下的所有文件名称"></a>2. 获取同目录下的所有文件名称</h3><ul>
-<li>echo <code>var_dump(glob(&#39;./*&#39;))</code>;</li>
-<li><p><code>system(&quot;ls&quot;)/system(&quot;dir&quot;)/system--&gt;可换成执行系统命令的函数</code>;</p>
-<h3 id="3-读取某个文件的内容"><a href="#3-读取某个文件的内容" class="headerlink" title="3. 读取某个文件的内容"></a>3. 读取某个文件的内容</h3></li>
-<li><p>echo <code>file_get_contents(&quot;flag.php&quot;)</code>;</p>
-</li>
-<li>echo <code>fgets(fopen(&quot;flag.php&quot;,&quot;r&quot;))</code>;</li>
-<li><code>show_source(&quot;flag.php&quot;)</code>;</li>
-<li>echo <code>fread(fopen(&quot;flag.php&quot;,&quot;r&quot;),filesize(&quot;flag.php&quot;))</code>;</li>
-<li>echo <code>var_dump(file(&quot;flag.php&quot;))</code>;</li>
-<li><code>copy(&quot;flag.php&quot;,&quot;daiker.txt&quot;)</code>;</li>
-<li><code>include &#39;php://filter/read=convert.base64-encode/resource=flag.php&#39;</code>;</li>
-<li><code>highlight_file(&quot;flag.php&quot;)</code>;</li>
-</ul>
-<h3 id="4-执行系统命令的函数"><a href="#4-执行系统命令的函数" class="headerlink" title="4. 执行系统命令的函数"></a>4. 执行系统命令的函数</h3><ul>
-<li>system</li>
-<li>passthru</li>
-<li>exec</li>
-<li>pcntl_exec</li>
-<li>shell_exec</li>
-<li></li>
-</ul>
-<h3 id="5-执行PHP的函数"><a href="#5-执行PHP的函数" class="headerlink" title="5. 执行PHP的函数"></a>5. 执行PHP的函数</h3><ul>
-<li>eval(注意，不是函数，不能再回调函数里面使用)</li>
-<li>assert</li>
-<li>preg_replace</li>
-<li>`</li>
-</ul>
-<h3 id="6-回调函数"><a href="#6-回调函数" class="headerlink" title="6. 回调函数"></a>6. 回调函数</h3><ul>
-<li>call_user_func</li>
-<li>call_user_func_array</li>
-<li>create_function</li>
-<li>array_map</li>
-</ul>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/ctf/">ctf</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/ctf/">ctf</a><a href="/tags/Web/">Web</a><a href="/tags/php/">php</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/07/09/php危险函数总结(随时补充)/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/07/09/php危险函数总结(随时补充)/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 <div class="github-card">
-<p class="asidetitle">Github 名片</p>
+<p class="asidetitle">Github Card</p>
 <div class="github-card" data-github="daikersec" data-theme="medium"></div>
 <script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
 </div>
@@ -466,11 +440,15 @@
 
   
 <div class="categorieslist">
-	<p class="asidetitle">分類</p>
+	<p class="asidetitle">Categories</p>
 		<ul>
 		
 		  
 			<li><a href="/categories/ctf/" title="ctf">ctf<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/pwn/" title="pwn">pwn<sup>1</sup></a></li>
 		  
 		
 		  
@@ -495,7 +473,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">標簽</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -527,11 +505,11 @@
 			
 		
 			
-				<li><a href="/tags/CTF/" title="CTF">CTF<sup>1</sup></a></li>
+				<li><a href="/tags/pwn/" title="pwn">pwn<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/提权/" title="提权">提权<sup>1</sup></a></li>
+				<li><a href="/tags/CTF/" title="CTF">CTF<sup>1</sup></a></li>
 			
 		
 			
@@ -539,7 +517,11 @@
 			
 		
 			
-				<li><a href="/tags/tools/" title="tools">tools<sup>1</sup></a></li>
+				<li><a href="/tags/渗透/" title="渗透">渗透<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/提权/" title="提权">提权<sup>1</sup></a></li>
 			
 		
 			
@@ -551,7 +533,7 @@
 			
 		
 			
-				<li><a href="/tags/渗透/" title="渗透">渗透<sup>1</sup></a></li>
+				<li><a href="/tags/tools/" title="tools">tools<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -560,13 +542,13 @@
 
   
   <div class="archiveslist">
-    <p class="asidetitle"><a href="/archives">歸檔</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">3</span></li></ul>
+    <p class="asidetitle"><a href="/archives">Archives</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">3</span></li></ul>
   </div>
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
 </aside>
@@ -717,7 +699,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

@@ -3,6 +3,38 @@
   
     
     <entry>
+      <title><![CDATA[PWN环境搭建]]></title>
+      <url>/2018/03/18/PWN%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</url>
+      <content type="html"><![CDATA[<h2 id="关闭安全机制"><a href="#关闭安全机制" class="headerlink" title="关闭安全机制"></a>关闭安全机制</h2><p>1.关掉DEP/NX（堆栈不可执行）<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc  -z execstack -o pwnme pwnme.c</span><br></pre></td></tr></table></figure></p>
+<p>2.关掉Stack Protector/Canary（栈保护）<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -fno-stack-protector -o pwnme pwnme.c</span><br></pre></td></tr></table></figure></p>
+<p>3.关掉程序ASLR/PIE（程序随机化保护）<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -no-pie pwnme pwnme.c</span><br></pre></td></tr></table></figure></p>
+<p>4.关闭整个linux系统的ASLR保护<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">su - </span><br><span class="line"><span class="built_in">echo</span> 0 &gt; /proc/sys/kernel/randomize_va_space</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure></p>
+<p>5.打开整个linux系统的ASLR保护<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">su -</span><br><span class="line"><span class="built_in">echo</span> 2 &gt; /proc/sys/kernel/randomize_va_space</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>64位linux下面的GCC编译出一个32位可执行程序 加参数<code>- m32</code><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -m32 -z execstack -fno-stack-protector -o pwnme pwnme.c</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>另外说明下在ubuntu上如果要用 -m32 参数就要安装如下的库：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install build-essential module-assistant  </span><br><span class="line">$ sudo apt-get install gcc-multilib g++-multilib</span><br></pre></td></tr></table></figure></p>
+<h2 id="安装pwntools"><a href="#安装pwntools" class="headerlink" title="安装pwntools"></a>安装pwntools</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pwntools</span><br></pre></td></tr></table></figure>
+<h2 id="安装peda"><a href="#安装peda" class="headerlink" title="安装peda"></a>安装peda</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/longld/peda.git ~/peda</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"source ~/peda/peda.py"</span> &gt;&gt; ~/.gdbinit</span><br></pre></td></tr></table></figure>
+<h2 id="绑定端口"><a href="#绑定端口" class="headerlink" title="绑定端口"></a>绑定端口</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">socat tcp<span class="_">-l</span>:端口号，reuseaddr，fork <span class="built_in">exec</span>:程序位置</span><br></pre></td></tr></table></figure>]]></content>
+      
+        <categories>
+            
+            <category> pwn </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> pwn </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[解决msf内存不足不能启动的问题]]></title>
       <url>/2018/03/15/%E8%A7%A3%E5%86%B3msf%E5%86%85%E5%AD%98%E4%B8%8D%E8%B6%B3%E4%B8%8D%E8%83%BD%E5%90%AF%E5%8A%A8%E7%9A%84%E9%97%AE%E9%A2%98/</url>
       <content type="html"><![CDATA[<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>在vps里面跑msf，经常遇到内存不足，提示如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/activesupport-4.2.10/lib/active_support/core_ext/kernel/agnostics.rb:7:in ``&apos;: Cannot allocate memory - infocmp (Errno::ENOMEM)</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/activesupport-4.2.10/lib/active_support/core_ext/kernel/agnostics.rb:7:in ``&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:1815:in `get_term_capabilities&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:2027:in `_rl_init_terminal_io&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:2564:in `readline_initialize_everything&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:3849:in `rl_initialize&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:4868:in `readline&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/rex/ui/text/input/readline.rb:162:in `readline_with_output&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/rex/ui/text/input/readline.rb:100:in `pgets&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/rex/ui/text/shell.rb:375:in `get_input_line&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/rex/ui/text/shell.rb:191:in `run&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/metasploit/framework/command/console.rb:48:in `start&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/metasploit/framework/command/base.rb:82:in `start&apos;</span><br></pre></td></tr></table></figure></p>
@@ -277,9 +309,9 @@
         
         <tags>
             
-            <tag> Web </tag>
-            
             <tag> 注入 </tag>
+            
+            <tag> Web </tag>
             
         </tags>
         
