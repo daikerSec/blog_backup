@@ -11,18 +11,18 @@
     
 
     
-    <meta name="description" content="问题在vps里面跑msf，经常遇到内存不足，提示如下12345678910111213/opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/activesupport-4.2.10/lib/active_support/core_ext/kernel/agnostics.rb:7:in ``&amp;apos;: Cannot alloca">
+    <meta name="description" content="0x00 问题在vps里面跑msf，经常遇到内存不足，提示如下12345678910111213/opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/activesupport-4.2.10/lib/active_support/core_ext/kernel/agnostics.rb:7:in ``&amp;apos;: Cannot a">
 <meta name="keywords" content="Kali,Linux,tools">
 <meta property="og:type" content="article">
 <meta property="og:title" content="解决msf内存不足不能启动的问题">
 <meta property="og:url" content="http://www.daiker.com.cn/2018/03/15/解决msf内存不足不能启动的问题/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="问题在vps里面跑msf，经常遇到内存不足，提示如下12345678910111213/opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/activesupport-4.2.10/lib/active_support/core_ext/kernel/agnostics.rb:7:in ``&amp;apos;: Cannot alloca">
+<meta property="og:description" content="0x00 问题在vps里面跑msf，经常遇到内存不足，提示如下12345678910111213/opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/activesupport-4.2.10/lib/active_support/core_ext/kernel/agnostics.rb:7:in ``&amp;apos;: Cannot a">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-15T06:52:33.768Z">
+<meta property="og:updated_time" content="2018-03-18T07:11:37.555Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="解决msf内存不足不能启动的问题">
-<meta name="twitter:description" content="问题在vps里面跑msf，经常遇到内存不足，提示如下12345678910111213/opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/activesupport-4.2.10/lib/active_support/core_ext/kernel/agnostics.rb:7:in ``&amp;apos;: Cannot alloca">
+<meta name="twitter:description" content="0x00 问题在vps里面跑msf，经常遇到内存不足，提示如下12345678910111213/opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/activesupport-4.2.10/lib/active_support/core_ext/kernel/agnostics.rb:7:in ``&amp;apos;: Cannot a">
 <meta name="twitter:creator" content="@daikersec">
 
     
@@ -100,13 +100,13 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#问题"><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x95EE;&#x9898;" class="headerlink" title="&#x95EE;&#x9898;"></a>&#x95EE;&#x9898;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决方案"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x89E3;&#x51B3;&#x65B9;&#x6848;" class="headerlink" title="&#x89E3;&#x51B3;&#x65B9;&#x6848;"></a>&#x89E3;&#x51B3;&#x65B9;&#x6848;</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-问题"><span class="toc-number">1.</span> <span class="toc-text"><a href="#0x00-&#x95EE;&#x9898;" class="headerlink" title="0x00 &#x95EE;&#x9898;"></a>0x00 &#x95EE;&#x9898;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-解决方案"><span class="toc-number">2.</span> <span class="toc-text"><a href="#0x01-&#x89E3;&#x51B3;&#x65B9;&#x6848;" class="headerlink" title="0x01 &#x89E3;&#x51B3;&#x65B9;&#x6848;"></a>0x01 &#x89E3;&#x51B3;&#x65B9;&#x6848;</span></a></li></ol>
 		
 		</div>
 		
-		<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>在vps里面跑msf，经常遇到内存不足，提示如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/activesupport-4.2.10/lib/active_support/core_ext/kernel/agnostics.rb:7:in ``&apos;: Cannot allocate memory - infocmp (Errno::ENOMEM)</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/activesupport-4.2.10/lib/active_support/core_ext/kernel/agnostics.rb:7:in ``&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:1815:in `get_term_capabilities&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:2027:in `_rl_init_terminal_io&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:2564:in `readline_initialize_everything&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:3849:in `rl_initialize&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:4868:in `readline&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/rex/ui/text/input/readline.rb:162:in `readline_with_output&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/rex/ui/text/input/readline.rb:100:in `pgets&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/rex/ui/text/shell.rb:375:in `get_input_line&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/rex/ui/text/shell.rb:191:in `run&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/metasploit/framework/command/console.rb:48:in `start&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/metasploit/framework/command/base.rb:82:in `start&apos;</span><br></pre></td></tr></table></figure></p>
+		<h2 id="0x00-问题"><a href="#0x00-问题" class="headerlink" title="0x00 问题"></a>0x00 问题</h2><p>在vps里面跑msf，经常遇到内存不足，提示如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/activesupport-4.2.10/lib/active_support/core_ext/kernel/agnostics.rb:7:in ``&apos;: Cannot allocate memory - infocmp (Errno::ENOMEM)</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/activesupport-4.2.10/lib/active_support/core_ext/kernel/agnostics.rb:7:in ``&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:1815:in `get_term_capabilities&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:2027:in `_rl_init_terminal_io&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:2564:in `readline_initialize_everything&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:3849:in `rl_initialize&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:4868:in `readline&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/rex/ui/text/input/readline.rb:162:in `readline_with_output&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/rex/ui/text/input/readline.rb:100:in `pgets&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/rex/ui/text/shell.rb:375:in `get_input_line&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/rex/ui/text/shell.rb:191:in `run&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/metasploit/framework/command/console.rb:48:in `start&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/metasploit/framework/command/base.rb:82:in `start&apos;</span><br></pre></td></tr></table></figure></p>
 <p>内存不足，一直没有好的解决方案。最近看Linux的时候，看到Swap分区，想到一个解决方案</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>vps默认安装的时候是没有安装swap分区的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@daiker ~]# top</span><br><span class="line">top - 06:35:36 up 14:57,  2 users,  load average: 0.21, 0.09, 0.07</span><br><span class="line">Tasks:  86 total,   1 running,  85 sleeping,   0 stopped,   0 zombie</span><br><span class="line">%Cpu(s):  0.5 us,  0.0 sy,  0.0 ni, 99.5 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st</span><br><span class="line">KiB Mem :  1016108 total,   240924 free,   518952 used,   256232 buff/cache</span><br><span class="line">KiB Swap:        0 total,        0 free,        0 used.   247996 avail Mem</span><br></pre></td></tr></table></figure></p>
+<h2 id="0x01-解决方案"><a href="#0x01-解决方案" class="headerlink" title="0x01 解决方案"></a>0x01 解决方案</h2><p>vps默认安装的时候是没有安装swap分区的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@daiker ~]# top</span><br><span class="line">top - 06:35:36 up 14:57,  2 users,  load average: 0.21, 0.09, 0.07</span><br><span class="line">Tasks:  86 total,   1 running,  85 sleeping,   0 stopped,   0 zombie</span><br><span class="line">%Cpu(s):  0.5 us,  0.0 sy,  0.0 ni, 99.5 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st</span><br><span class="line">KiB Mem :  1016108 total,   240924 free,   518952 used,   256232 buff/cache</span><br><span class="line">KiB Swap:        0 total,        0 free,        0 used.   247996 avail Mem</span><br></pre></td></tr></table></figure></p>
 <p>我们可以给分配一个swap分区,命令如下</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dd <span class="keyword">if</span>=/dev/zero of=/home/swap bs=1024 count=512000</span><br><span class="line">/sbin/mkswap /home/swap</span><br><span class="line">/sbin/swapon /home/swap</span><br></pre></td></tr></table></figure>
 <p>然后查看swap分区<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@daiker ~]# free -h</span><br><span class="line">              total        used        free      shared  buff/cache   available</span><br><span class="line">Mem:           992M        506M         74M         92M        411M        242M</span><br><span class="line">Swap:          499M          0B        499M</span><br></pre></td></tr></table></figure></p>
@@ -179,7 +179,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#问题"><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x95EE;&#x9898;" class="headerlink" title="&#x95EE;&#x9898;"></a>&#x95EE;&#x9898;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决方案"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x89E3;&#x51B3;&#x65B9;&#x6848;" class="headerlink" title="&#x89E3;&#x51B3;&#x65B9;&#x6848;"></a>&#x89E3;&#x51B3;&#x65B9;&#x6848;</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-问题"><span class="toc-number">1.</span> <span class="toc-text"><a href="#0x00-&#x95EE;&#x9898;" class="headerlink" title="0x00 &#x95EE;&#x9898;"></a>0x00 &#x95EE;&#x9898;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-解决方案"><span class="toc-number">2.</span> <span class="toc-text"><a href="#0x01-&#x89E3;&#x51B3;&#x65B9;&#x6848;" class="headerlink" title="0x01 &#x89E3;&#x51B3;&#x65B9;&#x6848;"></a>0x01 &#x89E3;&#x51B3;&#x65B9;&#x6848;</span></a></li></ol>
  
   </div>
 
@@ -255,10 +255,6 @@
 			
 		
 			
-				<li><a href="/tags/web/" title="web">web<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/代码审计/" title="代码审计">代码审计<sup>1</sup></a></li>
 			
 		
@@ -268,6 +264,10 @@
 		
 			
 				<li><a href="/tags/CTF/" title="CTF">CTF<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/web/" title="web">web<sup>1</sup></a></li>
 			
 		
 			

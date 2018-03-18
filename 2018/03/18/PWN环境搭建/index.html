@@ -11,18 +11,18 @@
     
 
     
-    <meta name="description" content="关闭安全机制1.关掉DEP/NX（堆栈不可执行）1gcc  -z execstack -o pwnme pwnme.c 2.关掉Stack Protector/Canary（栈保护）1gcc -fno-stack-protector -o pwnme pwnme.c 3.关掉程序ASLR/PIE（程序随机化保护）1gcc -no-pie pwnme pwnme.c 4.关闭整个linux系统的AS">
+    <meta name="description" content="0x00 关闭安全机制1.关掉DEP/NX（堆栈不可执行）1gcc  -z execstack -o pwnme pwnme.c 2.关掉Stack Protector/Canary（栈保护）1gcc -fno-stack-protector -o pwnme pwnme.c 3.关掉程序ASLR/PIE（程序随机化保护）1gcc -no-pie pwnme pwnme.c 4.关闭整个linux">
 <meta name="keywords" content="pwn">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PWN环境搭建">
 <meta property="og:url" content="http://www.daiker.com.cn/2018/03/18/PWN环境搭建/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="关闭安全机制1.关掉DEP/NX（堆栈不可执行）1gcc  -z execstack -o pwnme pwnme.c 2.关掉Stack Protector/Canary（栈保护）1gcc -fno-stack-protector -o pwnme pwnme.c 3.关掉程序ASLR/PIE（程序随机化保护）1gcc -no-pie pwnme pwnme.c 4.关闭整个linux系统的AS">
+<meta property="og:description" content="0x00 关闭安全机制1.关掉DEP/NX（堆栈不可执行）1gcc  -z execstack -o pwnme pwnme.c 2.关掉Stack Protector/Canary（栈保护）1gcc -fno-stack-protector -o pwnme pwnme.c 3.关掉程序ASLR/PIE（程序随机化保护）1gcc -no-pie pwnme pwnme.c 4.关闭整个linux">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-18T07:06:07.819Z">
+<meta property="og:updated_time" content="2018-03-18T07:11:16.679Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PWN环境搭建">
-<meta name="twitter:description" content="关闭安全机制1.关掉DEP/NX（堆栈不可执行）1gcc  -z execstack -o pwnme pwnme.c 2.关掉Stack Protector/Canary（栈保护）1gcc -fno-stack-protector -o pwnme pwnme.c 3.关掉程序ASLR/PIE（程序随机化保护）1gcc -no-pie pwnme pwnme.c 4.关闭整个linux系统的AS">
+<meta name="twitter:description" content="0x00 关闭安全机制1.关掉DEP/NX（堆栈不可执行）1gcc  -z execstack -o pwnme pwnme.c 2.关掉Stack Protector/Canary（栈保护）1gcc -fno-stack-protector -o pwnme pwnme.c 3.关掉程序ASLR/PIE（程序随机化保护）1gcc -no-pie pwnme pwnme.c 4.关闭整个linux">
 <meta name="twitter:creator" content="@daikersec">
 
     
@@ -100,11 +100,11 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#关闭安全机制"><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x5173;&#x95ED;&#x5B89;&#x5168;&#x673A;&#x5236;" class="headerlink" title="&#x5173;&#x95ED;&#x5B89;&#x5168;&#x673A;&#x5236;"></a>&#x5173;&#x95ED;&#x5B89;&#x5168;&#x673A;&#x5236;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装pwntools"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x5B89;&#x88C5;pwntools" class="headerlink" title="&#x5B89;&#x88C5;pwntools"></a>&#x5B89;&#x88C5;pwntools</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装peda"><span class="toc-number">3.</span> <span class="toc-text"><a href="#&#x5B89;&#x88C5;peda" class="headerlink" title="&#x5B89;&#x88C5;peda"></a>&#x5B89;&#x88C5;peda</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#绑定端口"><span class="toc-number">4.</span> <span class="toc-text"><a href="#&#x7ED1;&#x5B9A;&#x7AEF;&#x53E3;" class="headerlink" title="&#x7ED1;&#x5B9A;&#x7AEF;&#x53E3;"></a>&#x7ED1;&#x5B9A;&#x7AEF;&#x53E3;</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-关闭安全机制"><span class="toc-number">1.</span> <span class="toc-text"><a href="#0x00-&#x5173;&#x95ED;&#x5B89;&#x5168;&#x673A;&#x5236;" class="headerlink" title="0x00 &#x5173;&#x95ED;&#x5B89;&#x5168;&#x673A;&#x5236;"></a>0x00 &#x5173;&#x95ED;&#x5B89;&#x5168;&#x673A;&#x5236;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-安装pwntools"><span class="toc-number">2.</span> <span class="toc-text"><a href="#0x01-&#x5B89;&#x88C5;pwntools" class="headerlink" title="0x01 &#x5B89;&#x88C5;pwntools"></a>0x01 &#x5B89;&#x88C5;pwntools</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-安装peda"><span class="toc-number">3.</span> <span class="toc-text"><a href="#0x02-&#x5B89;&#x88C5;peda" class="headerlink" title="0x02 &#x5B89;&#x88C5;peda"></a>0x02 &#x5B89;&#x88C5;peda</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-绑定端口"><span class="toc-number">4.</span> <span class="toc-text"><a href="#0x03-&#x7ED1;&#x5B9A;&#x7AEF;&#x53E3;" class="headerlink" title="0x03 &#x7ED1;&#x5B9A;&#x7AEF;&#x53E3;"></a>0x03 &#x7ED1;&#x5B9A;&#x7AEF;&#x53E3;</span></a></li></ol>
 		
 		</div>
 		
-		<h2 id="关闭安全机制"><a href="#关闭安全机制" class="headerlink" title="关闭安全机制"></a>关闭安全机制</h2><p>1.关掉DEP/NX（堆栈不可执行）<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc  -z execstack -o pwnme pwnme.c</span><br></pre></td></tr></table></figure></p>
+		<h2 id="0x00-关闭安全机制"><a href="#0x00-关闭安全机制" class="headerlink" title="0x00 关闭安全机制"></a>0x00 关闭安全机制</h2><p>1.关掉DEP/NX（堆栈不可执行）<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc  -z execstack -o pwnme pwnme.c</span><br></pre></td></tr></table></figure></p>
 <p>2.关掉Stack Protector/Canary（栈保护）<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -fno-stack-protector -o pwnme pwnme.c</span><br></pre></td></tr></table></figure></p>
 <p>3.关掉程序ASLR/PIE（程序随机化保护）<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -no-pie pwnme pwnme.c</span><br></pre></td></tr></table></figure></p>
 <p>4.关闭整个linux系统的ASLR保护<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">su - </span><br><span class="line"><span class="built_in">echo</span> 0 &gt; /proc/sys/kernel/randomize_va_space</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure></p>
@@ -114,9 +114,9 @@
 </li>
 </ol>
 <p>另外说明下在ubuntu上如果要用 -m32 参数就要安装如下的库：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install build-essential module-assistant  </span><br><span class="line">$ sudo apt-get install gcc-multilib g++-multilib</span><br></pre></td></tr></table></figure></p>
-<h2 id="安装pwntools"><a href="#安装pwntools" class="headerlink" title="安装pwntools"></a>安装pwntools</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pwntools</span><br></pre></td></tr></table></figure>
-<h2 id="安装peda"><a href="#安装peda" class="headerlink" title="安装peda"></a>安装peda</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/longld/peda.git ~/peda</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"source ~/peda/peda.py"</span> &gt;&gt; ~/.gdbinit</span><br></pre></td></tr></table></figure>
-<h2 id="绑定端口"><a href="#绑定端口" class="headerlink" title="绑定端口"></a>绑定端口</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">socat tcp<span class="_">-l</span>:端口号，reuseaddr，fork <span class="built_in">exec</span>:程序位置</span><br></pre></td></tr></table></figure>  
+<h2 id="0x01-安装pwntools"><a href="#0x01-安装pwntools" class="headerlink" title="0x01 安装pwntools"></a>0x01 安装pwntools</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pwntools</span><br></pre></td></tr></table></figure>
+<h2 id="0x02-安装peda"><a href="#0x02-安装peda" class="headerlink" title="0x02 安装peda"></a>0x02 安装peda</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/longld/peda.git ~/peda</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"source ~/peda/peda.py"</span> &gt;&gt; ~/.gdbinit</span><br></pre></td></tr></table></figure>
+<h2 id="0x03-绑定端口"><a href="#0x03-绑定端口" class="headerlink" title="0x03 绑定端口"></a>0x03 绑定端口</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">socat tcp<span class="_">-l</span>:端口号，reuseaddr，fork <span class="built_in">exec</span>:程序位置</span><br></pre></td></tr></table></figure>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -176,7 +176,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#关闭安全机制"><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x5173;&#x95ED;&#x5B89;&#x5168;&#x673A;&#x5236;" class="headerlink" title="&#x5173;&#x95ED;&#x5B89;&#x5168;&#x673A;&#x5236;"></a>&#x5173;&#x95ED;&#x5B89;&#x5168;&#x673A;&#x5236;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装pwntools"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x5B89;&#x88C5;pwntools" class="headerlink" title="&#x5B89;&#x88C5;pwntools"></a>&#x5B89;&#x88C5;pwntools</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装peda"><span class="toc-number">3.</span> <span class="toc-text"><a href="#&#x5B89;&#x88C5;peda" class="headerlink" title="&#x5B89;&#x88C5;peda"></a>&#x5B89;&#x88C5;peda</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#绑定端口"><span class="toc-number">4.</span> <span class="toc-text"><a href="#&#x7ED1;&#x5B9A;&#x7AEF;&#x53E3;" class="headerlink" title="&#x7ED1;&#x5B9A;&#x7AEF;&#x53E3;"></a>&#x7ED1;&#x5B9A;&#x7AEF;&#x53E3;</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-关闭安全机制"><span class="toc-number">1.</span> <span class="toc-text"><a href="#0x00-&#x5173;&#x95ED;&#x5B89;&#x5168;&#x673A;&#x5236;" class="headerlink" title="0x00 &#x5173;&#x95ED;&#x5B89;&#x5168;&#x673A;&#x5236;"></a>0x00 &#x5173;&#x95ED;&#x5B89;&#x5168;&#x673A;&#x5236;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-安装pwntools"><span class="toc-number">2.</span> <span class="toc-text"><a href="#0x01-&#x5B89;&#x88C5;pwntools" class="headerlink" title="0x01 &#x5B89;&#x88C5;pwntools"></a>0x01 &#x5B89;&#x88C5;pwntools</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-安装peda"><span class="toc-number">3.</span> <span class="toc-text"><a href="#0x02-&#x5B89;&#x88C5;peda" class="headerlink" title="0x02 &#x5B89;&#x88C5;peda"></a>0x02 &#x5B89;&#x88C5;peda</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-绑定端口"><span class="toc-number">4.</span> <span class="toc-text"><a href="#0x03-&#x7ED1;&#x5B9A;&#x7AEF;&#x53E3;" class="headerlink" title="0x03 &#x7ED1;&#x5B9A;&#x7AEF;&#x53E3;"></a>0x03 &#x7ED1;&#x5B9A;&#x7AEF;&#x53E3;</span></a></li></ol>
  
   </div>
 
@@ -252,10 +252,6 @@
 			
 		
 			
-				<li><a href="/tags/web/" title="web">web<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/代码审计/" title="代码审计">代码审计<sup>1</sup></a></li>
 			
 		
@@ -265,6 +261,10 @@
 		
 			
 				<li><a href="/tags/CTF/" title="CTF">CTF<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/web/" title="web">web<sup>1</sup></a></li>
 			
 		
 			
