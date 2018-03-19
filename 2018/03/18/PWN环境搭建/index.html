@@ -11,18 +11,18 @@
     
 
     
-    <meta name="description" content="0x00 关闭安全机制1.关掉DEP/NX（堆栈不可执行）1gcc  -z execstack -o pwnme pwnme.c 2.关掉Stack Protector/Canary（栈保护）1gcc -fno-stack-protector -o pwnme pwnme.c 3.关掉程序ASLR/PIE（程序随机化保护）1gcc -no-pie pwnme pwnme.c 4.关闭整个linux">
+    <meta name="description" content="0x00 关闭安全机制1.关掉DEP/NX（堆栈不可执行）1gcc  -z execstack -o pwnme pwnme.c 2.关掉Stack Protector/Canary（栈保护）1gcc -fno-stack-protector -o pwnme pwnme.c 3.关掉程序ASLR/PIE（程序随机化保护）1gcc -no-pie -o pwnme pwnme.c 4.关闭整个li">
 <meta name="keywords" content="pwn">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PWN环境搭建">
 <meta property="og:url" content="http://www.daiker.com.cn/2018/03/18/PWN环境搭建/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="0x00 关闭安全机制1.关掉DEP/NX（堆栈不可执行）1gcc  -z execstack -o pwnme pwnme.c 2.关掉Stack Protector/Canary（栈保护）1gcc -fno-stack-protector -o pwnme pwnme.c 3.关掉程序ASLR/PIE（程序随机化保护）1gcc -no-pie pwnme pwnme.c 4.关闭整个linux">
+<meta property="og:description" content="0x00 关闭安全机制1.关掉DEP/NX（堆栈不可执行）1gcc  -z execstack -o pwnme pwnme.c 2.关掉Stack Protector/Canary（栈保护）1gcc -fno-stack-protector -o pwnme pwnme.c 3.关掉程序ASLR/PIE（程序随机化保护）1gcc -no-pie -o pwnme pwnme.c 4.关闭整个li">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-18T07:11:16.679Z">
+<meta property="og:updated_time" content="2018-03-18T07:12:34.619Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PWN环境搭建">
-<meta name="twitter:description" content="0x00 关闭安全机制1.关掉DEP/NX（堆栈不可执行）1gcc  -z execstack -o pwnme pwnme.c 2.关掉Stack Protector/Canary（栈保护）1gcc -fno-stack-protector -o pwnme pwnme.c 3.关掉程序ASLR/PIE（程序随机化保护）1gcc -no-pie pwnme pwnme.c 4.关闭整个linux">
+<meta name="twitter:description" content="0x00 关闭安全机制1.关掉DEP/NX（堆栈不可执行）1gcc  -z execstack -o pwnme pwnme.c 2.关掉Stack Protector/Canary（栈保护）1gcc -fno-stack-protector -o pwnme pwnme.c 3.关掉程序ASLR/PIE（程序随机化保护）1gcc -no-pie -o pwnme pwnme.c 4.关闭整个li">
 <meta name="twitter:creator" content="@daikersec">
 
     
@@ -106,7 +106,7 @@
 		
 		<h2 id="0x00-关闭安全机制"><a href="#0x00-关闭安全机制" class="headerlink" title="0x00 关闭安全机制"></a>0x00 关闭安全机制</h2><p>1.关掉DEP/NX（堆栈不可执行）<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc  -z execstack -o pwnme pwnme.c</span><br></pre></td></tr></table></figure></p>
 <p>2.关掉Stack Protector/Canary（栈保护）<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -fno-stack-protector -o pwnme pwnme.c</span><br></pre></td></tr></table></figure></p>
-<p>3.关掉程序ASLR/PIE（程序随机化保护）<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -no-pie pwnme pwnme.c</span><br></pre></td></tr></table></figure></p>
+<p>3.关掉程序ASLR/PIE（程序随机化保护）<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -no-pie -o pwnme pwnme.c</span><br></pre></td></tr></table></figure></p>
 <p>4.关闭整个linux系统的ASLR保护<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">su - </span><br><span class="line"><span class="built_in">echo</span> 0 &gt; /proc/sys/kernel/randomize_va_space</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure></p>
 <p>5.打开整个linux系统的ASLR保护<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">su -</span><br><span class="line"><span class="built_in">echo</span> 2 &gt; /proc/sys/kernel/randomize_va_space</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure></p>
 <ol>
@@ -151,6 +151,14 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2018/03/19/Linuxv0.11源码分析之引导启动程序一/" title="Linuxv0.11源码分析之引导启动程序一">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Linuxv0.11源码分析之引导启动程序一</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2018/03/15/解决msf内存不足不能启动的问题/"  title="解决msf内存不足不能启动的问题">
@@ -244,19 +252,19 @@
 			
 		
 			
-				<li><a href="/tags/注入/" title="注入">注入<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/漏洞研究/" title="漏洞研究">漏洞研究<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/代码审计/" title="代码审计">代码审计<sup>1</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/pwn/" title="pwn">pwn<sup>1</sup></a></li>
+				<li><a href="/tags/注入/" title="注入">注入<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/web/" title="web">web<sup>1</sup></a></li>
 			
 		
 			
@@ -264,7 +272,11 @@
 			
 		
 			
-				<li><a href="/tags/web/" title="web">web<sup>1</sup></a></li>
+				<li><a href="/tags/pwn/" title="pwn">pwn<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/代码审计/" title="代码审计">代码审计<sup>1</sup></a></li>
 			
 		
 			
@@ -284,10 +296,6 @@
 			
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/tools/" title="tools">tools<sup>1</sup></a></li>
 			
 		
@@ -298,7 +306,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">Archives</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">3</span></li></ul>
   </div>
 
 
