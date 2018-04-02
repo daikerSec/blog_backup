@@ -15,7 +15,7 @@
 <meta name="keywords" content="Linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linuxv0.11源码分析之引导启动程序一">
-<meta property="og:url" content="http://www.daiker.com.cn/2018/03/19/Linuxv0.11源码分析之引导启动程序一/index.html">
+<meta property="og:url" content="http://www.daikersec.com/2018/03/19/Linuxv0.11源码分析之引导启动程序一/index.html">
 <meta property="og:site_name">
 <meta property="og:description" content="0x00 大体流程这篇文章所分析的代码是从开机到bios启动，到bios引导载入第一个引导扇区(bootsect.s)，到2到5个引导扇区(setup.s),到载入后面的240个扇区(head.s)的内容，最后将程序的控制权交给setup.s 0x01 bios做了什么按下电源键的时候，CPU硬件逻辑设计为强行将CS的值置为0F000,IP的值置为0xFFF0,这样CS：IP就指向0xFFFF0这">
 <meta property="og:locale" content="zh-Hans">
@@ -54,7 +54,7 @@
 				<h1 class="site-name"><a href="/" title=""></a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -94,14 +94,14 @@
 		<a href="/about" title="daiker" target="_blank" itemprop="author">daiker</a>
 		
   <p class="article-time">
-    <time datetime="2018-03-19T05:16:28.000Z" itemprop="datePublished"> 發表於 2018-03-19</time>
+    <time datetime="2018-03-19T05:16:28.000Z" itemprop="datePublished"> 发表于 2018-03-19</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目錄</strong>
+			<strong class="toc-title">文章目录</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-大体流程"><span class="toc-number">1.</span> <span class="toc-text"><a href="#0x00-&#x5927;&#x4F53;&#x6D41;&#x7A0B;" class="headerlink" title="0x00 &#x5927;&#x4F53;&#x6D41;&#x7A0B;"></a>0x00 &#x5927;&#x4F53;&#x6D41;&#x7A0B;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-bios做了什么"><span class="toc-number">2.</span> <span class="toc-text"><a href="#0x01-bios&#x505A;&#x4E86;&#x4EC0;&#x4E48;" class="headerlink" title="0x01 bios&#x505A;&#x4E86;&#x4EC0;&#x4E48;"></a>0x01 bios&#x505A;&#x4E86;&#x4EC0;&#x4E48;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-将随后的4个扇区加载进内存"><span class="toc-number">3.</span> <span class="toc-text"><a href="#0x02-&#x5C06;&#x968F;&#x540E;&#x7684;4&#x4E2A;&#x6247;&#x533A;&#x52A0;&#x8F7D;&#x8FDB;&#x5185;&#x5B58;" class="headerlink" title="0x02 &#x5C06;&#x968F;&#x540E;&#x7684;4&#x4E2A;&#x6247;&#x533A;&#x52A0;&#x8F7D;&#x8FDB;&#x5185;&#x5B58;"></a>0x02 &#x5C06;&#x968F;&#x540E;&#x7684;4&#x4E2A;&#x6247;&#x533A;&#x52A0;&#x8F7D;&#x8FDB;&#x5185;&#x5B58;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-将后面的240个扇区加载进内存"><span class="toc-number">4.</span> <span class="toc-text"><a href="#0x03-&#x5C06;&#x540E;&#x9762;&#x7684;240&#x4E2A;&#x6247;&#x533A;&#x52A0;&#x8F7D;&#x8FDB;&#x5185;&#x5B58;" class="headerlink" title="0x03 &#x5C06;&#x540E;&#x9762;&#x7684;240&#x4E2A;&#x6247;&#x533A;&#x52A0;&#x8F7D;&#x8FDB;&#x5185;&#x5B58;"></a>0x03 &#x5C06;&#x540E;&#x9762;&#x7684;240&#x4E2A;&#x6247;&#x533A;&#x52A0;&#x8F7D;&#x8FDB;&#x5185;&#x5B58;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-确认下根设备号"><span class="toc-number">5.</span> <span class="toc-text"><a href="#0x04-&#x786E;&#x8BA4;&#x4E0B;&#x6839;&#x8BBE;&#x5907;&#x53F7;" class="headerlink" title="0x04 &#x786E;&#x8BA4;&#x4E0B;&#x6839;&#x8BBE;&#x5907;&#x53F7;"></a>0x04 &#x786E;&#x8BA4;&#x4E0B;&#x6839;&#x8BBE;&#x5907;&#x53F7;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-将程序控制权转交给setup-s"><span class="toc-number">6.</span> <span class="toc-text"><a href="#0x05-&#x5C06;&#x7A0B;&#x5E8F;&#x63A7;&#x5236;&#x6743;&#x8F6C;&#x4EA4;&#x7ED9;setup-s" class="headerlink" title="0x05 &#x5C06;&#x7A0B;&#x5E8F;&#x63A7;&#x5236;&#x6743;&#x8F6C;&#x4EA4;&#x7ED9;setup.s"></a>0x05 &#x5C06;&#x7A0B;&#x5E8F;&#x63A7;&#x5236;&#x6743;&#x8F6C;&#x4EA4;&#x7ED9;setup.s</span></a></li></ol>
 		
@@ -147,7 +147,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://www.daiker.com.cn/2018/03/19/Linuxv0.11源码分析之引导启动程序一/" data-title="Linuxv0.11源码分析之引导启动程序一 | " data-tsina="5688081717" class="share clearfix">
+	  <div data-url="http://www.daikersec.com/2018/03/19/Linuxv0.11源码分析之引导启动程序一/" data-title="Linuxv0.11源码分析之引导启动程序一 | " data-tsina="5688081717" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -181,24 +181,24 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2018/03/19/Linuxv0.11源码分析之引导启动程序一/" data-title="Linuxv0.11源码分析之引导启动程序一" data-url="http://www.daiker.com.cn/2018/03/19/Linuxv0.11源码分析之引导启动程序一/"></div>
+	<div class="ds-thread" data-thread-key="2018/03/19/Linuxv0.11源码分析之引导启动程序一/" data-title="Linuxv0.11源码分析之引导启动程序一" data-url="http://www.daikersec.com/2018/03/19/Linuxv0.11源码分析之引导启动程序一/"></div>
 </section>
 
 
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目錄</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-大体流程"><span class="toc-number">1.</span> <span class="toc-text"><a href="#0x00-&#x5927;&#x4F53;&#x6D41;&#x7A0B;" class="headerlink" title="0x00 &#x5927;&#x4F53;&#x6D41;&#x7A0B;"></a>0x00 &#x5927;&#x4F53;&#x6D41;&#x7A0B;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-bios做了什么"><span class="toc-number">2.</span> <span class="toc-text"><a href="#0x01-bios&#x505A;&#x4E86;&#x4EC0;&#x4E48;" class="headerlink" title="0x01 bios&#x505A;&#x4E86;&#x4EC0;&#x4E48;"></a>0x01 bios&#x505A;&#x4E86;&#x4EC0;&#x4E48;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-将随后的4个扇区加载进内存"><span class="toc-number">3.</span> <span class="toc-text"><a href="#0x02-&#x5C06;&#x968F;&#x540E;&#x7684;4&#x4E2A;&#x6247;&#x533A;&#x52A0;&#x8F7D;&#x8FDB;&#x5185;&#x5B58;" class="headerlink" title="0x02 &#x5C06;&#x968F;&#x540E;&#x7684;4&#x4E2A;&#x6247;&#x533A;&#x52A0;&#x8F7D;&#x8FDB;&#x5185;&#x5B58;"></a>0x02 &#x5C06;&#x968F;&#x540E;&#x7684;4&#x4E2A;&#x6247;&#x533A;&#x52A0;&#x8F7D;&#x8FDB;&#x5185;&#x5B58;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-将后面的240个扇区加载进内存"><span class="toc-number">4.</span> <span class="toc-text"><a href="#0x03-&#x5C06;&#x540E;&#x9762;&#x7684;240&#x4E2A;&#x6247;&#x533A;&#x52A0;&#x8F7D;&#x8FDB;&#x5185;&#x5B58;" class="headerlink" title="0x03 &#x5C06;&#x540E;&#x9762;&#x7684;240&#x4E2A;&#x6247;&#x533A;&#x52A0;&#x8F7D;&#x8FDB;&#x5185;&#x5B58;"></a>0x03 &#x5C06;&#x540E;&#x9762;&#x7684;240&#x4E2A;&#x6247;&#x533A;&#x52A0;&#x8F7D;&#x8FDB;&#x5185;&#x5B58;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-确认下根设备号"><span class="toc-number">5.</span> <span class="toc-text"><a href="#0x04-&#x786E;&#x8BA4;&#x4E0B;&#x6839;&#x8BBE;&#x5907;&#x53F7;" class="headerlink" title="0x04 &#x786E;&#x8BA4;&#x4E0B;&#x6839;&#x8BBE;&#x5907;&#x53F7;"></a>0x04 &#x786E;&#x8BA4;&#x4E0B;&#x6839;&#x8BBE;&#x5907;&#x53F7;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-将程序控制权转交给setup-s"><span class="toc-number">6.</span> <span class="toc-text"><a href="#0x05-&#x5C06;&#x7A0B;&#x5E8F;&#x63A7;&#x5236;&#x6743;&#x8F6C;&#x4EA4;&#x7ED9;setup-s" class="headerlink" title="0x05 &#x5C06;&#x7A0B;&#x5E8F;&#x63A7;&#x5236;&#x6743;&#x8F6C;&#x4EA4;&#x7ED9;setup.s"></a>0x05 &#x5C06;&#x7A0B;&#x5E8F;&#x63A7;&#x5236;&#x6743;&#x8F6C;&#x4EA4;&#x7ED9;setup.s</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
@@ -212,7 +212,7 @@
 
   
 <div class="categorieslist">
-	<p class="asidetitle">分類</p>
+	<p class="asidetitle">分类</p>
 		<ul>
 		
 		  
@@ -245,7 +245,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">標簽</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
@@ -261,15 +261,19 @@
 			
 		
 			
-				<li><a href="/tags/注入/" title="注入">注入<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Linux/" title="Linux">Linux<sup>2</sup></a></li>
 			
 		
 			
+				<li><a href="/tags/注入/" title="注入">注入<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/漏洞研究/" title="漏洞研究">漏洞研究<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CTF/" title="CTF">CTF<sup>1</sup></a></li>
 			
 		
 			
@@ -281,15 +285,7 @@
 			
 		
 			
-				<li><a href="/tags/CTF/" title="CTF">CTF<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/代码审计/" title="代码审计">代码审计<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/php/" title="php">php<sup>1</sup></a></li>
 			
 		
 			
@@ -308,19 +304,23 @@
 				<li><a href="/tags/tools/" title="tools">tools<sup>1</sup></a></li>
 			
 		
+			
+				<li><a href="/tags/php/" title="php">php<sup>1</sup></a></li>
+			
+		
 		</ul>
 </div>
 
 
   
   <div class="archiveslist">
-    <p class="asidetitle"><a href="/archives">歸檔</a></p>
+    <p class="asidetitle"><a href="/archives">归档</a></p>
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">3</span></li></ul>
   </div>
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
 </aside>
@@ -560,7 +560,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

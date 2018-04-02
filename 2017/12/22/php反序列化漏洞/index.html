@@ -15,7 +15,7 @@
 <meta name="keywords" content="ctf,Web,漏洞研究">
 <meta property="og:type" content="article">
 <meta property="og:title" content="php反序列化漏洞">
-<meta property="og:url" content="http://www.daiker.com.cn/2017/12/22/php反序列化漏洞/index.html">
+<meta property="og:url" content="http://www.daikersec.com/2017/12/22/php反序列化漏洞/index.html">
 <meta property="og:site_name">
 <meta property="og:description" content="0x00 序列化所有php里面的值都可以使用函数serialize()来返回一个包含字节流的字符串来表示。unserialize()函数能够重新把字符串变回php原来的值。 序列化一个对象将会保存对象的所有变量，但是不会保存对象的方法，只会保存类的名字。 所有php里面的值都可以使用函数serialize()来返回一个包含字节流的字符串来表示。unserialize()函数能够重新把字符串变回ph">
 <meta property="og:locale" content="zh-Hans">
@@ -54,7 +54,7 @@
 				<h1 class="site-name"><a href="/" title=""></a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -94,14 +94,14 @@
 		<a href="/about" title="daiker" target="_blank" itemprop="author">daiker</a>
 		
   <p class="article-time">
-    <time datetime="2017-12-22T12:47:40.000Z" itemprop="datePublished"> 發表於 2017-12-22</time>
+    <time datetime="2017-12-22T12:47:40.000Z" itemprop="datePublished"> 发表于 2017-12-22</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目錄</strong>
+			<strong class="toc-title">文章目录</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-序列化"><span class="toc-number">1.</span> <span class="toc-text"><a href="#0x00-&#x5E8F;&#x5217;&#x5316;" class="headerlink" title="0x00 &#x5E8F;&#x5217;&#x5316;"></a>0x00 &#x5E8F;&#x5217;&#x5316;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-反序列化"><span class="toc-number">2.</span> <span class="toc-text"><a href="#0x01-&#x53CD;&#x5E8F;&#x5217;&#x5316;" class="headerlink" title="0x01 &#x53CD;&#x5E8F;&#x5217;&#x5316;"></a>0x01 &#x53CD;&#x5E8F;&#x5217;&#x5316;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-魔术函数"><span class="toc-number">3.</span> <span class="toc-text"><a href="#0x02-&#x9B54;&#x672F;&#x51FD;&#x6570;" class="headerlink" title="0x02 &#x9B54;&#x672F;&#x51FD;&#x6570;"></a>0x02 &#x9B54;&#x672F;&#x51FD;&#x6570;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-反序列化漏洞"><span class="toc-number">4.</span> <span class="toc-text"><a href="#0x03-&#x53CD;&#x5E8F;&#x5217;&#x5316;&#x6F0F;&#x6D1E;" class="headerlink" title="0x03 &#x53CD;&#x5E8F;&#x5217;&#x5316;&#x6F0F;&#x6D1E;"></a>0x03 &#x53CD;&#x5E8F;&#x5217;&#x5316;&#x6F0F;&#x6D1E;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-类变量的注意点"><span class="toc-number">5.</span> <span class="toc-text"><a href="#0x04-&#x7C7B;&#x53D8;&#x91CF;&#x7684;&#x6CE8;&#x610F;&#x70B9;" class="headerlink" title="0x04 &#x7C7B;&#x53D8;&#x91CF;&#x7684;&#x6CE8;&#x610F;&#x70B9;"></a>0x04 &#x7C7B;&#x53D8;&#x91CF;&#x7684;&#x6CE8;&#x610F;&#x70B9;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-POP-Chain"><span class="toc-number">6.</span> <span class="toc-text"><a href="#0x05-POP-Chain" class="headerlink" title="0x05 POP Chain"></a>0x05 POP Chain</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x06-CVE-2016-7124"><span class="toc-number">7.</span> <span class="toc-text"><a href="#0x06-CVE-2016-7124" class="headerlink" title="0x06 CVE-2016-7124"></a>0x06 CVE-2016-7124</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x07-经典案例"><span class="toc-number">8.</span> <span class="toc-text"><a href="#0x07-&#x7ECF;&#x5178;&#x6848;&#x4F8B;" class="headerlink" title="0x07 &#x7ECF;&#x5178;&#x6848;&#x4F8B;"></a>0x07 &#x7ECF;&#x5178;&#x6848;&#x4F8B;</span></a></li></ol>
 		
@@ -178,7 +178,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://www.daiker.com.cn/2017/12/22/php反序列化漏洞/" data-title="php反序列化漏洞 | " data-tsina="5688081717" class="share clearfix">
+	  <div data-url="http://www.daikersec.com/2017/12/22/php反序列化漏洞/" data-title="php反序列化漏洞 | " data-tsina="5688081717" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -212,24 +212,24 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/12/22/php反序列化漏洞/" data-title="php反序列化漏洞" data-url="http://www.daiker.com.cn/2017/12/22/php反序列化漏洞/"></div>
+	<div class="ds-thread" data-thread-key="2017/12/22/php反序列化漏洞/" data-title="php反序列化漏洞" data-url="http://www.daikersec.com/2017/12/22/php反序列化漏洞/"></div>
 </section>
 
 
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目錄</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-序列化"><span class="toc-number">1.</span> <span class="toc-text"><a href="#0x00-&#x5E8F;&#x5217;&#x5316;" class="headerlink" title="0x00 &#x5E8F;&#x5217;&#x5316;"></a>0x00 &#x5E8F;&#x5217;&#x5316;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-反序列化"><span class="toc-number">2.</span> <span class="toc-text"><a href="#0x01-&#x53CD;&#x5E8F;&#x5217;&#x5316;" class="headerlink" title="0x01 &#x53CD;&#x5E8F;&#x5217;&#x5316;"></a>0x01 &#x53CD;&#x5E8F;&#x5217;&#x5316;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-魔术函数"><span class="toc-number">3.</span> <span class="toc-text"><a href="#0x02-&#x9B54;&#x672F;&#x51FD;&#x6570;" class="headerlink" title="0x02 &#x9B54;&#x672F;&#x51FD;&#x6570;"></a>0x02 &#x9B54;&#x672F;&#x51FD;&#x6570;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-反序列化漏洞"><span class="toc-number">4.</span> <span class="toc-text"><a href="#0x03-&#x53CD;&#x5E8F;&#x5217;&#x5316;&#x6F0F;&#x6D1E;" class="headerlink" title="0x03 &#x53CD;&#x5E8F;&#x5217;&#x5316;&#x6F0F;&#x6D1E;"></a>0x03 &#x53CD;&#x5E8F;&#x5217;&#x5316;&#x6F0F;&#x6D1E;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-类变量的注意点"><span class="toc-number">5.</span> <span class="toc-text"><a href="#0x04-&#x7C7B;&#x53D8;&#x91CF;&#x7684;&#x6CE8;&#x610F;&#x70B9;" class="headerlink" title="0x04 &#x7C7B;&#x53D8;&#x91CF;&#x7684;&#x6CE8;&#x610F;&#x70B9;"></a>0x04 &#x7C7B;&#x53D8;&#x91CF;&#x7684;&#x6CE8;&#x610F;&#x70B9;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-POP-Chain"><span class="toc-number">6.</span> <span class="toc-text"><a href="#0x05-POP-Chain" class="headerlink" title="0x05 POP Chain"></a>0x05 POP Chain</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x06-CVE-2016-7124"><span class="toc-number">7.</span> <span class="toc-text"><a href="#0x06-CVE-2016-7124" class="headerlink" title="0x06 CVE-2016-7124"></a>0x06 CVE-2016-7124</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x07-经典案例"><span class="toc-number">8.</span> <span class="toc-text"><a href="#0x07-&#x7ECF;&#x5178;&#x6848;&#x4F8B;" class="headerlink" title="0x07 &#x7ECF;&#x5178;&#x6848;&#x4F8B;"></a>0x07 &#x7ECF;&#x5178;&#x6848;&#x4F8B;</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
@@ -243,7 +243,7 @@
 
   
 <div class="categorieslist">
-	<p class="asidetitle">分類</p>
+	<p class="asidetitle">分类</p>
 		<ul>
 		
 		  
@@ -276,7 +276,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">標簽</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
@@ -292,15 +292,19 @@
 			
 		
 			
-				<li><a href="/tags/注入/" title="注入">注入<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Linux/" title="Linux">Linux<sup>2</sup></a></li>
 			
 		
 			
+				<li><a href="/tags/注入/" title="注入">注入<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/漏洞研究/" title="漏洞研究">漏洞研究<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CTF/" title="CTF">CTF<sup>1</sup></a></li>
 			
 		
 			
@@ -312,15 +316,7 @@
 			
 		
 			
-				<li><a href="/tags/CTF/" title="CTF">CTF<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/代码审计/" title="代码审计">代码审计<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/php/" title="php">php<sup>1</sup></a></li>
 			
 		
 			
@@ -339,19 +335,23 @@
 				<li><a href="/tags/tools/" title="tools">tools<sup>1</sup></a></li>
 			
 		
+			
+				<li><a href="/tags/php/" title="php">php<sup>1</sup></a></li>
+			
+		
 		</ul>
 </div>
 
 
   
   <div class="archiveslist">
-    <p class="asidetitle"><a href="/archives">歸檔</a></p>
+    <p class="asidetitle"><a href="/archives">归档</a></p>
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">3</span></li></ul>
   </div>
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
 </aside>
@@ -591,7 +591,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
