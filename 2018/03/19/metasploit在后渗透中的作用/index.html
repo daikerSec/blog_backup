@@ -50,7 +50,7 @@
 				<h1 class="site-name"><a href="/" title=""></a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -66,10 +66,11 @@
 					
 					<li>
  					
-						<form class="search" action="http://zhannei.baidu.com/cse/search" target="_blank">
-							<label>Search</label>
-						<input name="s" type="hidden" value= 6197743525332190000 ><input type="text" name="q" size="30" placeholder="搜索"><br>
-						</form>
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:www.daikersec.com">
+					</form>
 					
 					</li>
 				</ul>
@@ -90,14 +91,14 @@
 		<a href="/about" title="daiker" target="_blank" itemprop="author">daiker</a>
 		
   <p class="article-time">
-    <time datetime="2018-03-19T05:23:50.000Z" itemprop="datePublished"> 发表于 2018-03-19</time>
+    <time datetime="2018-03-19T05:23:50.000Z" itemprop="datePublished"> Published 2018-03-19</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
+			<strong class="toc-title">Contents</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-前言"><span class="toc-number">1.</span> <span class="toc-text"><a href="#0x00-&#x524D;&#x8A00;" class="headerlink" title="0x00 &#x524D;&#x8A00;"></a>0x00 &#x524D;&#x8A00;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-权限提升"><span class="toc-number">2.</span> <span class="toc-text"><a href="#0x01-&#x6743;&#x9650;&#x63D0;&#x5347;" class="headerlink" title="0x01 &#x6743;&#x9650;&#x63D0;&#x5347;"></a>0x01 &#x6743;&#x9650;&#x63D0;&#x5347;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-域管理员嗅探"><span class="toc-number">3.</span> <span class="toc-text"><a href="#0x02-&#x57DF;&#x7BA1;&#x7406;&#x5458;&#x55C5;&#x63A2;" class="headerlink" title="0x02 &#x57DF;&#x7BA1;&#x7406;&#x5458;&#x55C5;&#x63A2;"></a>0x02 &#x57DF;&#x7BA1;&#x7406;&#x5458;&#x55C5;&#x63A2;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03抓取密码"><span class="toc-number">4.</span> <span class="toc-text"><a href="#0x03&#x6293;&#x53D6;&#x5BC6;&#x7801;" class="headerlink" title="0x03&#x6293;&#x53D6;&#x5BC6;&#x7801;"></a>0x03&#x6293;&#x53D6;&#x5BC6;&#x7801;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04假冒令牌"><span class="toc-number">5.</span> <span class="toc-text"><a href="#0x04&#x5047;&#x5192;&#x4EE4;&#x724C;" class="headerlink" title="0x04&#x5047;&#x5192;&#x4EE4;&#x724C;"></a>0x04&#x5047;&#x5192;&#x4EE4;&#x724C;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0X05注册表操作"><span class="toc-number">6.</span> <span class="toc-text"><a href="#0X05&#x6CE8;&#x518C;&#x8868;&#x64CD;&#x4F5C;" class="headerlink" title="0X05&#x6CE8;&#x518C;&#x8868;&#x64CD;&#x4F5C;"></a>0X05&#x6CE8;&#x518C;&#x8868;&#x64CD;&#x4F5C;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x06端口转发"><span class="toc-number">7.</span> <span class="toc-text"><a href="#0x06&#x7AEF;&#x53E3;&#x8F6C;&#x53D1;" class="headerlink" title="0x06&#x7AEF;&#x53E3;&#x8F6C;&#x53D1;"></a>0x06&#x7AEF;&#x53E3;&#x8F6C;&#x53D1;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x07搜索文件"><span class="toc-number">8.</span> <span class="toc-text"><a href="#0x07&#x641C;&#x7D22;&#x6587;&#x4EF6;" class="headerlink" title="0x07&#x641C;&#x7D22;&#x6587;&#x4EF6;"></a>0x07&#x641C;&#x7D22;&#x6587;&#x4EF6;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x08抓包"><span class="toc-number">9.</span> <span class="toc-text"><a href="#0x08&#x6293;&#x5305;" class="headerlink" title="0x08&#x6293;&#x5305;"></a>0x08&#x6293;&#x5305;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x09开启3389"><span class="toc-number">10.</span> <span class="toc-text"><a href="#0x09&#x5F00;&#x542F;3389" class="headerlink" title="0x09&#x5F00;&#x542F;3389"></a>0x09&#x5F00;&#x542F;3389</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x0A改变文件时间"><span class="toc-number">11.</span> <span class="toc-text"><a href="#0x0A&#x6539;&#x53D8;&#x6587;&#x4EF6;&#x65F6;&#x95F4;" class="headerlink" title="0x0A&#x6539;&#x53D8;&#x6587;&#x4EF6;&#x65F6;&#x95F4;"></a>0x0A&#x6539;&#x53D8;&#x6587;&#x4EF6;&#x65F6;&#x95F4;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x0B日志清除"><span class="toc-number">12.</span> <span class="toc-text"><a href="#0x0B&#x65E5;&#x5FD7;&#x6E05;&#x9664;" class="headerlink" title="0x0B&#x65E5;&#x5FD7;&#x6E05;&#x9664;"></a>0x0B&#x65E5;&#x5FD7;&#x6E05;&#x9664;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0X0C留后门"><span class="toc-number">13.</span> <span class="toc-text"><a href="#0X0C&#x7559;&#x540E;&#x95E8;" class="headerlink" title="0X0C&#x7559;&#x540E;&#x95E8;"></a>0X0C&#x7559;&#x540E;&#x95E8;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0X0D键盘记录"><span class="toc-number">14.</span> <span class="toc-text"><a href="#0X0D&#x952E;&#x76D8;&#x8BB0;&#x5F55;" class="headerlink" title="0X0D&#x952E;&#x76D8;&#x8BB0;&#x5F55;"></a>0X0D&#x952E;&#x76D8;&#x8BB0;&#x5F55;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0X0E进程注入"><span class="toc-number">15.</span> <span class="toc-text"><a href="#0X0E&#x8FDB;&#x7A0B;&#x6CE8;&#x5165;" class="headerlink" title="0X0E&#x8FDB;&#x7A0B;&#x6CE8;&#x5165;"></a>0X0E&#x8FDB;&#x7A0B;&#x6CE8;&#x5165;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x0F-截屏"><span class="toc-number">16.</span> <span class="toc-text"><a href="#0x0F-&#x622A;&#x5C4F;" class="headerlink" title="0x0F &#x622A;&#x5C4F;"></a>0x0F &#x622A;&#x5C4F;</span></a></li></ol>
 		
@@ -193,22 +194,22 @@
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
+  <strong class="toc-title">Contents</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-前言"><span class="toc-number">1.</span> <span class="toc-text"><a href="#0x00-&#x524D;&#x8A00;" class="headerlink" title="0x00 &#x524D;&#x8A00;"></a>0x00 &#x524D;&#x8A00;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-权限提升"><span class="toc-number">2.</span> <span class="toc-text"><a href="#0x01-&#x6743;&#x9650;&#x63D0;&#x5347;" class="headerlink" title="0x01 &#x6743;&#x9650;&#x63D0;&#x5347;"></a>0x01 &#x6743;&#x9650;&#x63D0;&#x5347;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-域管理员嗅探"><span class="toc-number">3.</span> <span class="toc-text"><a href="#0x02-&#x57DF;&#x7BA1;&#x7406;&#x5458;&#x55C5;&#x63A2;" class="headerlink" title="0x02 &#x57DF;&#x7BA1;&#x7406;&#x5458;&#x55C5;&#x63A2;"></a>0x02 &#x57DF;&#x7BA1;&#x7406;&#x5458;&#x55C5;&#x63A2;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03抓取密码"><span class="toc-number">4.</span> <span class="toc-text"><a href="#0x03&#x6293;&#x53D6;&#x5BC6;&#x7801;" class="headerlink" title="0x03&#x6293;&#x53D6;&#x5BC6;&#x7801;"></a>0x03&#x6293;&#x53D6;&#x5BC6;&#x7801;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04假冒令牌"><span class="toc-number">5.</span> <span class="toc-text"><a href="#0x04&#x5047;&#x5192;&#x4EE4;&#x724C;" class="headerlink" title="0x04&#x5047;&#x5192;&#x4EE4;&#x724C;"></a>0x04&#x5047;&#x5192;&#x4EE4;&#x724C;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0X05注册表操作"><span class="toc-number">6.</span> <span class="toc-text"><a href="#0X05&#x6CE8;&#x518C;&#x8868;&#x64CD;&#x4F5C;" class="headerlink" title="0X05&#x6CE8;&#x518C;&#x8868;&#x64CD;&#x4F5C;"></a>0X05&#x6CE8;&#x518C;&#x8868;&#x64CD;&#x4F5C;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x06端口转发"><span class="toc-number">7.</span> <span class="toc-text"><a href="#0x06&#x7AEF;&#x53E3;&#x8F6C;&#x53D1;" class="headerlink" title="0x06&#x7AEF;&#x53E3;&#x8F6C;&#x53D1;"></a>0x06&#x7AEF;&#x53E3;&#x8F6C;&#x53D1;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x07搜索文件"><span class="toc-number">8.</span> <span class="toc-text"><a href="#0x07&#x641C;&#x7D22;&#x6587;&#x4EF6;" class="headerlink" title="0x07&#x641C;&#x7D22;&#x6587;&#x4EF6;"></a>0x07&#x641C;&#x7D22;&#x6587;&#x4EF6;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x08抓包"><span class="toc-number">9.</span> <span class="toc-text"><a href="#0x08&#x6293;&#x5305;" class="headerlink" title="0x08&#x6293;&#x5305;"></a>0x08&#x6293;&#x5305;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x09开启3389"><span class="toc-number">10.</span> <span class="toc-text"><a href="#0x09&#x5F00;&#x542F;3389" class="headerlink" title="0x09&#x5F00;&#x542F;3389"></a>0x09&#x5F00;&#x542F;3389</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x0A改变文件时间"><span class="toc-number">11.</span> <span class="toc-text"><a href="#0x0A&#x6539;&#x53D8;&#x6587;&#x4EF6;&#x65F6;&#x95F4;" class="headerlink" title="0x0A&#x6539;&#x53D8;&#x6587;&#x4EF6;&#x65F6;&#x95F4;"></a>0x0A&#x6539;&#x53D8;&#x6587;&#x4EF6;&#x65F6;&#x95F4;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x0B日志清除"><span class="toc-number">12.</span> <span class="toc-text"><a href="#0x0B&#x65E5;&#x5FD7;&#x6E05;&#x9664;" class="headerlink" title="0x0B&#x65E5;&#x5FD7;&#x6E05;&#x9664;"></a>0x0B&#x65E5;&#x5FD7;&#x6E05;&#x9664;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0X0C留后门"><span class="toc-number">13.</span> <span class="toc-text"><a href="#0X0C&#x7559;&#x540E;&#x95E8;" class="headerlink" title="0X0C&#x7559;&#x540E;&#x95E8;"></a>0X0C&#x7559;&#x540E;&#x95E8;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0X0D键盘记录"><span class="toc-number">14.</span> <span class="toc-text"><a href="#0X0D&#x952E;&#x76D8;&#x8BB0;&#x5F55;" class="headerlink" title="0X0D&#x952E;&#x76D8;&#x8BB0;&#x5F55;"></a>0X0D&#x952E;&#x76D8;&#x8BB0;&#x5F55;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0X0E进程注入"><span class="toc-number">15.</span> <span class="toc-text"><a href="#0X0E&#x8FDB;&#x7A0B;&#x6CE8;&#x5165;" class="headerlink" title="0X0E&#x8FDB;&#x7A0B;&#x6CE8;&#x5165;"></a>0X0E&#x8FDB;&#x7A0B;&#x6CE8;&#x5165;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x0F-截屏"><span class="toc-number">16.</span> <span class="toc-text"><a href="#0x0F-&#x622A;&#x5C4F;" class="headerlink" title="0x0F &#x622A;&#x5C4F;"></a>0x0F &#x622A;&#x5C4F;</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 <div class="github-card">
-<p class="asidetitle">Github 名片</p>
+<p class="asidetitle">Github Card</p>
 <div class="github-card" data-github="daikersec" data-theme="medium"></div>
 <script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
 </div>
@@ -217,7 +218,7 @@
 
   
 <div class="categorieslist">
-	<p class="asidetitle">分类</p>
+	<p class="asidetitle">Categories</p>
 		<ul>
 		
 		  
@@ -250,7 +251,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">标签</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -266,10 +267,6 @@
 			
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/注入/" title="注入">注入<sup>2</sup></a></li>
 			
 		
@@ -278,11 +275,7 @@
 			
 		
 			
-				<li><a href="/tags/CTF/" title="CTF">CTF<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/web/" title="web">web<sup>1</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>2</sup></a></li>
 			
 		
 			
@@ -290,7 +283,19 @@
 			
 		
 			
+				<li><a href="/tags/web/" title="web">web<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/代码审计/" title="代码审计">代码审计<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CTF/" title="CTF">CTF<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/php/" title="php">php<sup>1</sup></a></li>
 			
 		
 			
@@ -309,23 +314,19 @@
 				<li><a href="/tags/tools/" title="tools">tools<sup>1</sup></a></li>
 			
 		
-			
-				<li><a href="/tags/php/" title="php">php<sup>1</sup></a></li>
-			
-		
 		</ul>
 </div>
 
 
   
   <div class="archiveslist">
-    <p class="asidetitle"><a href="/archives">归档</a></p>
+    <p class="asidetitle"><a href="/archives">Archives</a></p>
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">3</span></li></ul>
   </div>
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
 </aside>
@@ -565,7 +566,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
