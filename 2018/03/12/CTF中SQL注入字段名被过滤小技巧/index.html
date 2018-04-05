@@ -1,17 +1,12 @@
 
- <!DOCTYPE HTML>
-<html lang="zh-Hans">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   
-    <title>CTF中SQL注入字段名被过滤小技巧 | </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
-    
-    <meta name="author" content="daiker">
-    
-
-    
-    <meta name="description" content="0x00 前言CTF中SQL注入字段名被过滤小技巧，后续有学习到啥好方法再加进来 0x01 问题引入1234567mysql&amp;gt; select * from users;+--------+-----------+| points | flag      |+--------+-----------+| 31     | daiker666 |+--------+-----------+1 r">
+  <title>CTF中SQL注入字段名被过滤小技巧 | </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="0x00 前言CTF中SQL注入字段名被过滤小技巧，后续有学习到啥好方法再加进来 0x01 问题引入1234567mysql&amp;gt; select * from users;+--------+-----------+| points | flag      |+--------+-----------+| 31     | daiker666 |+--------+-----------+1 r">
 <meta name="keywords" content="CTF,注入,web">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CTF中SQL注入字段名被过滤小技巧">
@@ -23,89 +18,84 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CTF中SQL注入字段名被过滤小技巧">
 <meta name="twitter:description" content="0x00 前言CTF中SQL注入字段名被过滤小技巧，后续有学习到啥好方法再加进来 0x01 问题引入1234567mysql&amp;gt; select * from users;+--------+-----------+| points | flag      |+--------+-----------+| 31     | daiker666 |+--------+-----------+1 r">
-<meta name="twitter:creator" content="@daikersec">
-
-    
-    <link rel="alternative" href="/atom.xml" title="" type="application/atom+xml">
-    
-    
-    <link rel="icon" href="/img/favicon.png">
-    
-    
-    <link rel="apple-touch-icon" href="/img/jacman.jpg">
-    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
-    
-    <link rel="stylesheet" href="/css/style.css">
-</head>
-
-  <body>
-    <header>
-      
-<div>
-		
-			<div id="imglogo">
-				<a href="/"><img src="/img/logo.png" alt="" title=""/></a>
-			</div>
-			
-			<div id="textlogo">
-				<h1 class="site-name"><a href="/" title=""></a></h1>
-				<h2 class="blog-motto"></h2>
-			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
-			</a></div>
-			<nav class="animated">
-				<ul>
-					<ul>
-					 
-						<li><a href="/">首页</a></li>
-					
-						<li><a href="/archives">归档</a></li>
-					
-						<li><a href="/tags">标签</a></li>
-					
-						<li><a href="/categories">分类</a></li>
-					
-					<li>
- 					
-					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
-						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
-						<input type="hidden" name="q" value="site:www.daikersec.com">
-					</form>
-					
-					</li>
-				</ul>
-			</nav>			
-</div>
-    </header>
-    <div id="container">
-      <div id="main" class="post" itemscope itemprop="blogPost">
   
-	<article itemprop="articleBody"> 
-		<header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/03/12/CTF中SQL注入字段名被过滤小技巧/" title="CTF中SQL注入字段名被过滤小技巧" itemprop="url">CTF中SQL注入字段名被过滤小技巧</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="daiker" target="_blank" itemprop="author">daiker</a>
-		
-  <p class="article-time">
-    <time datetime="2018-03-12T03:04:07.000Z" itemprop="datePublished"> Published 2018-03-12</time>
-    
-  </p>
+    <link rel="alternative" href="/atom.xml" title="" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+</head>
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo"></a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search">
+          <input type="submit" value="" class="search-form-submit">
+          <input name=tn type=hidden value="bds">
+          <input name=cl type=hidden value="3">
+          <input name=ct type=hidden value="2097152">
+          <input type="hidden" name="si" value="www.daikersec.com">
+        </form>
+      </div>
+    </div>
+  </div>
 </header>
-	<div class="article-content">
-		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
-		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-前言"><span class="toc-number">1.</span> <span class="toc-text"><a href="#0x00-&#x524D;&#x8A00;" class="headerlink" title="0x00 &#x524D;&#x8A00;"></a>0x00 &#x524D;&#x8A00;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-问题引入"><span class="toc-number">2.</span> <span class="toc-text"><a href="#0x01-&#x95EE;&#x9898;&#x5F15;&#x5165;" class="headerlink" title="0x01 &#x95EE;&#x9898;&#x5F15;&#x5165;"></a>0x01 &#x95EE;&#x9898;&#x5F15;&#x5165;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-问题思考"><span class="toc-number">3.</span> <span class="toc-text"><a href="#0x02-&#x95EE;&#x9898;&#x601D;&#x8003;" class="headerlink" title="0x02 &#x95EE;&#x9898;&#x601D;&#x8003;"></a>0x02 &#x95EE;&#x9898;&#x601D;&#x8003;</span></a></li></ol>
-		
-		</div>
-		
-		<h1 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h1><p>CTF中SQL注入字段名被过滤小技巧，后续有学习到啥好方法再加进来</p>
+    <div class="outer">
+      <section id="main"><article id="post-CTF中SQL注入字段名被过滤小技巧" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/03/12/CTF中SQL注入字段名被过滤小技巧/" class="article-date">
+  <time datetime="2018-03-12T03:04:07.000Z" itemprop="datePublished">2018-03-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/注入/">注入</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CTF中SQL注入字段名被过滤小技巧
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h1><p>CTF中SQL注入字段名被过滤小技巧，后续有学习到啥好方法再加进来</p>
 <h1 id="0x01-问题引入"><a href="#0x01-问题引入" class="headerlink" title="0x01 问题引入"></a>0x01 问题引入</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users;</span><br><span class="line">+--------+-----------+</span><br><span class="line">| points | flag      |</span><br><span class="line">+--------+-----------+</span><br><span class="line">| 31     | daiker666 |</span><br><span class="line">+--------+-----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
 <p>然后我们已经知道表名users，要查询flag的值，但是flag被过滤了。</p>
 <h1 id="0x02-问题思考"><a href="#0x02-问题思考" class="headerlink" title="0x02 问题思考"></a>0x02 问题思考</h1><p>常规的查询是<code>select flag from users</code>,如果我要在们的查询语句中不见到<code>flag</code>，就得把<code>flag</code>这个列设置别名，mysql设置列别名有两种方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select flag as haha from users;</span><br><span class="line">+-----------+</span><br><span class="line">| haha      |</span><br><span class="line">+-----------+</span><br><span class="line">| daiker666 |</span><br><span class="line">+-----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select (flag)haha from users;</span><br><span class="line">+-----------+</span><br><span class="line">| haha      |</span><br><span class="line">+-----------+</span><br><span class="line">| daiker666 |</span><br><span class="line">+-----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure></p>
@@ -113,485 +103,216 @@
 <p>这样列名不久变成我们想要的结果，然而我们想要的结果是users表的内容，我们可以使用联合查询<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select 1,2 union select * from users;</span><br><span class="line">+------+-----------+</span><br><span class="line">| 1    | 2         |</span><br><span class="line">+------+-----------+</span><br><span class="line">| 1    | 2         |</span><br><span class="line">| 31   | daiker666 |</span><br><span class="line">+------+-----------+</span><br><span class="line">2 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure></p>
 <p>这样我们想要的值就在表里面，，下面思考下怎么提取出来，查询的结果是一张虚表，我们可以用设置别名的方法给这张表命名<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from (select 1,2 union select * from users)c;</span><br><span class="line">+------+-----------+</span><br><span class="line">| 1    | 2         |</span><br><span class="line">+------+-----------+</span><br><span class="line">| 1    | 2         |</span><br><span class="line">| 31   | daiker666 |</span><br><span class="line">+------+-----------+</span><br><span class="line">2 rows in set (0.02 sec)</span><br></pre></td></tr></table></figure></p>
 <p>然后提取flag<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select c.2 from (select 1,2 union select * from users)c limit 1,2;</span><br><span class="line">+-----------+</span><br><span class="line">| 2         |</span><br><span class="line">+-----------+</span><br><span class="line">| daiker666 |</span><br><span class="line">+-----------+</span><br><span class="line">1 row in set (0.02 sec)</span><br></pre></td></tr></table></figure></p>
-  
-	</div>
-		<footer class="article-footer clearfix">
-<div class="article-catetags">
 
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/注入/">注入</a>
-</div>
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://www.daikersec.com/2018/03/12/CTF中SQL注入字段名被过滤小技巧/" data-id="cjfi13qhy0002jwuhn5hzv6cr" class="article-share-link" data-share="baidu" data-title="CTF中SQL注入字段名被过滤小技巧">Share</a>
+      
 
+      
+        <a href="http://www.daikersec.com/2018/03/12/CTF中SQL注入字段名被过滤小技巧/#ds-thread" class="article-comment-link">Comments</a>
+      
 
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/CTF/">CTF</a><a href="/tags/注入/">注入</a><a href="/tags/web/">web</a>
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CTF/">CTF</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/">web</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/注入/">注入</a></li></ul>
+
+    </footer>
   </div>
-
-</div>
-
-
-
-	<div class="article-share" id="share">
-	
-	  <div data-url="http://www.daikersec.com/2018/03/12/CTF中SQL注入字段名被过滤小技巧/" data-title="CTF中SQL注入字段名被过滤小技巧 | " data-tsina="5688081717" class="share clearfix">
-	  </div>
-	
-	</div>
-
-
-</footer>
-
-   	       
-	</article>
-	
-<nav class="article-nav clearfix">
- 
- <div class="prev" >
- <a href="/2018/03/15/解决msf内存不足不能启动的问题/" title="解决msf内存不足不能启动的问题">
-  <strong>上一篇：</strong><br/>
-  <span>
-  解决msf内存不足不能启动的问题</span>
-</a>
-</div>
-
-
-<div class="next">
-<a href="/2018/02/15/happyMoctf-ping一下好吗WP/"  title="happyMoctf-ping一下好吗WP">
- <strong>下一篇：</strong><br/> 
- <span>happyMoctf-ping一下好吗WP
-</span>
-</a>
-</div>
-
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/03/15/解决msf内存不足不能启动的问题/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          解决msf内存不足不能启动的问题
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/02/15/happyMoctf-ping一下好吗WP/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">happyMoctf-ping一下好吗WP</div>
+    </a>
+  
 </nav>
 
-	
-<section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2018/03/12/CTF中SQL注入字段名被过滤小技巧/" data-title="CTF中SQL注入字段名被过滤小技巧" data-url="http://www.daikersec.com/2018/03/12/CTF中SQL注入字段名被过滤小技巧/"></div>
+  
+</article>
+
+
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="2018/03/12/CTF中SQL注入字段名被过滤小技巧/" data-title="CTF中SQL注入字段名被过滤小技巧" data-url="http://www.daikersec.com/2018/03/12/CTF中SQL注入字段名被过滤小技巧/"></div>
+  </section>
 </section>
-
-
-
-
-</div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
-
-  <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
- 
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-前言"><span class="toc-number">1.</span> <span class="toc-text"><a href="#0x00-&#x524D;&#x8A00;" class="headerlink" title="0x00 &#x524D;&#x8A00;"></a>0x00 &#x524D;&#x8A00;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-问题引入"><span class="toc-number">2.</span> <span class="toc-text"><a href="#0x01-&#x95EE;&#x9898;&#x5F15;&#x5165;" class="headerlink" title="0x01 &#x95EE;&#x9898;&#x5F15;&#x5165;"></a>0x01 &#x95EE;&#x9898;&#x5F15;&#x5165;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-问题思考"><span class="toc-number">3.</span> <span class="toc-text"><a href="#0x02-&#x95EE;&#x9898;&#x601D;&#x8003;" class="headerlink" title="0x02 &#x95EE;&#x9898;&#x601D;&#x8003;"></a>0x02 &#x95EE;&#x9898;&#x601D;&#x8003;</span></a></li></ol>
- 
-  </div>
-
-<div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
-<aside class="clearfix">
-
-  
-<div class="github-card">
-<p class="asidetitle">Github Card</p>
-<div class="github-card" data-github="daikersec" data-theme="medium"></div>
-<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
-</div>
-
-
-
-  
-<div class="categorieslist">
-	<p class="asidetitle">Categories</p>
-		<ul>
-		
-		  
-			<li><a href="/categories/ctf/" title="ctf">ctf<sup>5</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/pwn/" title="pwn">pwn<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/tools/" title="tools">tools<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/注入/" title="注入">注入<sup>2</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/渗透测试/" title="渗透测试">渗透测试<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/漏洞研究/" title="漏洞研究">漏洞研究<sup>1</sup></a></li>
-		  
-		
-		</ul>
-</div>
-
-
-  
-<div class="tagslist">
-	<p class="asidetitle">Tags</p>
-		<ul class="clearfix">
-		
-			
-				<li><a href="/tags/Web/" title="Web">Web<sup>8</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ctf/" title="ctf">ctf<sup>6</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/hackinglab/" title="hackinglab">hackinglab<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/注入/" title="注入">注入<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/漏洞研究/" title="漏洞研究">漏洞研究<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/pwn/" title="pwn">pwn<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/web/" title="web">web<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/代码审计/" title="代码审计">代码审计<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/CTF/" title="CTF">CTF<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/php/" title="php">php<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/渗透/" title="渗透">渗透<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/提权/" title="提权">提权<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Kali/" title="Kali">Kali<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/tools/" title="tools">tools<sup>1</sup></a></li>
-			
-		
-		</ul>
-</div>
-
-
-  
-  <div class="archiveslist">
-    <p class="asidetitle"><a href="/archives">Archives</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">3</span></li></ul>
-  </div>
-
-
-  <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
-</div>
-
-</aside>
-</div>
-    </div>
-    <footer><div id="footer" >
-	
-	<div class="line">
-		<span></span>
-		<div class="author"></div>
-	</div>
-	
-	
-	<div class="social-font" class="clearfix">
-		
-		<a href="http://weibo.com/daikersec" target="_blank" class="icon-weibo" title="微博"></a>
-		
-		
-		<a href="https://github.com/daikersec" target="_blank" class="icon-github" title="github"></a>
-		
-		
-		
-		<a href="https://twitter.com/daikersec" target="_blank" class="icon-twitter" title="twitter"></a>
-		
-		
-		
-		
-		
-		
-		
-		<a href="mailto:daikersec@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
-		
-	</div>
-			
-		
-
-		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
-		
-		<a href="/about" target="_blank" title="daiker">daiker</a>
-		
-		
-		</p>
-</div>
-</footer>
-    <script src="/js/jquery-2.0.3.min.js"></script>
-<script src="/js/jquery.imagesloaded.min.js"></script>
-<script src="/js/gallery.js"></script>
-<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
-
-<script type="text/javascript">
-$(document).ready(function(){ 
-  $('.navbar').click(function(){
-    $('header nav').toggleClass('shownav');
-  });
-  var myWidth = 0;
-  function getSize(){
-    if( typeof( window.innerWidth ) == 'number' ) {
-      myWidth = window.innerWidth;
-    } else if( document.documentElement && document.documentElement.clientWidth) {
-      myWidth = document.documentElement.clientWidth;
-    };
-  };
-  var m = $('#main'),
-      a = $('#asidepart'),
-      c = $('.closeaside'),
-      o = $('.openaside');
-  c.click(function(){
-    a.addClass('fadeOut').css('display', 'none');
-    o.css('display', 'block').addClass('fadeIn');
-    m.addClass('moveMain');
-  });
-  o.click(function(){
-    o.css('display', 'none').removeClass('beforeFadeIn');
-    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
-    m.removeClass('moveMain');
-  });
-  $(window).scroll(function(){
-    o.css("top",Math.max(80,260-$(this).scrollTop()));
-  });
-  
-  $(window).resize(function(){
-    getSize(); 
-    if (myWidth >= 1024) {
-      $('header nav').removeClass('shownav');
-    }else{
-      m.removeClass('moveMain');
-      a.css('display', 'block').removeClass('fadeOut');
-      o.css('display', 'none');
       
-      $('#toc.toc-aside').css('display', 'none');
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ctf/">ctf</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/pwn/">pwn</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tools/">tools</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/注入/">注入</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/渗透测试/">渗透测试</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/漏洞研究/">漏洞研究</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTF/">CTF</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kali/">Kali</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web/">Web</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ctf/">ctf</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hackinglab/">hackinglab</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/">php</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pwn/">pwn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码审计/">代码审计</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/提权/">提权</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注入/">注入</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/渗透/">渗透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/漏洞研究/">漏洞研究</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CTF/" style="font-size: 10px;">CTF</a> <a href="/tags/Kali/" style="font-size: 10px;">Kali</a> <a href="/tags/Linux/" style="font-size: 13.33px;">Linux</a> <a href="/tags/Web/" style="font-size: 20px;">Web</a> <a href="/tags/ctf/" style="font-size: 16.67px;">ctf</a> <a href="/tags/hackinglab/" style="font-size: 13.33px;">hackinglab</a> <a href="/tags/php/" style="font-size: 10px;">php</a> <a href="/tags/pwn/" style="font-size: 10px;">pwn</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/web/" style="font-size: 10px;">web</a> <a href="/tags/代码审计/" style="font-size: 10px;">代码审计</a> <a href="/tags/提权/" style="font-size: 10px;">提权</a> <a href="/tags/注入/" style="font-size: 13.33px;">注入</a> <a href="/tags/渗透/" style="font-size: 10px;">渗透</a> <a href="/tags/漏洞研究/" style="font-size: 13.33px;">漏洞研究</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
         
-    }
-  });
-});
-</script>
+          <li>
+            <a href="/2018/03/19/metasploit在后渗透中的作用/">metasploit在后渗透中的作用</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/19/Linuxv0.11源码分析之引导启动程序一/">Linuxv0.11源码分析之引导启动程序一</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/18/PWN环境搭建/">PWN环境搭建</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/15/解决msf内存不足不能启动的问题/">解决msf内存不足不能启动的问题</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/12/CTF中SQL注入字段名被过滤小技巧/">CTF中SQL注入字段名被过滤小技巧</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
 
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://www.iFurySt.com" target="_blank">iFurySt</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 daiker<br>
+      Powered by <a href="//hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"/></a>
+</div>
+
+<!-- totop end -->
+
+<!-- 多说公共js代码 start -->
 <script type="text/javascript">
-$(document).ready(function(){ 
-  var ai = $('.article-content>iframe'),
-      ae = $('.article-content>embed'),
-      t  = $('#toc'),
-      ta = $('#toc.toc-aside'),
-      o  = $('.openaside'),
-      c  = $('.closeaside');
-  if(ai.length>0){
-    ai.wrap('<div class="video-container" />');
-  };
-  if(ae.length>0){
-   ae.wrap('<div class="video-container" />');
-  };
-  c.click(function(){
-    ta.css('display', 'block').addClass('fadeIn');
-  });
-  o.click(function(){
-    ta.css('display', 'none');
-  });
-  $(window).scroll(function(){
-    ta.css("top",Math.max(140,320-$(this).scrollTop()));
-  });
-});
-</script>
-
-
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var $this = $('.share'),
-      url = $this.attr('data-url'),
-      encodedUrl = encodeURIComponent(url),
-      title = $this.attr('data-title'),
-      tsina = $this.attr('data-tsina'),
-      description = $this.attr('description');
-  var html = [
-  '<div class="hoverqrcode clearfix"></div>',
-  '<a class="overlay" id="qrcode"></a>',
-  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
-  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
-  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
-  '<span title="Share to"></span>'
-  ].join('');
-  $this.append(html);
-
-  $('.hoverqrcode').hide();
-
-  var myWidth = 0;
-  function updatehoverqrcode(){
-    if( typeof( window.innerWidth ) == 'number' ) {
-      myWidth = window.innerWidth;
-    } else if( document.documentElement && document.documentElement.clientWidth) {
-      myWidth = document.documentElement.clientWidth;
-    };
-    var qrsize = myWidth > 1024 ? 200:100;
-    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
-    var p = $('.article-share-qrcode').position();
-    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
-                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
-                          .qrcode(options);
-  };
-  $(window).resize(function(){
-    $('.hoverqrcode').hide();
-  });
-  $('.article-share-qrcode').click(function(){
-    updatehoverqrcode();
-    $('.hoverqrcode').toggle();
-  });
-  $('.article-share-qrcode').hover(function(){}, function(){
-      $('.hoverqrcode').hide();
-  });
-});   
-</script>
-
-
-
-<script type="text/javascript">
-  var duoshuoQuery = {short_name:"嘟嘟MD"};
+var duoshuoQuery = {short_name:"reqianduan"};
   (function() {
     var ds = document.createElement('script');
     ds.type = 'text/javascript';ds.async = true;
-    ds.src = '//static.duoshuo.com/embed.js';
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
     ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-    || document.getElementsByTagName('body')[0]).appendChild(ds);
+    (document.getElementsByTagName('head')[0]
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
   })();
-</script> 
+  </script>
+<!-- 多说公共js代码 end -->
 
 
+<!-- 百度分享 start -->
 
-
-
-
-
-
-
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){ 
-  $('.article-content').each(function(i){
-    $(this).find('img').each(function(){
-      if ($(this).parent().hasClass('fancybox')) return;
-      var alt = this.alt;
-      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
-      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
-    });
-    $(this).find('.fancybox').each(function(){
-      $(this).attr('rel', 'article' + i);
-    });
-  });
-  if($.fancybox){
-    $('.fancybox').fancybox();
-  }
-}); 
-</script>
-
-
-
-<!-- Analytics Begin -->
-
-
-
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="sqq" title="分享到QQ"></a>
+    <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a>
+    <a class="article-share-more" data-cmd="more" title="更多"></a>
+  </div>
+</div>
 <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "//hm.baidu.com/hm.js?2a1c7e2856fa901812e41edbfcef616e";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
-
-
-
-<!-- Analytics End -->
-
-<!-- Totop Begin -->
-
-	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
-	</div>
-	<script src="/js/totop.js"></script>
-
-<!-- Totop End -->
-
-<!-- MathJax Begin -->
-<!-- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
+  function SetShareData(cmd, config) {
+    if (shareDataTitle && shareDataUrl) {
+      config.bdText = shareDataTitle;
+      config.bdUrl = shareDataUrl;
     }
-  });
+    return config;
+  }
+  window._bd_share_config={
+    "common":{onBeforeClick: SetShareData},
+    "share":{"bdCustomStyle":"/css/bdshare.css"}
+  };
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
 </script>
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-</script>
+<!-- 百度分享 end -->
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
 
-<!-- MathJax End -->
 
-<!-- Tiny_search Begin -->
 
-<!-- Tiny_search End -->
+<script src="/js/script.js"></script>
 
-  </body>
+</div>
+</body>
 </html>
