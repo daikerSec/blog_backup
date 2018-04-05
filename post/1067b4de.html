@@ -4,15 +4,20 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: 渗透 | </title>
+  <title>PHP危险函数总结(随时补充) | </title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title">
-<meta property="og:url" content="https://www.daikersec.com/tags/渗透/index.html">
+  <meta name="description" content="1. 获取当前文件路径 echo dirname(__FILE__) ; echogetcwd();  2. 获取同目录下的所有文件名称 echo var_dump(glob(&amp;#39;./*&amp;#39;)); system(&amp;quot;ls&amp;quot;)/system(&amp;quot;dir&amp;quot;)/system--&amp;gt;可换成执行系统命令的函数; 3. 读取某个文件的内容 echo file">
+<meta name="keywords" content="ctf,Web,php">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP危险函数总结(随时补充)">
+<meta property="og:url" content="https://www.daikersec.com/post/1067b4de.html">
 <meta property="og:site_name">
+<meta property="og:description" content="1. 获取当前文件路径 echo dirname(__FILE__) ; echogetcwd();  2. 获取同目录下的所有文件名称 echo var_dump(glob(&amp;#39;./*&amp;#39;)); system(&amp;quot;ls&amp;quot;)/system(&amp;quot;dir&amp;quot;)/system--&amp;gt;可换成执行系统命令的函数; 3. 读取某个文件的内容 echo file">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-05T09:13:40.252Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title">
+<meta name="twitter:title" content="PHP危险函数总结(随时补充)">
+<meta name="twitter:description" content="1. 获取当前文件路径 echo dirname(__FILE__) ; echogetcwd();  2. 获取同目录下的所有文件名称 echo var_dump(glob(&amp;#39;./*&amp;#39;)); system(&amp;quot;ls&amp;quot;)/system(&amp;quot;dir&amp;quot;)/system--&amp;gt;可换成执行系统命令的函数; 3. 读取某个文件的内容 echo file">
   
     <link rel="alternative" href="/atom.xml" title="" type="application/atom+xml">
   
@@ -64,39 +69,108 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/post/c445d4db.html" class="archive-article-date">
-  <time datetime="2017-04-28T11:38:25.000Z" itemprop="datePublished">Apr 28</time>
+      <section id="main"><article id="post-php危险函数总结(随时补充)" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/post/1067b4de.html" class="article-date">
+  <time datetime="2017-07-09T15:44:34.000Z" itemprop="datePublished">2017-07-09</time>
 </a>
-      
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/ctf/">ctf</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/post/c445d4db.html">一次简单渗透</a>
+    <h1 class="article-title" itemprop="name">
+      PHP危险函数总结(随时补充)
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-获取当前文件路径"><a href="#1-获取当前文件路径" class="headerlink" title="1. 获取当前文件路径"></a>1. 获取当前文件路径</h3><ul>
+<li>echo <code>dirname(__FILE__)</code> ;</li>
+<li>echo<code>getcwd()</code>;</li>
+</ul>
+<h3 id="2-获取同目录下的所有文件名称"><a href="#2-获取同目录下的所有文件名称" class="headerlink" title="2. 获取同目录下的所有文件名称"></a>2. 获取同目录下的所有文件名称</h3><ul>
+<li>echo <code>var_dump(glob(&#39;./*&#39;))</code>;</li>
+<li><p><code>system(&quot;ls&quot;)/system(&quot;dir&quot;)/system--&gt;可换成执行系统命令的函数</code>;</p>
+<h3 id="3-读取某个文件的内容"><a href="#3-读取某个文件的内容" class="headerlink" title="3. 读取某个文件的内容"></a>3. 读取某个文件的内容</h3></li>
+<li><p>echo <code>file_get_contents(&quot;flag.php&quot;)</code>;</p>
+</li>
+<li>echo <code>fgets(fopen(&quot;flag.php&quot;,&quot;r&quot;))</code>;</li>
+<li><code>show_source(&quot;flag.php&quot;)</code>;</li>
+<li>echo <code>fread(fopen(&quot;flag.php&quot;,&quot;r&quot;),filesize(&quot;flag.php&quot;))</code>;</li>
+<li>echo <code>var_dump(file(&quot;flag.php&quot;))</code>;</li>
+<li><code>copy(&quot;flag.php&quot;,&quot;daiker.txt&quot;)</code>;</li>
+<li><code>include &#39;php://filter/read=convert.base64-encode/resource=flag.php&#39;</code>;</li>
+<li><code>highlight_file(&quot;flag.php&quot;)</code>;</li>
+</ul>
+<h3 id="4-执行系统命令的函数"><a href="#4-执行系统命令的函数" class="headerlink" title="4. 执行系统命令的函数"></a>4. 执行系统命令的函数</h3><ul>
+<li>system</li>
+<li>passthru</li>
+<li>exec</li>
+<li>pcntl_exec</li>
+<li>shell_exec</li>
+<li></li>
+</ul>
+<h3 id="5-执行PHP的函数"><a href="#5-执行PHP的函数" class="headerlink" title="5. 执行PHP的函数"></a>5. 执行PHP的函数</h3><ul>
+<li>eval(注意，不是函数，不能再回调函数里面使用)</li>
+<li>assert</li>
+<li>preg_replace</li>
+<li>`</li>
+</ul>
+<h3 id="6-回调函数"><a href="#6-回调函数" class="headerlink" title="6. 回调函数"></a>6. 回调函数</h3><ul>
+<li>call_user_func</li>
+<li>call_user_func_array</li>
+<li>create_function</li>
+<li>array_map</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://www.daikersec.com/post/1067b4de.html" data-id="cjfmsczpd000lt4uh7fbb3xls" class="article-share-link">Share</a>
+      
+
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Web/">Web</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/">php</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/post/39a24cc2.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          php反序列化漏洞
+        
+      </div>
+    </a>
+  
+  
+    <a href="/post/7e490dd2.html" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">insert 注入</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
 
 </section>
       

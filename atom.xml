@@ -18,8 +18,8 @@
   
   <entry>
     <title>metasploit在后渗透中的作用</title>
-    <link href="https://www.daikersec.com/post/undefined.html"/>
-    <id>https://www.daikersec.com/post/undefined.html</id>
+    <link href="https://www.daikersec.com/post/9668f403.html"/>
+    <id>https://www.daikersec.com/post/9668f403.html</id>
     <published>2018-03-19T05:23:50.000Z</published>
     <updated>2018-03-22T11:14:41.522Z</updated>
     
@@ -39,8 +39,8 @@
   
   <entry>
     <title>Linuxv0.11源码分析之引导启动程序一</title>
-    <link href="https://www.daikersec.com/post/undefined.html"/>
-    <id>https://www.daikersec.com/post/undefined.html</id>
+    <link href="https://www.daikersec.com/post/b309a0f3.html"/>
+    <id>https://www.daikersec.com/post/b309a0f3.html</id>
     <published>2018-03-19T05:16:28.000Z</published>
     <updated>2018-03-19T05:20:03.323Z</updated>
     
@@ -62,8 +62,8 @@
   
   <entry>
     <title>PWN环境搭建</title>
-    <link href="https://www.daikersec.com/post/undefined.html"/>
-    <id>https://www.daikersec.com/post/undefined.html</id>
+    <link href="https://www.daikersec.com/post/11af4bf6.html"/>
+    <id>https://www.daikersec.com/post/11af4bf6.html</id>
     <published>2018-03-18T07:02:16.000Z</published>
     <updated>2018-03-18T07:12:34.619Z</updated>
     
@@ -87,8 +87,8 @@
   
   <entry>
     <title>解决msf内存不足不能启动的问题</title>
-    <link href="https://www.daikersec.com/post/undefined.html"/>
-    <id>https://www.daikersec.com/post/undefined.html</id>
+    <link href="https://www.daikersec.com/post/376537a6.html"/>
+    <id>https://www.daikersec.com/post/376537a6.html</id>
     <published>2018-03-15T06:50:54.000Z</published>
     <updated>2018-03-18T07:11:37.555Z</updated>
     
@@ -116,8 +116,8 @@
   
   <entry>
     <title>CTF中SQL注入字段名被过滤小技巧</title>
-    <link href="https://www.daikersec.com/post/undefined.html"/>
-    <id>https://www.daikersec.com/post/undefined.html</id>
+    <link href="https://www.daikersec.com/post/a62e54a0.html"/>
+    <id>https://www.daikersec.com/post/a62e54a0.html</id>
     <published>2018-03-12T03:04:07.000Z</published>
     <updated>2018-03-12T03:05:46.343Z</updated>
     
@@ -146,8 +146,8 @@
   
   <entry>
     <title>happyMoctf-ping一下好吗WP</title>
-    <link href="https://www.daikersec.com/post/undefined.html"/>
-    <id>https://www.daikersec.com/post/undefined.html</id>
+    <link href="https://www.daikersec.com/post/8f0228b2.html"/>
+    <id>https://www.daikersec.com/post/8f0228b2.html</id>
     <published>2018-02-15T10:39:15.000Z</published>
     <updated>2018-03-06T16:06:35.357Z</updated>
     
@@ -173,8 +173,8 @@
   
   <entry>
     <title>php反序列化漏洞</title>
-    <link href="https://www.daikersec.com/post/undefined.html"/>
-    <id>https://www.daikersec.com/post/undefined.html</id>
+    <link href="https://www.daikersec.com/post/39a24cc2.html"/>
+    <id>https://www.daikersec.com/post/39a24cc2.html</id>
     <published>2017-12-22T12:47:40.000Z</published>
     <updated>2018-03-12T03:15:08.868Z</updated>
     
@@ -199,8 +199,8 @@
   
   <entry>
     <title>PHP危险函数总结(随时补充)</title>
-    <link href="https://www.daikersec.com/post/undefined.html"/>
-    <id>https://www.daikersec.com/post/undefined.html</id>
+    <link href="https://www.daikersec.com/post/1067b4de.html"/>
+    <id>https://www.daikersec.com/post/1067b4de.html</id>
     <published>2017-07-09T15:44:34.000Z</published>
     <updated>2018-01-05T09:13:40.252Z</updated>
     
@@ -229,8 +229,8 @@
   
   <entry>
     <title>insert 注入</title>
-    <link href="https://www.daikersec.com/post/undefined.html"/>
-    <id>https://www.daikersec.com/post/undefined.html</id>
+    <link href="https://www.daikersec.com/post/7e490dd2.html"/>
+    <id>https://www.daikersec.com/post/7e490dd2.html</id>
     <published>2017-05-09T14:42:34.000Z</published>
     <updated>2018-03-12T03:56:39.609Z</updated>
     
@@ -254,8 +254,8 @@
   
   <entry>
     <title>CTF中代码审计小trick(未完)</title>
-    <link href="https://www.daikersec.com/post/undefined.html"/>
-    <id>https://www.daikersec.com/post/undefined.html</id>
+    <link href="https://www.daikersec.com/post/4249e474.html"/>
+    <id>https://www.daikersec.com/post/4249e474.html</id>
     <published>2017-05-04T13:14:14.000Z</published>
     <updated>2018-03-06T16:04:30.375Z</updated>
     
@@ -294,8 +294,8 @@ var_dump(2e1==20);&lt;/code&gt;&lt;br&gt;这些都是正确的，举个例子&lt
   
   <entry>
     <title>一次简单渗透</title>
-    <link href="https://www.daikersec.com/post/undefined.html"/>
-    <id>https://www.daikersec.com/post/undefined.html</id>
+    <link href="https://www.daikersec.com/post/c445d4db.html"/>
+    <id>https://www.daikersec.com/post/c445d4db.html</id>
     <published>2017-04-28T11:38:25.000Z</published>
     <updated>2018-01-01T16:14:24.000Z</updated>
     
@@ -321,8 +321,8 @@ var_dump(2e1==20);&lt;/code&gt;&lt;br&gt;这些都是正确的，举个例子&lt
   
   <entry>
     <title>hackinglab上传关</title>
-    <link href="https://www.daikersec.com/post/undefined.html"/>
-    <id>https://www.daikersec.com/post/undefined.html</id>
+    <link href="https://www.daikersec.com/post/7a50e376.html"/>
+    <id>https://www.daikersec.com/post/7a50e376.html</id>
     <published>2017-04-18T10:54:46.000Z</published>
     <updated>2018-01-01T16:14:24.000Z</updated>
     
@@ -349,8 +349,8 @@ var_dump(2e1==20);&lt;/code&gt;&lt;br&gt;这些都是正确的，举个例子&lt
   
   <entry>
     <title>hackinglab基础关</title>
-    <link href="https://www.daikersec.com/post/undefined.html"/>
-    <id>https://www.daikersec.com/post/undefined.html</id>
+    <link href="https://www.daikersec.com/post/882db78b.html"/>
+    <id>https://www.daikersec.com/post/882db78b.html</id>
     <published>2017-04-18T05:42:23.000Z</published>
     <updated>2018-01-01T16:14:24.000Z</updated>
     
