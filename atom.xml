@@ -5,9 +5,9 @@
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="https://www.daikersec.com/"/>
+  <link href="http://www.daikersec.com/"/>
   <updated>2018-05-15T14:03:49.355Z</updated>
-  <id>https://www.daikersec.com/</id>
+  <id>http://www.daikersec.com/</id>
   
   <author>
     <name>daiker</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>铁人三项2018第七赛区(福建)数据赛wp</title>
-    <link href="https://www.daikersec.com/post/ba9a968.html"/>
-    <id>https://www.daikersec.com/post/ba9a968.html</id>
+    <link href="http://www.daikersec.com/wiki/ba9a968.html"/>
+    <id>http://www.daikersec.com/wiki/ba9a968.html</id>
     <published>2018-05-15T13:44:37.000Z</published>
     <updated>2018-05-15T14:03:49.355Z</updated>
     
@@ -34,25 +34,25 @@
     
     </summary>
     
-      <category term="数据分析" scheme="https://www.daikersec.com/categories/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"/>
+      <category term="数据分析" scheme="http://www.daikersec.com/categories/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"/>
     
     
-      <category term="wireshark" scheme="https://www.daikersec.com/tags/wireshark/"/>
+      <category term="wireshark" scheme="http://www.daikersec.com/tags/wireshark/"/>
     
-      <category term="数据分析" scheme="https://www.daikersec.com/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"/>
+      <category term="数据分析" scheme="http://www.daikersec.com/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"/>
     
-      <category term="取证" scheme="https://www.daikersec.com/tags/%E5%8F%96%E8%AF%81/"/>
+      <category term="取证" scheme="http://www.daikersec.com/tags/%E5%8F%96%E8%AF%81/"/>
     
-      <category term="日志分析" scheme="https://www.daikersec.com/tags/%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/"/>
+      <category term="日志分析" scheme="http://www.daikersec.com/tags/%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/"/>
     
-      <category term="流量分析" scheme="https://www.daikersec.com/tags/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/"/>
+      <category term="流量分析" scheme="http://www.daikersec.com/tags/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/"/>
     
   </entry>
   
   <entry>
     <title>铁人三项数据赛样题分析</title>
-    <link href="https://www.daikersec.com/post/3c7f43ba.html"/>
-    <id>https://www.daikersec.com/post/3c7f43ba.html</id>
+    <link href="http://www.daikersec.com/wiki/3c7f43ba.html"/>
+    <id>http://www.daikersec.com/wiki/3c7f43ba.html</id>
     <published>2018-04-22T14:30:02.000Z</published>
     <updated>2018-04-22T14:39:17.710Z</updated>
     
@@ -67,25 +67,25 @@
     
     </summary>
     
-      <category term="数据分析" scheme="https://www.daikersec.com/categories/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"/>
+      <category term="数据分析" scheme="http://www.daikersec.com/categories/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"/>
     
     
-      <category term="wireshark" scheme="https://www.daikersec.com/tags/wireshark/"/>
+      <category term="wireshark" scheme="http://www.daikersec.com/tags/wireshark/"/>
     
-      <category term="数据分析" scheme="https://www.daikersec.com/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"/>
+      <category term="数据分析" scheme="http://www.daikersec.com/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"/>
     
-      <category term="取证" scheme="https://www.daikersec.com/tags/%E5%8F%96%E8%AF%81/"/>
+      <category term="取证" scheme="http://www.daikersec.com/tags/%E5%8F%96%E8%AF%81/"/>
     
-      <category term="日志分析" scheme="https://www.daikersec.com/tags/%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/"/>
+      <category term="日志分析" scheme="http://www.daikersec.com/tags/%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/"/>
     
-      <category term="流量分析" scheme="https://www.daikersec.com/tags/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/"/>
+      <category term="流量分析" scheme="http://www.daikersec.com/tags/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/"/>
     
   </entry>
   
   <entry>
     <title>metasploit在后渗透中的作用</title>
-    <link href="https://www.daikersec.com/post/9668f403.html"/>
-    <id>https://www.daikersec.com/post/9668f403.html</id>
+    <link href="http://www.daikersec.com/wiki/9668f403.html"/>
+    <id>http://www.daikersec.com/wiki/9668f403.html</id>
     <published>2018-03-19T05:23:50.000Z</published>
     <updated>2018-04-05T17:19:04.534Z</updated>
     
@@ -105,8 +105,8 @@
   
   <entry>
     <title>Linuxv0.11源码分析之引导启动程序一</title>
-    <link href="https://www.daikersec.com/post/b309a0f3.html"/>
-    <id>https://www.daikersec.com/post/b309a0f3.html</id>
+    <link href="http://www.daikersec.com/wiki/b309a0f3.html"/>
+    <id>http://www.daikersec.com/wiki/b309a0f3.html</id>
     <published>2018-03-19T05:16:28.000Z</published>
     <updated>2018-04-05T17:19:04.492Z</updated>
     
@@ -122,14 +122,14 @@
     </summary>
     
     
-      <category term="Linux" scheme="https://www.daikersec.com/tags/Linux/"/>
+      <category term="Linux" scheme="http://www.daikersec.com/tags/Linux/"/>
     
   </entry>
   
   <entry>
     <title>PWN环境搭建</title>
-    <link href="https://www.daikersec.com/post/11af4bf6.html"/>
-    <id>https://www.daikersec.com/post/11af4bf6.html</id>
+    <link href="http://www.daikersec.com/wiki/11af4bf6.html"/>
+    <id>http://www.daikersec.com/wiki/11af4bf6.html</id>
     <published>2018-03-18T07:02:16.000Z</published>
     <updated>2018-04-05T17:19:04.506Z</updated>
     
@@ -144,17 +144,17 @@
     
     </summary>
     
-      <category term="pwn" scheme="https://www.daikersec.com/categories/pwn/"/>
+      <category term="pwn" scheme="http://www.daikersec.com/categories/pwn/"/>
     
     
-      <category term="pwn" scheme="https://www.daikersec.com/tags/pwn/"/>
+      <category term="pwn" scheme="http://www.daikersec.com/tags/pwn/"/>
     
   </entry>
   
   <entry>
     <title>解决msf内存不足不能启动的问题</title>
-    <link href="https://www.daikersec.com/post/376537a6.html"/>
-    <id>https://www.daikersec.com/post/376537a6.html</id>
+    <link href="http://www.daikersec.com/wiki/376537a6.html"/>
+    <id>http://www.daikersec.com/wiki/376537a6.html</id>
     <published>2018-03-15T06:50:54.000Z</published>
     <updated>2018-04-05T17:19:04.552Z</updated>
     
@@ -169,21 +169,21 @@
     
     </summary>
     
-      <category term="tools" scheme="https://www.daikersec.com/categories/tools/"/>
+      <category term="tools" scheme="http://www.daikersec.com/categories/tools/"/>
     
     
-      <category term="Linux" scheme="https://www.daikersec.com/tags/Linux/"/>
+      <category term="Linux" scheme="http://www.daikersec.com/tags/Linux/"/>
     
-      <category term="Kali" scheme="https://www.daikersec.com/tags/Kali/"/>
+      <category term="Kali" scheme="http://www.daikersec.com/tags/Kali/"/>
     
-      <category term="tools" scheme="https://www.daikersec.com/tags/tools/"/>
+      <category term="tools" scheme="http://www.daikersec.com/tags/tools/"/>
     
   </entry>
   
   <entry>
     <title>CTF中SQL注入字段名被过滤小技巧</title>
-    <link href="https://www.daikersec.com/post/a62e54a0.html"/>
-    <id>https://www.daikersec.com/post/a62e54a0.html</id>
+    <link href="http://www.daikersec.com/wiki/a62e54a0.html"/>
+    <id>http://www.daikersec.com/wiki/a62e54a0.html</id>
     <published>2018-03-12T03:04:07.000Z</published>
     <updated>2018-04-05T17:19:04.497Z</updated>
     
@@ -198,21 +198,21 @@
     
     </summary>
     
-      <category term="注入" scheme="https://www.daikersec.com/categories/%E6%B3%A8%E5%85%A5/"/>
+      <category term="注入" scheme="http://www.daikersec.com/categories/%E6%B3%A8%E5%85%A5/"/>
     
     
-      <category term="CTF" scheme="https://www.daikersec.com/tags/CTF/"/>
+      <category term="CTF" scheme="http://www.daikersec.com/tags/CTF/"/>
     
-      <category term="注入" scheme="https://www.daikersec.com/tags/%E6%B3%A8%E5%85%A5/"/>
+      <category term="注入" scheme="http://www.daikersec.com/tags/%E6%B3%A8%E5%85%A5/"/>
     
-      <category term="web" scheme="https://www.daikersec.com/tags/web/"/>
+      <category term="web" scheme="http://www.daikersec.com/tags/web/"/>
     
   </entry>
   
   <entry>
     <title>happyMoctf-ping一下好吗WP</title>
-    <link href="https://www.daikersec.com/post/8f0228b2.html"/>
-    <id>https://www.daikersec.com/post/8f0228b2.html</id>
+    <link href="http://www.daikersec.com/wiki/8f0228b2.html"/>
+    <id>http://www.daikersec.com/wiki/8f0228b2.html</id>
     <published>2018-02-15T10:39:15.000Z</published>
     <updated>2018-04-05T17:19:04.515Z</updated>
     
@@ -224,21 +224,21 @@
     
     </summary>
     
-      <category term="ctf" scheme="https://www.daikersec.com/categories/ctf/"/>
+      <category term="ctf" scheme="http://www.daikersec.com/categories/ctf/"/>
     
     
-      <category term="ctf" scheme="https://www.daikersec.com/tags/ctf/"/>
+      <category term="ctf" scheme="http://www.daikersec.com/tags/ctf/"/>
     
-      <category term="Web" scheme="https://www.daikersec.com/tags/Web/"/>
+      <category term="Web" scheme="http://www.daikersec.com/tags/Web/"/>
     
-      <category term="漏洞研究" scheme="https://www.daikersec.com/tags/%E6%BC%8F%E6%B4%9E%E7%A0%94%E7%A9%B6/"/>
+      <category term="漏洞研究" scheme="http://www.daikersec.com/tags/%E6%BC%8F%E6%B4%9E%E7%A0%94%E7%A9%B6/"/>
     
   </entry>
   
   <entry>
     <title>php反序列化漏洞</title>
-    <link href="https://www.daikersec.com/post/39a24cc2.html"/>
-    <id>https://www.daikersec.com/post/39a24cc2.html</id>
+    <link href="http://www.daikersec.com/wiki/39a24cc2.html"/>
+    <id>http://www.daikersec.com/wiki/39a24cc2.html</id>
     <published>2017-12-22T12:47:40.000Z</published>
     <updated>2018-04-05T17:19:04.550Z</updated>
     
@@ -250,21 +250,21 @@
     
     </summary>
     
-      <category term="漏洞研究" scheme="https://www.daikersec.com/categories/%E6%BC%8F%E6%B4%9E%E7%A0%94%E7%A9%B6/"/>
+      <category term="漏洞研究" scheme="http://www.daikersec.com/categories/%E6%BC%8F%E6%B4%9E%E7%A0%94%E7%A9%B6/"/>
     
     
-      <category term="ctf" scheme="https://www.daikersec.com/tags/ctf/"/>
+      <category term="ctf" scheme="http://www.daikersec.com/tags/ctf/"/>
     
-      <category term="Web" scheme="https://www.daikersec.com/tags/Web/"/>
+      <category term="Web" scheme="http://www.daikersec.com/tags/Web/"/>
     
-      <category term="漏洞研究" scheme="https://www.daikersec.com/tags/%E6%BC%8F%E6%B4%9E%E7%A0%94%E7%A9%B6/"/>
+      <category term="漏洞研究" scheme="http://www.daikersec.com/tags/%E6%BC%8F%E6%B4%9E%E7%A0%94%E7%A9%B6/"/>
     
   </entry>
   
   <entry>
     <title>PHP危险函数总结(随时补充)</title>
-    <link href="https://www.daikersec.com/post/1067b4de.html"/>
-    <id>https://www.daikersec.com/post/1067b4de.html</id>
+    <link href="http://www.daikersec.com/wiki/1067b4de.html"/>
+    <id>http://www.daikersec.com/wiki/1067b4de.html</id>
     <published>2017-07-09T15:44:34.000Z</published>
     <updated>2018-04-11T04:05:46.150Z</updated>
     
@@ -279,21 +279,21 @@
     
     </summary>
     
-      <category term="ctf" scheme="https://www.daikersec.com/categories/ctf/"/>
+      <category term="ctf" scheme="http://www.daikersec.com/categories/ctf/"/>
     
     
-      <category term="ctf" scheme="https://www.daikersec.com/tags/ctf/"/>
+      <category term="ctf" scheme="http://www.daikersec.com/tags/ctf/"/>
     
-      <category term="Web" scheme="https://www.daikersec.com/tags/Web/"/>
+      <category term="Web" scheme="http://www.daikersec.com/tags/Web/"/>
     
-      <category term="php" scheme="https://www.daikersec.com/tags/php/"/>
+      <category term="php" scheme="http://www.daikersec.com/tags/php/"/>
     
   </entry>
   
   <entry>
     <title>insert 注入</title>
-    <link href="https://www.daikersec.com/post/7e490dd2.html"/>
-    <id>https://www.daikersec.com/post/7e490dd2.html</id>
+    <link href="http://www.daikersec.com/wiki/7e490dd2.html"/>
+    <id>http://www.daikersec.com/wiki/7e490dd2.html</id>
     <published>2017-05-09T14:42:34.000Z</published>
     <updated>2018-04-05T17:19:04.530Z</updated>
     
@@ -305,19 +305,19 @@
     
     </summary>
     
-      <category term="注入" scheme="https://www.daikersec.com/categories/%E6%B3%A8%E5%85%A5/"/>
+      <category term="注入" scheme="http://www.daikersec.com/categories/%E6%B3%A8%E5%85%A5/"/>
     
     
-      <category term="Web" scheme="https://www.daikersec.com/tags/Web/"/>
+      <category term="注入" scheme="http://www.daikersec.com/tags/%E6%B3%A8%E5%85%A5/"/>
     
-      <category term="注入" scheme="https://www.daikersec.com/tags/%E6%B3%A8%E5%85%A5/"/>
+      <category term="Web" scheme="http://www.daikersec.com/tags/Web/"/>
     
   </entry>
   
   <entry>
     <title>CTF中代码审计小trick(未完)</title>
-    <link href="https://www.daikersec.com/post/4249e474.html"/>
-    <id>https://www.daikersec.com/post/4249e474.html</id>
+    <link href="http://www.daikersec.com/wiki/4249e474.html"/>
+    <id>http://www.daikersec.com/wiki/4249e474.html</id>
     <published>2017-05-04T13:14:14.000Z</published>
     <updated>2018-04-05T17:19:04.500Z</updated>
     
@@ -329,21 +329,21 @@
     
     </summary>
     
-      <category term="ctf" scheme="https://www.daikersec.com/categories/ctf/"/>
+      <category term="ctf" scheme="http://www.daikersec.com/categories/ctf/"/>
     
     
-      <category term="ctf" scheme="https://www.daikersec.com/tags/ctf/"/>
+      <category term="ctf" scheme="http://www.daikersec.com/tags/ctf/"/>
     
-      <category term="Web" scheme="https://www.daikersec.com/tags/Web/"/>
+      <category term="Web" scheme="http://www.daikersec.com/tags/Web/"/>
     
-      <category term="代码审计" scheme="https://www.daikersec.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+      <category term="代码审计" scheme="http://www.daikersec.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
   </entry>
   
   <entry>
     <title>一次简单渗透</title>
-    <link href="https://www.daikersec.com/post/c445d4db.html"/>
-    <id>https://www.daikersec.com/post/c445d4db.html</id>
+    <link href="http://www.daikersec.com/wiki/c445d4db.html"/>
+    <id>http://www.daikersec.com/wiki/c445d4db.html</id>
     <published>2017-04-28T11:38:25.000Z</published>
     <updated>2018-04-05T17:19:04.544Z</updated>
     
@@ -355,21 +355,21 @@
     
     </summary>
     
-      <category term="渗透测试" scheme="https://www.daikersec.com/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+      <category term="渗透测试" scheme="http://www.daikersec.com/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
     
     
-      <category term="Web" scheme="https://www.daikersec.com/tags/Web/"/>
+      <category term="Web" scheme="http://www.daikersec.com/tags/Web/"/>
     
-      <category term="渗透" scheme="https://www.daikersec.com/tags/%E6%B8%97%E9%80%8F/"/>
+      <category term="渗透" scheme="http://www.daikersec.com/tags/%E6%B8%97%E9%80%8F/"/>
     
-      <category term="提权" scheme="https://www.daikersec.com/tags/%E6%8F%90%E6%9D%83/"/>
+      <category term="提权" scheme="http://www.daikersec.com/tags/%E6%8F%90%E6%9D%83/"/>
     
   </entry>
   
   <entry>
     <title>hackinglab上传关</title>
-    <link href="https://www.daikersec.com/post/7a50e376.html"/>
-    <id>https://www.daikersec.com/post/7a50e376.html</id>
+    <link href="http://www.daikersec.com/wiki/7a50e376.html"/>
+    <id>http://www.daikersec.com/wiki/7a50e376.html</id>
     <published>2017-04-18T10:54:46.000Z</published>
     <updated>2018-04-05T17:19:04.509Z</updated>
     
@@ -381,21 +381,21 @@
     
     </summary>
     
-      <category term="ctf" scheme="https://www.daikersec.com/categories/ctf/"/>
+      <category term="ctf" scheme="http://www.daikersec.com/categories/ctf/"/>
     
     
-      <category term="ctf" scheme="https://www.daikersec.com/tags/ctf/"/>
+      <category term="ctf" scheme="http://www.daikersec.com/tags/ctf/"/>
     
-      <category term="Web" scheme="https://www.daikersec.com/tags/Web/"/>
+      <category term="Web" scheme="http://www.daikersec.com/tags/Web/"/>
     
-      <category term="hackinglab" scheme="https://www.daikersec.com/tags/hackinglab/"/>
+      <category term="hackinglab" scheme="http://www.daikersec.com/tags/hackinglab/"/>
     
   </entry>
   
   <entry>
     <title>hackinglab基础关</title>
-    <link href="https://www.daikersec.com/post/882db78b.html"/>
-    <id>https://www.daikersec.com/post/882db78b.html</id>
+    <link href="http://www.daikersec.com/wiki/882db78b.html"/>
+    <id>http://www.daikersec.com/wiki/882db78b.html</id>
     <published>2017-04-18T05:42:23.000Z</published>
     <updated>2018-04-05T17:19:04.565Z</updated>
     
@@ -407,14 +407,14 @@
     
     </summary>
     
-      <category term="ctf" scheme="https://www.daikersec.com/categories/ctf/"/>
+      <category term="ctf" scheme="http://www.daikersec.com/categories/ctf/"/>
     
     
-      <category term="ctf" scheme="https://www.daikersec.com/tags/ctf/"/>
+      <category term="ctf" scheme="http://www.daikersec.com/tags/ctf/"/>
     
-      <category term="Web" scheme="https://www.daikersec.com/tags/Web/"/>
+      <category term="Web" scheme="http://www.daikersec.com/tags/Web/"/>
     
-      <category term="hackinglab" scheme="https://www.daikersec.com/tags/hackinglab/"/>
+      <category term="hackinglab" scheme="http://www.daikersec.com/tags/hackinglab/"/>
     
   </entry>
   

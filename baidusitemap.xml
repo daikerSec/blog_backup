@@ -3,8 +3,11 @@
 
 
     
+    
+    
+    
   <url>
-    <loc>https://www.daikersec.com/post/ba9a968.html</loc>
+    <loc>http://www.daikersec.com/wiki/ba9a968.html</loc>
     <lastmod>2018-05-15T14:03:49.355Z</lastmod>
     <data>
         <display>
@@ -24,7 +27,7 @@
          
            
              
-              <breadCrumb title="数据分析" url="https://www.daikersec.com/categories/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"/>
+              <breadCrumb title="数据分析" url="http://www.daikersec.com/categories/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"/>
           
         </display>
     </data>
@@ -32,7 +35,7 @@
 
     
   <url>
-    <loc>https://www.daikersec.com/post/3c7f43ba.html</loc>
+    <loc>http://www.daikersec.com/wiki/3c7f43ba.html</loc>
     <lastmod>2018-04-22T14:39:17.710Z</lastmod>
     <data>
         <display>
@@ -52,7 +55,7 @@
          
            
              
-              <breadCrumb title="数据分析" url="https://www.daikersec.com/categories/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"/>
+              <breadCrumb title="数据分析" url="http://www.daikersec.com/categories/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"/>
           
         </display>
     </data>
@@ -60,7 +63,7 @@
 
     
   <url>
-    <loc>https://www.daikersec.com/post/1067b4de.html</loc>
+    <loc>http://www.daikersec.com/wiki/1067b4de.html</loc>
     <lastmod>2018-04-11T04:05:46.150Z</lastmod>
     <data>
         <display>
@@ -76,7 +79,7 @@
          
            
              
-              <breadCrumb title="ctf" url="https://www.daikersec.com/categories/ctf/"/>
+              <breadCrumb title="ctf" url="http://www.daikersec.com/categories/ctf/"/>
           
         </display>
     </data>
@@ -86,7 +89,7 @@
     
     
   <url>
-    <loc>https://www.daikersec.com/post/882db78b.html</loc>
+    <loc>http://www.daikersec.com/wiki/882db78b.html</loc>
     <lastmod>2018-04-05T17:19:04.565Z</lastmod>
     <data>
         <display>
@@ -102,7 +105,7 @@
          
            
              
-              <breadCrumb title="ctf" url="https://www.daikersec.com/categories/ctf/"/>
+              <breadCrumb title="ctf" url="http://www.daikersec.com/categories/ctf/"/>
           
         </display>
     </data>
@@ -110,7 +113,7 @@
 
     
   <url>
-    <loc>https://www.daikersec.com/post/376537a6.html</loc>
+    <loc>http://www.daikersec.com/wiki/376537a6.html</loc>
     <lastmod>2018-04-05T17:19:04.552Z</lastmod>
     <data>
         <display>
@@ -126,7 +129,7 @@
          
            
              
-              <breadCrumb title="tools" url="https://www.daikersec.com/categories/tools/"/>
+              <breadCrumb title="tools" url="http://www.daikersec.com/categories/tools/"/>
           
         </display>
     </data>
@@ -134,7 +137,7 @@
 
     
   <url>
-    <loc>https://www.daikersec.com/post/39a24cc2.html</loc>
+    <loc>http://www.daikersec.com/wiki/39a24cc2.html</loc>
     <lastmod>2018-04-05T17:19:04.550Z</lastmod>
     <data>
         <display>
@@ -150,7 +153,7 @@
          
            
              
-              <breadCrumb title="漏洞研究" url="https://www.daikersec.com/categories/%E6%BC%8F%E6%B4%9E%E7%A0%94%E7%A9%B6/"/>
+              <breadCrumb title="漏洞研究" url="http://www.daikersec.com/categories/%E6%BC%8F%E6%B4%9E%E7%A0%94%E7%A9%B6/"/>
           
         </display>
     </data>
@@ -158,7 +161,7 @@
 
     
   <url>
-    <loc>https://www.daikersec.com/post/c445d4db.html</loc>
+    <loc>http://www.daikersec.com/wiki/c445d4db.html</loc>
     <lastmod>2018-04-05T17:19:04.544Z</lastmod>
     <data>
         <display>
@@ -174,7 +177,7 @@
          
            
              
-              <breadCrumb title="渗透测试" url="https://www.daikersec.com/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+              <breadCrumb title="渗透测试" url="http://www.daikersec.com/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
           
         </display>
     </data>
@@ -182,7 +185,7 @@
 
     
   <url>
-    <loc>https://www.daikersec.com/post/9668f403.html</loc>
+    <loc>http://www.daikersec.com/wiki/9668f403.html</loc>
     <lastmod>2018-04-05T17:19:04.534Z</lastmod>
     <data>
         <display>
@@ -197,21 +200,21 @@
 
     
   <url>
-    <loc>https://www.daikersec.com/post/7e490dd2.html</loc>
+    <loc>http://www.daikersec.com/wiki/7e490dd2.html</loc>
     <lastmod>2018-04-05T17:19:04.530Z</lastmod>
     <data>
         <display>
         <title>insert 注入</title>
         <pubTime>2017-05-09T14:42:34.000Z</pubTime>
         
-        <tag>Web</tag>
-         
         <tag>注入</tag>
+         
+        <tag>Web</tag>
          
          
            
              
-              <breadCrumb title="注入" url="https://www.daikersec.com/categories/%E6%B3%A8%E5%85%A5/"/>
+              <breadCrumb title="注入" url="http://www.daikersec.com/categories/%E6%B3%A8%E5%85%A5/"/>
           
         </display>
     </data>
@@ -219,7 +222,7 @@
 
     
   <url>
-    <loc>https://www.daikersec.com/post/8f0228b2.html</loc>
+    <loc>http://www.daikersec.com/wiki/8f0228b2.html</loc>
     <lastmod>2018-04-05T17:19:04.515Z</lastmod>
     <data>
         <display>
@@ -235,7 +238,7 @@
          
            
              
-              <breadCrumb title="ctf" url="https://www.daikersec.com/categories/ctf/"/>
+              <breadCrumb title="ctf" url="http://www.daikersec.com/categories/ctf/"/>
           
         </display>
     </data>
@@ -243,7 +246,7 @@
 
     
   <url>
-    <loc>https://www.daikersec.com/post/7a50e376.html</loc>
+    <loc>http://www.daikersec.com/wiki/7a50e376.html</loc>
     <lastmod>2018-04-05T17:19:04.509Z</lastmod>
     <data>
         <display>
@@ -259,7 +262,7 @@
          
            
              
-              <breadCrumb title="ctf" url="https://www.daikersec.com/categories/ctf/"/>
+              <breadCrumb title="ctf" url="http://www.daikersec.com/categories/ctf/"/>
           
         </display>
     </data>
@@ -267,7 +270,7 @@
 
     
   <url>
-    <loc>https://www.daikersec.com/post/11af4bf6.html</loc>
+    <loc>http://www.daikersec.com/wiki/11af4bf6.html</loc>
     <lastmod>2018-04-05T17:19:04.506Z</lastmod>
     <data>
         <display>
@@ -279,7 +282,7 @@
          
            
              
-              <breadCrumb title="pwn" url="https://www.daikersec.com/categories/pwn/"/>
+              <breadCrumb title="pwn" url="http://www.daikersec.com/categories/pwn/"/>
           
         </display>
     </data>
@@ -287,7 +290,7 @@
 
     
   <url>
-    <loc>https://www.daikersec.com/post/4249e474.html</loc>
+    <loc>http://www.daikersec.com/wiki/4249e474.html</loc>
     <lastmod>2018-04-05T17:19:04.500Z</lastmod>
     <data>
         <display>
@@ -303,7 +306,7 @@
          
            
              
-              <breadCrumb title="ctf" url="https://www.daikersec.com/categories/ctf/"/>
+              <breadCrumb title="ctf" url="http://www.daikersec.com/categories/ctf/"/>
           
         </display>
     </data>
@@ -311,7 +314,7 @@
 
     
   <url>
-    <loc>https://www.daikersec.com/post/a62e54a0.html</loc>
+    <loc>http://www.daikersec.com/wiki/a62e54a0.html</loc>
     <lastmod>2018-04-05T17:19:04.497Z</lastmod>
     <data>
         <display>
@@ -327,7 +330,7 @@
          
            
              
-              <breadCrumb title="注入" url="https://www.daikersec.com/categories/%E6%B3%A8%E5%85%A5/"/>
+              <breadCrumb title="注入" url="http://www.daikersec.com/categories/%E6%B3%A8%E5%85%A5/"/>
           
         </display>
     </data>
@@ -335,7 +338,7 @@
 
     
   <url>
-    <loc>https://www.daikersec.com/post/b309a0f3.html</loc>
+    <loc>http://www.daikersec.com/wiki/b309a0f3.html</loc>
     <lastmod>2018-04-05T17:19:04.492Z</lastmod>
     <data>
         <display>
@@ -350,9 +353,6 @@
     </data>
     </url>
 
-    
-    
-    
     
     
 </urlset>
