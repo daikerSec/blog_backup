@@ -18,8 +18,8 @@
   
   <entry>
     <title>利用Nebula学习Linux提权</title>
-    <link href="http://www.daikersec.com/wiki/undefined.html"/>
-    <id>http://www.daikersec.com/wiki/undefined.html</id>
+    <link href="http://www.daikersec.com/wiki/5c949747.html"/>
+    <id>http://www.daikersec.com/wiki/5c949747.html</id>
     <published>2018-06-04T09:00:24.000Z</published>
     <updated>2018-06-20T05:58:38.725Z</updated>
     
@@ -370,9 +370,9 @@
       <category term="SQL注入" scheme="http://www.daikersec.com/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web%E5%AE%89%E5%85%A8/SQL%E6%B3%A8%E5%85%A5/"/>
     
     
-      <category term="注入" scheme="http://www.daikersec.com/tags/%E6%B3%A8%E5%85%A5/"/>
-    
       <category term="Web" scheme="http://www.daikersec.com/tags/Web/"/>
+    
+      <category term="注入" scheme="http://www.daikersec.com/tags/%E6%B3%A8%E5%85%A5/"/>
     
   </entry>
   
@@ -429,9 +429,9 @@
     
       <category term="Web" scheme="http://www.daikersec.com/tags/Web/"/>
     
-      <category term="渗透" scheme="http://www.daikersec.com/tags/%E6%B8%97%E9%80%8F/"/>
-    
       <category term="提权" scheme="http://www.daikersec.com/tags/%E6%8F%90%E6%9D%83/"/>
+    
+      <category term="渗透" scheme="http://www.daikersec.com/tags/%E6%B8%97%E9%80%8F/"/>
     
   </entry>
   
