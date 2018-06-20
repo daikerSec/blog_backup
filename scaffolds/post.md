@@ -1,15 +1,5 @@
 ---
 title: {{ title }}
 date: {{ date }}
-toc: true
-tags: 
-categories: 
+tags:
 ---
-
-
-
-
-
-## 参考资料
-> - []()
-> - []()
