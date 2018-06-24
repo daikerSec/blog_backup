@@ -185,7 +185,7 @@
     <link href="http://www.daikersec.com/wiki/undefined.html"/>
     <id>http://www.daikersec.com/wiki/undefined.html</id>
     <published>2018-06-24T14:10:28.000Z</published>
-    <updated>2018-06-24T14:22:00.471Z</updated>
+    <updated>2018-06-24T14:38:47.530Z</updated>
     
     <content type="html"><![CDATA[<h4 id="1-远程X的设置"><a href="#1-远程X的设置" class="headerlink" title="1. 远程X的设置"></a>1. 远程X的设置</h4><p>X Window系统是一个网络化的视窗系统，它能 够在位映象的屏幕上显示窗口式的文本和图形。<br>X Window系统还可以叫做X11或者X<br>使用X 的两种启动方式：<br>1 先进入命令行界面，然后运行：startx<br>2 开机自动进入图形界面：在/etc/inittab中配置运行 级别为5 </p><p>在X应用程序后面加上-display和显示的名字<br>如：xeyes -display  192.168.0.3:0<br>表示xeyes在192.168.0.3的显示0上显示</p><p>远程的X安全性<br> 基于主机的访问控制</p><ul><li>xhost  +  允许任何人访问</li><li>xhost  -   限制访问 <ul><li>在限制访问下为某个主机打开访问控制，使用 xhost +主机名（或IP）</li><li>去除某个主机的连接，使用 xhost  -主机名（或IP）s</li></ul></li></ul><h4 id="2-vi（教案第3章P21中红色标注的命令）"><a href="#2-vi（教案第3章P21中红色标注的命令）" class="headerlink" title="2.vi（教案第3章P21中红色标注的命令）"></a>2.vi（教案第3章P21中红色标注的命令）</h4><p><img src="https://upload-images.jianshu.io/upload_images/5443560-ad625889a788ed49.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>]]></content>
     
