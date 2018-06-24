@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.daikersec.com/wiki/fb27c52e.html</loc>
+    
+    <lastmod>2018-06-24T14:59:44.624Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.daikersec.com/wiki/4f7c637d.html</loc>
+    
+    <lastmod>2018-06-24T14:57:44.539Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.daikersec.com/wiki/852cfab6.html</loc>
     
     <lastmod>2018-06-24T14:54:28.855Z</lastmod>
@@ -58,23 +72,9 @@
   </url>
   
   <url>
-    <loc>http://www.daikersec.com/wiki/4f7c637d.html</loc>
-    
-    <lastmod>2018-06-24T14:53:19.073Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.daikersec.com/wiki/20dbfd00.html</loc>
     
     <lastmod>2018-06-24T14:30:19.942Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.daikersec.com/wiki/fb27c52e.html</loc>
-    
-    <lastmod>2018-06-24T14:29:18.823Z</lastmod>
     
   </url>
   
@@ -86,63 +86,7 @@
   </url>
   
   <url>
-    <loc>http://www.daikersec.com/wiki/c445d4db.html</loc>
-    
-    <lastmod>2018-05-21T03:03:47.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.daikersec.com/wiki/11af4bf6.html</loc>
-    
-    <lastmod>2018-05-21T03:03:47.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.daikersec.com/wiki/a62e54a0.html</loc>
-    
-    <lastmod>2018-05-21T03:03:47.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.daikersec.com/wiki/4249e474.html</loc>
-    
-    <lastmod>2018-05-21T03:03:47.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.daikersec.com/wiki/8f0228b2.html</loc>
-    
-    <lastmod>2018-05-21T03:03:47.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.daikersec.com/wiki/7e490dd2.html</loc>
-    
-    <lastmod>2018-05-21T03:03:47.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.daikersec.com/wiki/9668f403.html</loc>
-    
-    <lastmod>2018-05-21T03:03:47.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.daikersec.com/wiki/376537a6.html</loc>
-    
-    <lastmod>2018-05-21T03:03:47.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.daikersec.com/wiki/1067b4de.html</loc>
+    <loc>http://www.daikersec.com/wiki/b309a0f3.html</loc>
     
     <lastmod>2018-05-21T03:03:47.000Z</lastmod>
     
@@ -156,7 +100,63 @@
   </url>
   
   <url>
-    <loc>http://www.daikersec.com/wiki/b309a0f3.html</loc>
+    <loc>http://www.daikersec.com/wiki/1067b4de.html</loc>
+    
+    <lastmod>2018-05-21T03:03:47.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.daikersec.com/wiki/4249e474.html</loc>
+    
+    <lastmod>2018-05-21T03:03:47.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.daikersec.com/wiki/9668f403.html</loc>
+    
+    <lastmod>2018-05-21T03:03:47.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.daikersec.com/wiki/8f0228b2.html</loc>
+    
+    <lastmod>2018-05-21T03:03:47.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.daikersec.com/wiki/11af4bf6.html</loc>
+    
+    <lastmod>2018-05-21T03:03:47.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.daikersec.com/wiki/7e490dd2.html</loc>
+    
+    <lastmod>2018-05-21T03:03:47.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.daikersec.com/wiki/376537a6.html</loc>
+    
+    <lastmod>2018-05-21T03:03:47.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.daikersec.com/wiki/c445d4db.html</loc>
+    
+    <lastmod>2018-05-21T03:03:47.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.daikersec.com/wiki/a62e54a0.html</loc>
     
     <lastmod>2018-05-21T03:03:47.000Z</lastmod>
     
@@ -198,14 +198,14 @@
   </url>
   
   <url>
-    <loc>http://www.daikersec.com/about/index.html</loc>
+    <loc>http://www.daikersec.com/categories/index.html</loc>
     
     <lastmod>2018-05-21T03:03:47.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.daikersec.com/categories/index.html</loc>
+    <loc>http://www.daikersec.com/about/index.html</loc>
     
     <lastmod>2018-05-21T03:03:47.000Z</lastmod>
     
