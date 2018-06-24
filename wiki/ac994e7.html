@@ -3,24 +3,38 @@
 <head>
     <meta charset="utf-8">
     
-    <title>简介 | daiker&#39;s wiki</title>
+    <title>安装和启动 | daiker&#39;s wiki</title>
     
     
         <meta name="keywords" content="Linux" />
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="1. 一个Linux操作系统包含了Linux内核、标准 GNU（由自由软件基金会组织的）实用工具和 开放源代码应用程序2. 自由软件自由软件不等于开源软件如果一个软件是自由软件，那么它必须为用户提供以下四项基本自由：  自由度0：无论用户出于何种目的，必须可以按照用户意愿，自由地运行该软件。 自由度1：用户可以自由地学习并修改该软件，以此来帮助用户完成用户自己的计算。作为前提，用户必须可以访问到该">
+    <meta name="description" content="1. 文本安装模式进入到shell的方式alt+F2 2. 硬盘及分区代号Master就是主盘的意思，Slave就是从盘的意思除了这个还有promary分区(主分区)和Logical 分区(逻辑分区) 一个硬盘最多有4个主分区。那以第一个从 扩展分区分出来的逻辑分区为/dev/hda5看下面这个例题 3. 分区划分原则 4. inittab文件的作用（关键字不用记）level  5. 系统初始化流">
 <meta name="keywords" content="Linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="简介">
-<meta property="og:url" content="http://www.daikersec.com/wiki/undefined.html">
+<meta property="og:title" content="安装和启动">
+<meta property="og:url" content="http://www.daikersec.com/wiki/ac994e7.html">
 <meta property="og:site_name" content="daiker&#39;s wiki">
-<meta property="og:description" content="1. 一个Linux操作系统包含了Linux内核、标准 GNU（由自由软件基金会组织的）实用工具和 开放源代码应用程序2. 自由软件自由软件不等于开源软件如果一个软件是自由软件，那么它必须为用户提供以下四项基本自由：  自由度0：无论用户出于何种目的，必须可以按照用户意愿，自由地运行该软件。 自由度1：用户可以自由地学习并修改该软件，以此来帮助用户完成用户自己的计算。作为前提，用户必须可以访问到该">
+<meta property="og:description" content="1. 文本安装模式进入到shell的方式alt+F2 2. 硬盘及分区代号Master就是主盘的意思，Slave就是从盘的意思除了这个还有promary分区(主分区)和Logical 分区(逻辑分区) 一个硬盘最多有4个主分区。那以第一个从 扩展分区分出来的逻辑分区为/dev/hda5看下面这个例题 3. 分区划分原则 4. inittab文件的作用（关键字不用记）level  5. 系统初始化流">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-24T14:31:58.054Z">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-231b6f9b65c351b3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-2a4ae344befa614a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-20122906cbfdd018.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-b8c9ade017b74758.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-c4b34f17976fe486.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-a611d4621f470456.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-04a1f5add6270c9a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-ec05480240cb20c2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-54c1ac24d02c6a91.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-55fb05ce7b710d43.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-666111e29b8c5fae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-7003dea72c436114.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-c4d60b125bce40ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-06-24T14:53:42.799Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="简介">
-<meta name="twitter:description" content="1. 一个Linux操作系统包含了Linux内核、标准 GNU（由自由软件基金会组织的）实用工具和 开放源代码应用程序2. 自由软件自由软件不等于开源软件如果一个软件是自由软件，那么它必须为用户提供以下四项基本自由：  自由度0：无论用户出于何种目的，必须可以按照用户意愿，自由地运行该软件。 自由度1：用户可以自由地学习并修改该软件，以此来帮助用户完成用户自己的计算。作为前提，用户必须可以访问到该">
+<meta name="twitter:title" content="安装和启动">
+<meta name="twitter:description" content="1. 文本安装模式进入到shell的方式alt+F2 2. 硬盘及分区代号Master就是主盘的意思，Slave就是从盘的意思除了这个还有promary分区(主分区)和Logical 分区(逻辑分区) 一个硬盘最多有4个主分区。那以第一个从 扩展分区分出来的逻辑分区为/dev/hda5看下面这个例题 3. 分区划分原则 4. inittab文件的作用（关键字不用记）level  5. 系统初始化流">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/5443560-231b6f9b65c351b3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
     
 
     
@@ -240,7 +254,7 @@
                             &nbsp;
                             基础学习
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/undefined.html">GUI和文本编辑</a></li>  <li class="file"><a href="/wiki/fb27c52e.html">Linux简易入门绪</a></li>  <li class="file"><a href="/wiki/undefined.html">shell和shell编程</a></li>  <li class="file"><a href="/wiki/20dbfd00.html">基础</a></li>  <li class="file"><a href="/wiki/undefined.html">安装和启动</a></li>  <li class="file"><a href="/wiki/undefined.html">权限管理</a></li>  <li class="file"><a href="/wiki/undefined.html">用户管理</a></li>  <li class="file active"><a href="/wiki/undefined.html">简介</a></li>  <li class="file"><a href="/wiki/undefined.html">调度任务</a></li>  <li class="file"><a href="/wiki/undefined.html">软件管理</a></li>  <li class="file"><a href="/wiki/undefined.html">进程管理</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/4f7c637d.html">GUI和文本编辑</a></li>  <li class="file"><a href="/wiki/fb27c52e.html">Linux简易入门绪</a></li>  <li class="file"><a href="/wiki/fb0a66e4.html">shell和shell编程</a></li>  <li class="file"><a href="/wiki/20dbfd00.html">基础</a></li>  <li class="file active"><a href="/wiki/ac994e7.html">安装和启动</a></li>  <li class="file"><a href="/wiki/62e89ee7.html">权限管理</a></li>  <li class="file"><a href="/wiki/500fed5c.html">用户管理</a></li>  <li class="file"><a href="/wiki/4b7d48f2.html">简介</a></li>  <li class="file"><a href="/wiki/9b3ccf99.html">调度任务</a></li>  <li class="file"><a href="/wiki/be55afaa.html">软件管理</a></li>  <li class="file"><a href="/wiki/852cfab6.html">进程管理</a></li>  </ul> 
                     </li> 
                      </ul> 
                     </li> 
@@ -479,7 +493,7 @@
     <div id="toTop" class="fa fa-angle-up"></div>
 </aside>
             
-            <section id="main"><article id="linux-简介" class="article article-type-linux" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-安装和启动" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -501,8 +515,8 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/wiki/undefined.html">
-            <time datetime="2018-06-24T14:09:17.000Z" itemprop="datePublished">2018-06-24</time>
+        <a href="/wiki/ac994e7.html">
+            <time datetime="2018-06-24T14:10:21.000Z" itemprop="datePublished">2018-06-24</time>
         </a>
     </div>
 
@@ -513,13 +527,13 @@
                         
                         
                             <div class="article-meta-button">
-                                <a href='https://github.com/daikersec/daikersec.github.io/raw/hexo/source/_posts/简介.md'> Source </a>
+                                <a href='https://github.com/daikersec/daikersec.github.io/raw/hexo/source/_posts/安装和启动.md'> Source </a>
                             </div>
                             <div class="article-meta-button">
-                                <a href='https://github.com/daikersec/daikersec.github.io/edit/hexo/source/_posts/简介.md'> Edit </a>
+                                <a href='https://github.com/daikersec/daikersec.github.io/edit/hexo/source/_posts/安装和启动.md'> Edit </a>
                             </div>
                             <div class="article-meta-button">
-                                <a href='https://github.com/daikersec/daikersec.github.io/commits/hexo/source/_posts/简介.md'> History </a>
+                                <a href='https://github.com/daikersec/daikersec.github.io/commits/hexo/source/_posts/安装和启动.md'> History </a>
                             </div>
                         
                     </div>
@@ -527,7 +541,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-            简介
+            安装和启动
         </h1>
     
 
@@ -540,13 +554,14 @@
             
         
         
-            <h4 id="1-一个Linux操作系统包含了Linux内核、标准-GNU（由自由软件基金会组织的）实用工具和-开放源代码应用程序"><a href="#1-一个Linux操作系统包含了Linux内核、标准-GNU（由自由软件基金会组织的）实用工具和-开放源代码应用程序" class="headerlink" title="1. 一个Linux操作系统包含了Linux内核、标准 GNU（由自由软件基金会组织的）实用工具和 开放源代码应用程序"></a>1. 一个Linux操作系统包含了Linux内核、标准 GNU（由自由软件基金会组织的）实用工具和 开放源代码应用程序</h4><h4 id="2-自由软件"><a href="#2-自由软件" class="headerlink" title="2. 自由软件"></a>2. 自由软件</h4><p>自由软件不等于开源软件<br>如果一个软件是自由软件，那么它必须为用户提供以下四项基本自由：</p>
-<ul>
-<li>自由度0：无论用户出于何种目的，必须可以按照用户意愿，自由地运行该软件。</li>
-<li>自由度1：用户可以自由地学习并修改该软件，以此来帮助用户完成用户自己的计算。作为前提，用户必须可以访问到该软件的源代码。</li>
-<li>自由度2：用户可以自由地分发该软件的拷贝，这样就可以助人。</li>
-<li>自由度3：用户可以自由地分发该软件修改后的拷贝。借此，用户可以把改进后的软件分享给整个社区令他人也从中受益。作为前提，用户必须可以访问到该软件的源代码。<br>####3. GPL规则<br>如果你使用并且修改了我的GPL软件，那么你的软件也必须要开源，否则就不能使用我的软件，你是否把你的软件商用和我没关系。<br>出售自由软件的组织一定要遵循一定的GPL规则：<br>1）不能限制购买软件的用户自由权；<br>2）必须告诉 用户软件属于GPL范畴；<br>3）必须提供软件完整的 源代码。</li>
-</ul>
+            <h4 id="1-文本安装模式进入到shell的方式"><a href="#1-文本安装模式进入到shell的方式" class="headerlink" title="1. 文本安装模式进入到shell的方式"></a>1. 文本安装模式进入到shell的方式</h4><p>alt+F2</p>
+<h4 id="2-硬盘及分区代号"><a href="#2-硬盘及分区代号" class="headerlink" title="2. 硬盘及分区代号"></a>2. 硬盘及分区代号</h4><p><img src="https://upload-images.jianshu.io/upload_images/5443560-231b6f9b65c351b3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>Master就是主盘的意思，Slave就是从盘的意思<br>除了这个还有promary分区(主分区)和Logical 分区(逻辑分区)<br><img src="https://upload-images.jianshu.io/upload_images/5443560-2a4ae344befa614a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<p>一个硬盘最多有4个主分区。那以第一个从 扩展分区分出来的逻辑分区为/dev/hda5<br>看下面这个例题<br><img src="https://upload-images.jianshu.io/upload_images/5443560-20122906cbfdd018.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<h4 id="3-分区划分原则"><a href="#3-分区划分原则" class="headerlink" title="3. 分区划分原则"></a>3. 分区划分原则</h4><p><img src="https://upload-images.jianshu.io/upload_images/5443560-b8c9ade017b74758.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<h4 id="4-inittab文件的作用（关键字不用记）"><a href="#4-inittab文件的作用（关键字不用记）" class="headerlink" title="4. inittab文件的作用（关键字不用记）"></a>4. inittab文件的作用（关键字不用记）</h4><p><img src="https://upload-images.jianshu.io/upload_images/5443560-c4b34f17976fe486.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>level<br><img src="https://upload-images.jianshu.io/upload_images/5443560-a611d4621f470456.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/5443560-04a1f5add6270c9a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<h4 id="5-系统初始化流程"><a href="#5-系统初始化流程" class="headerlink" title="5. 系统初始化流程"></a>5. 系统初始化流程</h4><p><img src="https://upload-images.jianshu.io/upload_images/5443560-ec05480240cb20c2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br><img src="https://upload-images.jianshu.io/upload_images/5443560-54c1ac24d02c6a91.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br><img src="https://upload-images.jianshu.io/upload_images/5443560-55fb05ce7b710d43.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/5443560-666111e29b8c5fae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br><img src="https://upload-images.jianshu.io/upload_images/5443560-7003dea72c436114.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br><img src="https://upload-images.jianshu.io/upload_images/5443560-c4d60b125bce40ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
 
             </div>
         
@@ -559,19 +574,19 @@
     
 <nav id="article-nav">
     
-        <a href="/wiki/20dbfd00.html" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/wiki/4f7c637d.html" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">上一篇</strong>
             <div class="article-nav-title">
                 
-                    基础
+                    GUI和文本编辑
                 
             </div>
         </a>
     
     
-        <a href="/wiki/fb27c52e.html" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/wiki/20dbfd00.html" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">Linux简易入门绪</div>
+            <div class="article-nav-title">基础</div>
         </a>
     
 </nav>

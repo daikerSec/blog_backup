@@ -3,29 +3,35 @@
 <head>
     <meta charset="utf-8">
     
-    <title>基础 | daiker&#39;s wiki</title>
+    <title>shell和shell编程 | daiker&#39;s wiki</title>
     
     
         <meta name="keywords" content="Linux" />
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="1. shell的版本Linux 结构内核:运行程序和 管理像磁盘和打印机等硬件设备的核心程序,要设计得尽可能的 小。Shell:Shell是系统的用户界面，提供了用户与内核进 行交互操作的一种接口。它接收用户输入的命 令并把它送入内核去执行。版本：Bourne Shell：是贝尔实验室开发的。 (sh)oBASH：是GNU的Bourne Again Shell，是GNU 操作系统上默认的shel">
+    <meta name="description" content="1. shell变量赋值 任何字符串都可以作为变量的值赋给某个变量；  如果字符串中包含空格、tab或换行符时，应该用 引号（单、双都可以）括起来。 变量的值中包含多个连续的空格在输出显示时会当 作一个空格来处理  1root@DESKTOP-4E87I7L:/tmp# a=5 2. 变量引用$+变量名12root@DESKTOP-4E87I7L:/tmp# echo $a5 3. 系统变量PAT">
 <meta name="keywords" content="Linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="基础">
-<meta property="og:url" content="http://www.daikersec.com/wiki/20dbfd00.html">
+<meta property="og:title" content="shell和shell编程">
+<meta property="og:url" content="http://www.daikersec.com/wiki/fb0a66e4.html">
 <meta property="og:site_name" content="daiker&#39;s wiki">
-<meta property="og:description" content="1. shell的版本Linux 结构内核:运行程序和 管理像磁盘和打印机等硬件设备的核心程序,要设计得尽可能的 小。Shell:Shell是系统的用户界面，提供了用户与内核进 行交互操作的一种接口。它接收用户输入的命 令并把它送入内核去执行。版本：Bourne Shell：是贝尔实验室开发的。 (sh)oBASH：是GNU的Bourne Again Shell，是GNU 操作系统上默认的shel">
+<meta property="og:description" content="1. shell变量赋值 任何字符串都可以作为变量的值赋给某个变量；  如果字符串中包含空格、tab或换行符时，应该用 引号（单、双都可以）括起来。 变量的值中包含多个连续的空格在输出显示时会当 作一个空格来处理  1root@DESKTOP-4E87I7L:/tmp# a=5 2. 变量引用$+变量名12root@DESKTOP-4E87I7L:/tmp# echo $a5 3. 系统变量PAT">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-d876d23ed5670729.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-bb5b75f110d0d09b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-7e5f38d852ef7e45.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-c3ddfdd31f0010ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-06-24T14:30:19.942Z">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-e4162d4da46ba5f5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-9f5890c8316b646a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-0b00669a4de56c6f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-fe35539e4f2f2d49.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-c6e0242eceb1752d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-9d54af6b41fa6656.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-5ea97dc03087fe69.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-8187538ecfb73c0e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-29846072489f7b92.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-1024f4680905f91b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-06-24T14:53:32.243Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="基础">
-<meta name="twitter:description" content="1. shell的版本Linux 结构内核:运行程序和 管理像磁盘和打印机等硬件设备的核心程序,要设计得尽可能的 小。Shell:Shell是系统的用户界面，提供了用户与内核进 行交互操作的一种接口。它接收用户输入的命 令并把它送入内核去执行。版本：Bourne Shell：是贝尔实验室开发的。 (sh)oBASH：是GNU的Bourne Again Shell，是GNU 操作系统上默认的shel">
-<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/5443560-d876d23ed5670729.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="shell和shell编程">
+<meta name="twitter:description" content="1. shell变量赋值 任何字符串都可以作为变量的值赋给某个变量；  如果字符串中包含空格、tab或换行符时，应该用 引号（单、双都可以）括起来。 变量的值中包含多个连续的空格在输出显示时会当 作一个空格来处理  1root@DESKTOP-4E87I7L:/tmp# a=5 2. 变量引用$+变量名12root@DESKTOP-4E87I7L:/tmp# echo $a5 3. 系统变量PAT">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/5443560-e4162d4da46ba5f5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
     
 
     
@@ -245,7 +251,7 @@
                             &nbsp;
                             基础学习
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/4f7c637d.html">GUI和文本编辑</a></li>  <li class="file"><a href="/wiki/fb27c52e.html">Linux简易入门绪</a></li>  <li class="file"><a href="/wiki/fb0a66e4.html">shell和shell编程</a></li>  <li class="file active"><a href="/wiki/20dbfd00.html">基础</a></li>  <li class="file"><a href="/wiki/ac994e7.html">安装和启动</a></li>  <li class="file"><a href="/wiki/62e89ee7.html">权限管理</a></li>  <li class="file"><a href="/wiki/500fed5c.html">用户管理</a></li>  <li class="file"><a href="/wiki/4b7d48f2.html">简介</a></li>  <li class="file"><a href="/wiki/9b3ccf99.html">调度任务</a></li>  <li class="file"><a href="/wiki/be55afaa.html">软件管理</a></li>  <li class="file"><a href="/wiki/852cfab6.html">进程管理</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/4f7c637d.html">GUI和文本编辑</a></li>  <li class="file"><a href="/wiki/fb27c52e.html">Linux简易入门绪</a></li>  <li class="file active"><a href="/wiki/fb0a66e4.html">shell和shell编程</a></li>  <li class="file"><a href="/wiki/20dbfd00.html">基础</a></li>  <li class="file"><a href="/wiki/ac994e7.html">安装和启动</a></li>  <li class="file"><a href="/wiki/62e89ee7.html">权限管理</a></li>  <li class="file"><a href="/wiki/500fed5c.html">用户管理</a></li>  <li class="file"><a href="/wiki/4b7d48f2.html">简介</a></li>  <li class="file"><a href="/wiki/9b3ccf99.html">调度任务</a></li>  <li class="file"><a href="/wiki/be55afaa.html">软件管理</a></li>  <li class="file"><a href="/wiki/852cfab6.html">进程管理</a></li>  </ul> 
                     </li> 
                      </ul> 
                     </li> 
@@ -484,7 +490,7 @@
     <div id="toTop" class="fa fa-angle-up"></div>
 </aside>
             
-            <section id="main"><article id="post-基础" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-shell和shell编程" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -506,8 +512,8 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/wiki/20dbfd00.html">
-            <time datetime="2018-06-24T14:09:50.000Z" itemprop="datePublished">2018-06-24</time>
+        <a href="/wiki/fb0a66e4.html">
+            <time datetime="2018-06-24T14:10:56.000Z" itemprop="datePublished">2018-06-24</time>
         </a>
     </div>
 
@@ -518,13 +524,13 @@
                         
                         
                             <div class="article-meta-button">
-                                <a href='https://github.com/daikersec/daikersec.github.io/raw/hexo/source/_posts/基础.md'> Source </a>
+                                <a href='https://github.com/daikersec/daikersec.github.io/raw/hexo/source/_posts/shell和shell编程.md'> Source </a>
                             </div>
                             <div class="article-meta-button">
-                                <a href='https://github.com/daikersec/daikersec.github.io/edit/hexo/source/_posts/基础.md'> Edit </a>
+                                <a href='https://github.com/daikersec/daikersec.github.io/edit/hexo/source/_posts/shell和shell编程.md'> Edit </a>
                             </div>
                             <div class="article-meta-button">
-                                <a href='https://github.com/daikersec/daikersec.github.io/commits/hexo/source/_posts/基础.md'> History </a>
+                                <a href='https://github.com/daikersec/daikersec.github.io/commits/hexo/source/_posts/shell和shell编程.md'> History </a>
                             </div>
                         
                     </div>
@@ -532,7 +538,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-            基础
+            shell和shell编程
         </h1>
     
 
@@ -545,48 +551,43 @@
             
         
         
-            <h4 id="1-shell的版本"><a href="#1-shell的版本" class="headerlink" title="1. shell的版本"></a>1. shell的版本</h4><p>Linux 结构<br><img src="https://upload-images.jianshu.io/upload_images/5443560-d876d23ed5670729.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>内核:运行程序和 管理像磁盘和打印机等硬件设备的核心程序,要设计得尽可能的 小。<br>Shell:Shell是系统的用户界面，提供了用户与内核进 行交互操作的一种接口。它接收用户输入的命 令并把它送入内核去执行。<br>版本：<br>Bourne Shell：是贝尔实验室开发的。 (sh)<br>oBASH：是GNU的Bourne Again Shell，是GNU 操作系统上默认的shell。<br>oKorn Shell：是对Bourne Shell的发展，在大部分 内容上与Bourne Shell兼容。<br>oC Shell：是SUN公司Shell的BSD版本</p>
-<h4 id="2-虚拟控制台的切换"><a href="#2-虚拟控制台的切换" class="headerlink" title="2.虚拟控制台的切换"></a>2.虚拟控制台的切换</h4><p>（alt＋F1～F6可切换） </p>
-<h4 id="3-文件命名规则-跟变量名挺像的"><a href="#3-文件命名规则-跟变量名挺像的" class="headerlink" title="3. 文件命名规则(跟变量名挺像的)"></a>3. 文件命名规则(跟变量名挺像的)</h4><p>1 字母数字下划线<br>3 不规定扩展名<br>4 习惯上用类似扩展名的方式来表示文件系统，如prog.c为C源程序<br>5  以<code>.</code>开头的文件名为隐藏文件</p>
-<p>比如<code>1.txt</code>,<code>abc.txt</code>,<code>1_1.txt</code>,</p>
-<h4 id="4-绝对路径和相对路径"><a href="#4-绝对路径和相对路径" class="headerlink" title="4. 绝对路径和相对路径"></a>4. 绝对路径和相对路径</h4><p>绝对路径:从根开始的路径，比如<code>/home</code><br>相对路径:从当前目录开始的路径,比如<code>dir/</code></p>
-<h4 id="5-硬连接和软连接（符号连接）"><a href="#5-硬连接和软连接（符号连接）" class="headerlink" title="5. 硬连接和软连接（符号连接）"></a>5. 硬连接和软连接（符号连接）</h4><p> 硬连接：<code>ln file targetfile o</code></p>
+            <h4 id="1-shell变量赋值"><a href="#1-shell变量赋值" class="headerlink" title="1. shell变量赋值"></a>1. shell变量赋值</h4><ul>
+<li>任何字符串都可以作为变量的值赋给某个变量； </li>
+<li>如果字符串中包含空格、tab或换行符时，应该用 引号（单、双都可以）括起来。</li>
+<li>变量的值中包含多个连续的空格在输出显示时会当 作一个空格来处理</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@DESKTOP-4E87I7L:/tmp# a=5</span><br></pre></td></tr></table></figure>
+<h4 id="2-变量引用"><a href="#2-变量引用" class="headerlink" title="2. 变量引用"></a>2. 变量引用</h4><p><code>$</code>+变量名<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@DESKTOP-4E87I7L:/tmp# echo $a</span><br><span class="line">5</span><br></pre></td></tr></table></figure></p>
+<h4 id="3-系统变量PATH、HOME、PWD、PS1、环境文件（profile和bashrc的差别）"><a href="#3-系统变量PATH、HOME、PWD、PS1、环境文件（profile和bashrc的差别）" class="headerlink" title="3. 系统变量PATH、HOME、PWD、PS1、环境文件（profile和bashrc的差别）"></a>3. 系统变量PATH、HOME、PWD、PS1、环境文件（profile和bashrc的差别）</h4><ul>
+<li>PATH 是操作系统用于查找来自命令行或终端窗口的必需可执行文件的系统变量。<br>比如执行<code>cat 1.txt</code>。这个cat 是在<code>/usr/bin/cat</code>这个路径，但是当前可以找到它，是因为<code>PATH</code>这个变量里面有<code>/usr/bin</code>这个</li>
+<li><p>HOME 家目录<br>正常的话,root用户的家目录在  <code>/root</code>,其他用户在<code>/home/用户名</code></p>
+</li>
+<li><p>PS1<br>提示符<br>如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@DESKTOP-4E87I7L:/tmp# echo $PS1</span><br><span class="line">\[\e]0;\u@\h: \w\a\]$&#123;debian_chroot:+($debian_chroot)&#125;\u@\h:\w\$</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>其中一些特殊字符的代码<br>\$ 显示$符作为提示符，如果用户是root的话，则 显示#号。<br>\\ 显示反斜杠。<br>\d 显示当前日期。<br>\h 显示主机名。<br>\t 显示当前时间。<br>\w 显示当前工作目录的路径。 </p>
 <ul>
-<li>不用任何参数；</li>
-<li>源文件与目标文件须在同一文件系统</li>
-<li>只能用于文件连接</li>
-<li><p>源文件和目标文件都引用同一个inode（索引节 点）和盘上相同的数据（文件内容）。</p>
-<p>符号连接：<code>ln –s  file target</code></p>
-</li>
-<li>目标文件指向源文件的路径和名字而不是它的数据。 </li>
-<li>符号连接对所有命令是透明的（除ls和rm） </li>
-<li>目标文件指向一个新的inode，不同于源文件的 inode<br>####6.UID和GID<br>每个用户都有一个UID（User ID）和GID（Group ID），可通过/etc/passwd修改UID和GID<br>用id命令查看当前的用户和组的值<br>文件权限的确认是通过识别当前用户的UID或GID进行 的。而和用户的名字或组的名字无关<br>####7. 文件属性、修改文件权限<br><img src="https://upload-images.jianshu.io/upload_images/5443560-bb5b75f110d0d09b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>第一位属性： </li>
-<li>为 d 表示是目录； </li>
-<li>为 - 表示是文件； </li>
-<li>为 l  表示是连接文件； </li>
-<li>为 b 表示是可供存储的设备； <ul>
-<li>为 c  表示是其他外围设备，如键盘、鼠标等。 </li>
+<li>PS2<br>PS2 变量展开的方式与 PS1 相同，其展开值用作次提示符字符串。用于提示接续你尚未完成输入的命令。默认为<code>&gt;</code><br>比如<br><img src="https://upload-images.jianshu.io/upload_images/5443560-e4162d4da46ba5f5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>稍作修改。<br><img src="https://upload-images.jianshu.io/upload_images/5443560-9f5890c8316b646a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></li>
+<li>PWD<br>当前路径,作用跟<code>pwd</code>一样</li>
+<li>环境文件（profile和bashrc的差别）<br>profile:每个用户都可使用该文件输入专用于自己使用的shell信息,当<code>用户登录</code>时,该文件仅仅执行一次!<br>bashrc:该文件包含专用于你的bash shell的bash信息,当<code>登录时</code>以及 <code>每次打开新的shell</code>时,该文件被读取.</li>
 </ul>
-</li>
-</ul>
-<p>其他9位属性称为保护标志（权限字），每3位为一组，即 对三类用户（用户、组和其他）提供保护<br>要存取一个文件或目录，对于每一个用户，都必须提供相 应的权限<br><img src="https://upload-images.jianshu.io/upload_images/5443560-7e5f38d852ef7e45.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br><img src="https://upload-images.jianshu.io/upload_images/5443560-c3ddfdd31f0010ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h4 id="8-备份和压缩工具"><a href="#8-备份和压缩工具" class="headerlink" title="8. 备份和压缩工具"></a>8. 备份和压缩工具</h4><p>tar 命令</p>
+<h4 id="4-shell通配符"><a href="#4-shell通配符" class="headerlink" title="4. shell通配符"></a>4. shell通配符</h4><p>用来匹配多个文件名或目录名的特殊字符叫通配 符。<br>*   匹配任意个（含0个）字符<br>?   匹配任意一个字符<br>[list] 匹配其中之一的字符<br>[!list]   匹配不在其中的字符</p>
+<p>如<code>1*3.txt</code>匹配1223.txt<br>如<code>1?3.txt</code>匹配123.txt<br>如<code>[abcd]1.txt</code>匹配a1.txt<br>如<code>[a-d]1.txt</code>匹配a1.txt<br>如<code>[!abc]1.txt</code>匹配d1.txt</p>
+<h4 id="5-引号"><a href="#5-引号" class="headerlink" title="5. 引号"></a>5. 引号</h4><p><img src="https://upload-images.jianshu.io/upload_images/5443560-0b00669a4de56c6f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>双引号会解析</p>
+<h4 id="6-正则表达式"><a href="#6-正则表达式" class="headerlink" title="6. 正则表达式"></a>6. 正则表达式</h4><p>跟通配符的区别<br>正则表达式和shell的特殊字符异同点<br>正则表达用点匹配任意一个字符，相当于shell的问号。<br>.*匹配零或多个字符，相当于shell的*<br> []用法和shell一样，只是用^代替了!表示不匹配<br><img src="https://upload-images.jianshu.io/upload_images/5443560-fe35539e4f2f2d49.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br><img src="https://upload-images.jianshu.io/upload_images/5443560-c6e0242eceb1752d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br><img src="https://upload-images.jianshu.io/upload_images/5443560-9d54af6b41fa6656.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<h4 id="7-输入输出命令"><a href="#7-输入输出命令" class="headerlink" title="7. 输入输出命令"></a>7. 输入输出命令</h4><p>标准输入输出<br>每一个Linux命令都有３个与之相关的输入输出流： </p>
 <ul>
-<li>-c：创建一个档案 n<ul>
-<li>-x：从档案中解开文件 </li>
-<li>-v：详细显示过程（verbose） </li>
-<li>-f：指定操作的tar文件名 </li>
-<li>-t：浏览档案的内容</li>
-<li>-z：用gzip进行压缩 </li>
-<li>-Z：用compress进行压缩 </li>
-<li>-j：用bzip2进行压缩 </li>
-<li>-N/–newer  ‘date’：备份指定日期以后变化 的文件</li>
+<li>stdin     标准输入，命令默认的输入位置 </li>
+<li>stdout   标准输出，命令默认的输出位置 </li>
+<li>stderr    标准错误输出，也是命令的输出位置，用于输出错误及诊断信息。<br><img src="https://upload-images.jianshu.io/upload_images/5443560-5ea97dc03087fe69.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br><code>重定向</code><br>比如把应该输出到屏幕的输出到文件<br><img src="https://upload-images.jianshu.io/upload_images/5443560-8187538ecfb73c0e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></li>
 </ul>
-</li>
-</ul>
-<p>常用压缩命令<br><code>tar zcvf haha.gz haha</code><br>要解压就吧c变成x<br><code>tar zxvf haha.gz</code></p>
-<p>如果是bzip2的格式，，就把z变成j<br><code>tar jcvf haha.bz2 haha</code></p>
-
+<p><code>2&gt;&amp;1</code>解释<br>2 是标准错误，1是标准输出，就是把标准错误发送到标准输出。注意1要加个<code>&amp;</code>，不然就会重定向到文件1</p>
+<p><code>cat 1.txt &gt;/dev/null</code>解析<br>这里的<code>/dev/null</code>是黑洞。把输出的重定向到黑洞。等同于不输出</p>
+<h4 id="8-管道"><a href="#8-管道" class="headerlink" title="8. 管道"></a>8. 管道</h4><p>命令A | 命令B<br>这个就是管道，把命令A 的内容的标准输出流当成命令B的标准输入流，<img src="https://upload-images.jianshu.io/upload_images/5443560-29846072489f7b92.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<p>举个例子<br><img src="https://upload-images.jianshu.io/upload_images/5443560-1024f4680905f91b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>cat 1的结果<code>123</code>传递给<code>grep 2</code></p>
+<h4 id="9-shell脚本"><a href="#9-shell脚本" class="headerlink" title="9. shell脚本"></a>9. shell脚本</h4><p>变量读取<br>判断<br>循环<br>$# 参数个数<br>$0 文件名<br>$1 第一个参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">#! /bin/sh</span><br><span class="line">read -p &quot;please input yes or not: &quot; yn</span><br><span class="line">echo $yn</span><br><span class="line">if [ &quot;$&#123;yn&#125;&quot;==&quot;Y&quot; -o &quot;$&#123;yn&#125;&quot;==&quot;y&quot; ]; then</span><br><span class="line">	echo &quot;OK, continue&quot;</span><br><span class="line">	exit 0</span><br><span class="line">elif [ &quot;$&#123;yn&#125;&quot;==&quot;Y&quot; -o  &quot;$&#123;yn&#125;&quot;==&quot;y&quot; ]; then</span><br><span class="line">	echo &quot;oh,NO&quot;</span><br><span class="line">	exit 0</span><br><span class="line">else</span><br><span class="line">	echo &quot;please input yes or not&quot;</span><br><span class="line">fi</span><br><span class="line">if [ $# == 1 ]:</span><br><span class="line">	echo &quot;请添加参数&quot;</span><br><span class="line">	exit 0</span><br><span class="line">fi</span><br><span class="line">echo &quot;Filename: &quot;$0</span><br><span class="line">i=0</span><br><span class="line">while [ &quot;$&#123;i&#125;&quot; != $1 ]</span><br><span class="line">do</span><br><span class="line">	i=$(($i+1))</span><br><span class="line">	echo $i</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
             </div>
         
         <footer class="article-footer">
@@ -598,19 +599,19 @@
     
 <nav id="article-nav">
     
-        <a href="/wiki/ac994e7.html" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/wiki/500fed5c.html" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">上一篇</strong>
             <div class="article-nav-title">
                 
-                    安装和启动
+                    用户管理
                 
             </div>
         </a>
     
     
-        <a href="/wiki/4b7d48f2.html" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/wiki/be55afaa.html" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">简介</div>
+            <div class="article-nav-title">软件管理</div>
         </a>
     
 </nav>

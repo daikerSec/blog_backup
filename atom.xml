@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.daikersec.com/"/>
-  <updated>2018-06-24T14:23:07.060Z</updated>
+  <updated>2018-06-24T14:54:16.846Z</updated>
   <id>http://www.daikersec.com/</id>
   
   <author>
@@ -18,10 +18,10 @@
   
   <entry>
     <title>调度任务</title>
-    <link href="http://www.daikersec.com/wiki/undefined.html"/>
-    <id>http://www.daikersec.com/wiki/undefined.html</id>
+    <link href="http://www.daikersec.com/wiki/9b3ccf99.html"/>
+    <id>http://www.daikersec.com/wiki/9b3ccf99.html</id>
     <published>2018-06-24T14:12:06.000Z</published>
-    <updated>2018-06-24T14:23:07.060Z</updated>
+    <updated>2018-06-24T14:54:16.846Z</updated>
     
     <content type="html"><![CDATA[<h4 id="1-crontab的配置"><a href="#1-crontab的配置" class="headerlink" title="1.crontab的配置"></a>1.crontab的配置</h4><p>调度任务:让计算机在指定的时间自动运行命令<br>Linux实现调度任务机制的方法是cron和at系统<br>cron是一个调度进程的系统，由一个守护进程 （crond）和用户的配置文件（crontab）构成<br>cron的常见用途是记录系统状态日志、启动备 份、轮换日志文件和开始运行系统清理脚本<br>cron可以被配置为运行或拒绝特定用户的调度事件 能力。通过/etc/cron.allow和/etc/cron.deny文件 实现。<br>cron维护着一个缓冲池（spool）目录来保持 crontab文件。通常这个目录为/var/spool/cron，每 个调度工作的用户在里面都有一个crontab文件。这 个crontab的文件名和用户名一样。如mike用户的crontab文件为/var/spool/cron/mike</p><p>接下来的是重点<br>立体<br>以下crontab事件条目分别代表什么时间执行？<br>1）30   23   *  *   *   /bin/sync<br>2） 5   */6   15   <em>   1   /bin/sync<br>3）\</em>/5   0,12   <em>   </em>   1-5   /bin/sync<br>答：<br>首先前面有五个数字，分别代表 <code>分钟 小时   日期   月   周</code>，最后一个是命令<br>然后<code>*</code>代表都可以，<code>*/5</code>代表5的倍数<br>比如第一个<br>30 23代表在23:30</p><p><code>* * *</code></p><p>代表都可以。那就是在每天的23:30执行<code>/bin/sync</code>.以此类推<br> 1）表示每天的23点30分执行<br> 2）表示每个星期一或每个月15号的0点零5分、6点零5分、 12点零5分、18点零5分执行<br>3）表示星期一到星期五的0点至1点之间每隔5分钟执行和12 点－13点之间每隔5分钟执行</p>]]></content>
     
@@ -45,10 +45,10 @@
   
   <entry>
     <title>权限管理</title>
-    <link href="http://www.daikersec.com/wiki/undefined.html"/>
-    <id>http://www.daikersec.com/wiki/undefined.html</id>
+    <link href="http://www.daikersec.com/wiki/62e89ee7.html"/>
+    <id>http://www.daikersec.com/wiki/62e89ee7.html</id>
     <published>2018-06-24T14:11:39.000Z</published>
-    <updated>2018-06-24T14:21:49.011Z</updated>
+    <updated>2018-06-24T14:53:48.849Z</updated>
     
     <content type="html"><![CDATA[<h4 id="1-文件和目录的访问控制"><a href="#1-文件和目录的访问控制" class="headerlink" title="1.文件和目录的访问控制"></a>1.文件和目录的访问控制</h4><p><img src="https://upload-images.jianshu.io/upload_images/5443560-bb5b75f110d0d09b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>第一位属性： </p><ul><li>为 d 表示是目录； </li><li>为 - 表示是文件； </li><li>为 l  表示是连接文件； </li><li>为 b 表示是可供存储的设备； <ul><li>为 c  表示是其他外围设备，如键盘、鼠标等。 </li></ul></li></ul><p>其他9位属性称为保护标志（权限字），每3位为一组，即 对三类用户（用户、组和其他）提供保护<br>要存取一个文件或目录，对于每一个用户，都必须提供相 应的权限<br><img src="https://upload-images.jianshu.io/upload_images/5443560-7e5f38d852ef7e45.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br><img src="https://upload-images.jianshu.io/upload_images/5443560-c3ddfdd31f0010ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p><h4 id="2-粘滞位"><a href="#2-粘滞位" class="headerlink" title="2.粘滞位"></a>2.粘滞位</h4><p>先看这个<br><img src="https://upload-images.jianshu.io/upload_images/5443560-5c3e353b95adf162.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>对于其他用户的权限是rwt,随后是t不是x。这个就是粘滞位。其他用户对他都rw权限，正常有删除的权限，但是有了粘滞位之后。不能删除</p><p><img src="https://upload-images.jianshu.io/upload_images/5443560-6d7956f7c7c9f1f9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p><p>当目录被设置了粘滞位权限以后，即便用户对该目录有写的权限，也不能删除该目录中其他用户的文件数据，而是只有该文件的所有者和root用户才有权将其删除。设置了粘滞位之后，正好可以保持这种动态的平衡：允许各用户在目录中任意写入、删除数据，但是禁止随意删除其他用户的数据。   </p><p>但是该目录下的目录不继承该粘滞位权限，要再设置才可使用。也只能针对目录设置，对于文件无效。则设置了粘滞位后，只有目录内文件的所有者或者root才可以删除或移动该文件。如果不为目录设置粘滞位，任何具有该目录写和执行权限的用户都可以删除和移动其中的文件。</p><p>需要注意的是：粘滞位权限只能针对目录设置，对于文件无效。</p>]]></content>
     
@@ -72,10 +72,10 @@
   
   <entry>
     <title>进程管理</title>
-    <link href="http://www.daikersec.com/wiki/undefined.html"/>
-    <id>http://www.daikersec.com/wiki/undefined.html</id>
+    <link href="http://www.daikersec.com/wiki/852cfab6.html"/>
+    <id>http://www.daikersec.com/wiki/852cfab6.html</id>
     <published>2018-06-24T14:11:26.000Z</published>
-    <updated>2018-06-24T14:23:38.039Z</updated>
+    <updated>2018-06-24T14:54:28.855Z</updated>
     
     <content type="html"><![CDATA[<p>代码段、数据段和PCB（进程控制块)<br>同一 个进程下可以拥有多个线程，它们共享这个进程的资源， 它们之间的切换也不再需要PCB，而只需要极少一点资 源就可以了。在这样的操作系统里，线程变成了系统调 度和分派的基本单位。 </p><h4 id="1-PID"><a href="#1-PID" class="headerlink" title="1. PID"></a>1. PID</h4><p> 每一个进程都有唯一的ID（PID），是在进程表中识别 进程的标识<br><img src="https://upload-images.jianshu.io/upload_images/5443560-48593238d35b39f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>第一栏就是pid</p><h4 id="2-PPID"><a href="#2-PPID" class="headerlink" title="2. PPID"></a>2. PPID</h4><p>这个进程的父进程<br><img src="https://upload-images.jianshu.io/upload_images/5443560-a7b388db723b6485.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>父进程跟子进程:<br>Linux下，进程的创建，采用的是Fork（派生）：用一个程序创建一个新进程的方法 。比如我创建一个进程<code>ping</code>，必须通过另外的一个进程来派生，另外的进程就叫做父进程。比如<br><img src="https://upload-images.jianshu.io/upload_images/5443560-9469bc3fa851c104.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br><code>ping</code>在控制台下运行，是bash派生的<br>fork-exec：先用fork生成一个子进程,然后利用 exec函数族用新进程映像取代调用进程映像。 这时候shell将等待fork-exec子进程执行完毕，并 重新显示shell提示信息。</p><h4 id="3-EUID（effective-user-id）"><a href="#3-EUID（effective-user-id）" class="headerlink" title="3. EUID（effective user id）"></a>3. EUID（effective user id）</h4><p>uid和euid（effective user id）的区别：uid就是你 login的时候使用的id，而euid则是你当前的有效id。比如在setuid的程序里面<br><img src="https://upload-images.jianshu.io/upload_images/5443560-c782b1a6d353b1fe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>去执行的时候会暂时性将euid变成文件所有者的sid,但是sid 没变</p><h4 id="5-监视进程"><a href="#5-监视进程" class="headerlink" title="5. 监视进程"></a>5. 监视进程</h4><p>ps 命令<br>以短横（-）开始，与System-V兼容。 n 没有短横，与BSD兼容<br> -e （-A）：显示所有进程<br> -f  ：全格式 n -H （f）：显示树状结构，表示程序间的相互关系。<br>a  ：显示现行终端机下的所有程序，包括其他用户的程序。<br>u  ：以用户为主的格式来显示程序状况。<br>x  ：显示所有程序，不以终端机来区分。<br>所以一般就<code>ps -ef</code>或者 <code>ps aux</code><br><img src="https://upload-images.jianshu.io/upload_images/5443560-99490727b440d622.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p><p><img src="https://upload-images.jianshu.io/upload_images/5443560-cfac5d45c04c7462.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p><p><code>PID USER      PRI  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND</code><br> <code>PRI</code>：进程优先权方案。较大的数表示较低的优先权<br><code>NI</code>：该进程的优先级值(niceness )<br><code>SIZE</code>：该进程的代码大小加上数据大小再加上堆栈空 间大小的总数。单位是KB<br><code>RSS</code>：进程占用的物理内存的总量<br><code>SHARE</code>：该进程使用共享内存的数量<br><code>STAT</code>：进程的状态有这几种</p><ul><li>R：是正在CPU中运行的进程，或者是准备就绪，只等 CPU空闲即可运行的进程。<ul><li>S：休眠的进程是那些等待某些事件触发以继续执行的进 程。通常它会等待某类I/O操作或某个信号。</li><li>T：已终止的进程是被用户中断的进程。</li><li>D：该进程不能被中断，因为此时内核程序正忙 于该进程的某些I/O操作<br><code>TIME</code>：该进程自启动以来所占用的总CPU时间 </li></ul></li></ul><h4 id="6-管理进程"><a href="#6-管理进程" class="headerlink" title="6. 管理进程"></a>6. 管理进程</h4><p> 内核程序利用优先级大小来判断何时及如何安排进程。<br>每个进程都有两个优先级值：静态值和动态值。<br>我们通常讨论的优先级是指静态优先级，因为我们无法 控制动态优先级。<br>优先级值的范围从-20到20（实际上为19）。大部分优 先级的值为0<br>优先级值小的进程具有更高的优先级。即减少niceness 值（优先级值）就意味着进程能获得更多的CPU时间。<br>子进程会继承父进程的优先级。<br><code>nice</code> 更改优先级(直接 – niceness )<br>nice -19 tar(19是 niceness)<br>把这个tar 命令执行后的优先级调到最低<br> <code>renice</code>改变运行中进程的优先级<br>renice 19 50<br>(19为niceness,50为pid)<br>第二个参数是niceness，第三个参数是pid</p><p>  <code>查看后台程序</code><br>jobs<br><code>将后台程序放到前台</code><br>bg %id<br><code>将进程放到后台</code></p><ul><li>刚要执行的时候直接在后面加&amp;<br>如<code>python run.pu &amp;</code></li><li>将正在执行的程序放到后台,ctrl+z,这个时候是挂起在后台的，通过<code>bg %id</code>是它在后台运行</li></ul><h4 id="7-信号发送的命令kill"><a href="#7-信号发送的命令kill" class="headerlink" title="7. 信号发送的命令kill"></a>7. 信号发送的命令kill</h4><p>kill   [option]  pid…<br> -l：列出所有可用信号名称<br>-s  signal  /  -signal ：指定发送特定的信号<br>kill  -s   9   471<br>强制杀死pid为471的进程<br>可缩写为<br>kill -9 471</p>]]></content>
     
@@ -100,10 +100,10 @@
   
   <entry>
     <title>用户管理</title>
-    <link href="http://www.daikersec.com/wiki/undefined.html"/>
-    <id>http://www.daikersec.com/wiki/undefined.html</id>
+    <link href="http://www.daikersec.com/wiki/500fed5c.html"/>
+    <id>http://www.daikersec.com/wiki/500fed5c.html</id>
     <published>2018-06-24T14:11:09.000Z</published>
-    <updated>2018-06-24T14:22:48.361Z</updated>
+    <updated>2018-06-24T14:53:56.721Z</updated>
     
     <content type="html"><![CDATA[<h4 id="1-用户介绍"><a href="#1-用户介绍" class="headerlink" title="1. 用户介绍"></a>1. 用户介绍</h4><p>新用户在Linux系统内要有一个帐号和工作环境<br>用户的信息存储在<code>/etc/passwd</code>里面<br>以下面这条为例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root:x:0:0:root:/root:/bin/bash</span><br><span class="line">用户名:密码:uid:gid:注释信息:家目录:shell</span><br></pre></td></tr></table></figure></p><p>第一个是用户名<code>root</code>，是用户用于登录Linux系统使用的名字，该名 字在同一系统上必须唯<br>第二个 <code>x</code>是用户密码，在旧版本的系统是放在这边的，但是新版本放在<code>/etc/shadow</code>里面了。<br>第三个是0，是用户的UID<br>第四个是0，是以用户的GID<br>第五个是注释信息<br>第六个是用户的家目录<br>第七个是用户的默认<code>shell</code>。这里面需要注意是一个shell。<code>/sbin/nologin</code>这个shell 不允许用户登陆。</p><h4 id="2-新增用户"><a href="#2-新增用户" class="headerlink" title="2. 新增用户"></a>2. 新增用户</h4><p><code>useradd  [选项…]  用户名</code>(选项分别对应上面的/etc/passwd的内容)<br> -u uid  用户的UID值 。数字不可为负值。<br>-g defaultgroup 指定该用户登录使用的群组。<br>-c comment  该用户的注释说明。<br>-d home_dir  指定用户的家目录。<br>-m 用户家目录不在则自动创建。<br>-k skel_dir 指定用户模板目录，默认是/etc/skel。<br>-s shell  指定用户使用的shell。 </p><h4 id="3-用户口令"><a href="#3-用户口令" class="headerlink" title="3. 用户口令"></a>3. 用户口令</h4><ul><li><p>用户口令介绍<br>就是用户登陆所需要的密码，一般放在<code>/etc/shadow文件</code>里面<br><code>root:$6$mD3zZc/j$ttZCrtCCYIFTGIY3nsEQqTkbBw./FvWFaMK/OxteTaAR.b33J9izn7q2SvsPauDijhYLaaO.SCnr0vBDA5DYy.:17701:0:99999:7:::</code><br>其中的<code>$6$mD3zZc/j$ttZCrtCCYIFTGIY3nsEQqTkbBw./FvWFaMK/OxteTaAR.b33J9izn7q2SvsPauDijhYLaaO.SCnr0vBDA5DYy.</code>就是加密过的口令。系统会对用户输入的密码加密之后跟这个进行比较。</p></li><li><p>修改用户口令<br>passwd 用户名<br><img src="https://upload-images.jianshu.io/upload_images/5443560-8cf067604d346196.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p></li></ul><h4 id="4-修改用户属性"><a href="#4-修改用户属性" class="headerlink" title="4. 修改用户属性"></a>4. 修改用户属性</h4><p><code>usermod   [选项…]  用户名</code><br>选项跟(useradd)的选项一样<br> -u uid  用户的UID值 。数字不可为负值。<br><code>-g defaultgroup 指定该用户登录使用的群组。</code><br>-c comment  该用户的注释说明。<br>-d home_dir  指定用户的家目录。<br>-m 用户家目录不在则自动创建。</p><h4 id="5-删除用户"><a href="#5-删除用户" class="headerlink" title="5. 删除用户"></a>5. 删除用户</h4><p><code>userdel  [-r]  用户名</code><br> 选项-r可以用于清除用户的家目录。 </p><h4 id="6-用户组介绍"><a href="#6-用户组介绍" class="headerlink" title="6.用户组介绍"></a>6.用户组介绍</h4><p>不同的用户可以在同一个组，同一个组成员可以共享一个文件的权限<br>在前面说过<code>/etc/passwd</code>里面有一个属性是gid来表示这个用户属于那个组,这个gid就是组的表示。可以通过查看<code>/etc/group</code>来查看组消息<br><code>root:x:0:root,test</code>,这里面<br>第一个是组名，<br>第二个是这个组加密过的口令，跟<code>/etc/passwd</code>一样，一般组口令不在这里面，所以他缺省为x,一般组口令在 <code>/etc/gshadow</code><br>第三个是gid<br>第四个是组成员，用<code>,</code>隔开</p><h4 id="7-增加组"><a href="#7-增加组" class="headerlink" title="7.  增加组"></a>7.  增加组</h4><p><code>groupadd  [选项]  组名</code><br> -g  gid：指定增加组的gid </p><h4 id="8-删除组"><a href="#8-删除组" class="headerlink" title="8. 删除组"></a>8. 删除组</h4><p>groupdel  组名</p><h4 id="9-修改组用户"><a href="#9-修改组用户" class="headerlink" title="9.修改组用户"></a>9.修改组用户</h4><p><code>gpasswd  [选项]  组</code><br> -a  user：添加一个用户到指定组中<br>-d  user：从指定组中删除一个用户 </p><h4 id="10-修改组的GID和组名"><a href="#10-修改组的GID和组名" class="headerlink" title="10. 修改组的GID和组名"></a>10. 修改组的GID和组名</h4><p><code>groupmod  [选项]  组名</code><br>-g gid：修改指定组的GID<br>-n  group_name：修改指定组的组名 </p>]]></content>
     
@@ -127,10 +127,10 @@
   
   <entry>
     <title>shell和shell编程</title>
-    <link href="http://www.daikersec.com/wiki/undefined.html"/>
-    <id>http://www.daikersec.com/wiki/undefined.html</id>
+    <link href="http://www.daikersec.com/wiki/fb0a66e4.html"/>
+    <id>http://www.daikersec.com/wiki/fb0a66e4.html</id>
     <published>2018-06-24T14:10:56.000Z</published>
-    <updated>2018-06-24T14:22:14.936Z</updated>
+    <updated>2018-06-24T14:53:32.243Z</updated>
     
     <content type="html"><![CDATA[<h4 id="1-shell变量赋值"><a href="#1-shell变量赋值" class="headerlink" title="1. shell变量赋值"></a>1. shell变量赋值</h4><ul><li>任何字符串都可以作为变量的值赋给某个变量； </li><li>如果字符串中包含空格、tab或换行符时，应该用 引号（单、双都可以）括起来。</li><li>变量的值中包含多个连续的空格在输出显示时会当 作一个空格来处理</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@DESKTOP-4E87I7L:/tmp# a=5</span><br></pre></td></tr></table></figure><h4 id="2-变量引用"><a href="#2-变量引用" class="headerlink" title="2. 变量引用"></a>2. 变量引用</h4><p><code>$</code>+变量名<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@DESKTOP-4E87I7L:/tmp# echo $a</span><br><span class="line">5</span><br></pre></td></tr></table></figure></p><h4 id="3-系统变量PATH、HOME、PWD、PS1、环境文件（profile和bashrc的差别）"><a href="#3-系统变量PATH、HOME、PWD、PS1、环境文件（profile和bashrc的差别）" class="headerlink" title="3. 系统变量PATH、HOME、PWD、PS1、环境文件（profile和bashrc的差别）"></a>3. 系统变量PATH、HOME、PWD、PS1、环境文件（profile和bashrc的差别）</h4><ul><li>PATH 是操作系统用于查找来自命令行或终端窗口的必需可执行文件的系统变量。<br>比如执行<code>cat 1.txt</code>。这个cat 是在<code>/usr/bin/cat</code>这个路径，但是当前可以找到它，是因为<code>PATH</code>这个变量里面有<code>/usr/bin</code>这个</li><li><p>HOME 家目录<br>正常的话,root用户的家目录在  <code>/root</code>,其他用户在<code>/home/用户名</code></p></li><li><p>PS1<br>提示符<br>如</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@DESKTOP-4E87I7L:/tmp# echo $PS1</span><br><span class="line">\[\e]0;\u@\h: \w\a\]$&#123;debian_chroot:+($debian_chroot)&#125;\u@\h:\w\$</span><br></pre></td></tr></table></figure></li></ul><p>其中一些特殊字符的代码<br>\$ 显示$符作为提示符，如果用户是root的话，则 显示#号。<br>\\ 显示反斜杠。<br>\d 显示当前日期。<br>\h 显示主机名。<br>\t 显示当前时间。<br>\w 显示当前工作目录的路径。 </p><ul><li>PS2<br>PS2 变量展开的方式与 PS1 相同，其展开值用作次提示符字符串。用于提示接续你尚未完成输入的命令。默认为<code>&gt;</code><br>比如<br><img src="https://upload-images.jianshu.io/upload_images/5443560-e4162d4da46ba5f5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>稍作修改。<br><img src="https://upload-images.jianshu.io/upload_images/5443560-9f5890c8316b646a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></li><li>PWD<br>当前路径,作用跟<code>pwd</code>一样</li><li>环境文件（profile和bashrc的差别）<br>profile:每个用户都可使用该文件输入专用于自己使用的shell信息,当<code>用户登录</code>时,该文件仅仅执行一次!<br>bashrc:该文件包含专用于你的bash shell的bash信息,当<code>登录时</code>以及 <code>每次打开新的shell</code>时,该文件被读取.</li></ul><h4 id="4-shell通配符"><a href="#4-shell通配符" class="headerlink" title="4. shell通配符"></a>4. shell通配符</h4><p>用来匹配多个文件名或目录名的特殊字符叫通配 符。<br>*   匹配任意个（含0个）字符<br>?   匹配任意一个字符<br>[list] 匹配其中之一的字符<br>[!list]   匹配不在其中的字符</p><p>如<code>1*3.txt</code>匹配1223.txt<br>如<code>1?3.txt</code>匹配123.txt<br>如<code>[abcd]1.txt</code>匹配a1.txt<br>如<code>[a-d]1.txt</code>匹配a1.txt<br>如<code>[!abc]1.txt</code>匹配d1.txt</p><h4 id="5-引号"><a href="#5-引号" class="headerlink" title="5. 引号"></a>5. 引号</h4><p><img src="https://upload-images.jianshu.io/upload_images/5443560-0b00669a4de56c6f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>双引号会解析</p><h4 id="6-正则表达式"><a href="#6-正则表达式" class="headerlink" title="6. 正则表达式"></a>6. 正则表达式</h4><p>跟通配符的区别<br>正则表达式和shell的特殊字符异同点<br>正则表达用点匹配任意一个字符，相当于shell的问号。<br>.*匹配零或多个字符，相当于shell的*<br> []用法和shell一样，只是用^代替了!表示不匹配<br><img src="https://upload-images.jianshu.io/upload_images/5443560-fe35539e4f2f2d49.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br><img src="https://upload-images.jianshu.io/upload_images/5443560-c6e0242eceb1752d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br><img src="https://upload-images.jianshu.io/upload_images/5443560-9d54af6b41fa6656.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p><h4 id="7-输入输出命令"><a href="#7-输入输出命令" class="headerlink" title="7. 输入输出命令"></a>7. 输入输出命令</h4><p>标准输入输出<br>每一个Linux命令都有３个与之相关的输入输出流： </p><ul><li>stdin     标准输入，命令默认的输入位置 </li><li>stdout   标准输出，命令默认的输出位置 </li><li>stderr    标准错误输出，也是命令的输出位置，用于输出错误及诊断信息。<br><img src="https://upload-images.jianshu.io/upload_images/5443560-5ea97dc03087fe69.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br><code>重定向</code><br>比如把应该输出到屏幕的输出到文件<br><img src="https://upload-images.jianshu.io/upload_images/5443560-8187538ecfb73c0e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></li></ul><p><code>2&gt;&amp;1</code>解释<br>2 是标准错误，1是标准输出，就是把标准错误发送到标准输出。注意1要加个<code>&amp;</code>，不然就会重定向到文件1</p><p><code>cat 1.txt &gt;/dev/null</code>解析<br>这里的<code>/dev/null</code>是黑洞。把输出的重定向到黑洞。等同于不输出</p><h4 id="8-管道"><a href="#8-管道" class="headerlink" title="8. 管道"></a>8. 管道</h4><p>命令A | 命令B<br>这个就是管道，把命令A 的内容的标准输出流当成命令B的标准输入流，<img src="https://upload-images.jianshu.io/upload_images/5443560-29846072489f7b92.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p><p>举个例子<br><img src="https://upload-images.jianshu.io/upload_images/5443560-1024f4680905f91b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>cat 1的结果<code>123</code>传递给<code>grep 2</code></p><h4 id="9-shell脚本"><a href="#9-shell脚本" class="headerlink" title="9. shell脚本"></a>9. shell脚本</h4><p>变量读取<br>判断<br>循环<br>$# 参数个数<br>$0 文件名<br>$1 第一个参数</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">#! /bin/sh</span><br><span class="line">read -p &quot;please input yes or not: &quot; yn</span><br><span class="line">echo $yn</span><br><span class="line">if [ &quot;$&#123;yn&#125;&quot;==&quot;Y&quot; -o &quot;$&#123;yn&#125;&quot;==&quot;y&quot; ]; then</span><br><span class="line">echo &quot;OK, continue&quot;</span><br><span class="line">exit 0</span><br><span class="line">elif [ &quot;$&#123;yn&#125;&quot;==&quot;Y&quot; -o  &quot;$&#123;yn&#125;&quot;==&quot;y&quot; ]; then</span><br><span class="line">echo &quot;oh,NO&quot;</span><br><span class="line">exit 0</span><br><span class="line">else</span><br><span class="line">echo &quot;please input yes or not&quot;</span><br><span class="line">fi</span><br><span class="line">if [ $# == 1 ]:</span><br><span class="line">echo &quot;请添加参数&quot;</span><br><span class="line">exit 0</span><br><span class="line">fi</span><br><span class="line">echo &quot;Filename: &quot;$0</span><br><span class="line">i=0</span><br><span class="line">while [ &quot;$&#123;i&#125;&quot; != $1 ]</span><br><span class="line">do</span><br><span class="line">i=$(($i+1))</span><br><span class="line">echo $i</span><br><span class="line">done</span><br></pre></td></tr></table></figure>]]></content>
     
@@ -155,10 +155,10 @@
   
   <entry>
     <title>软件管理</title>
-    <link href="http://www.daikersec.com/wiki/undefined.html"/>
-    <id>http://www.daikersec.com/wiki/undefined.html</id>
+    <link href="http://www.daikersec.com/wiki/be55afaa.html"/>
+    <id>http://www.daikersec.com/wiki/be55afaa.html</id>
     <published>2018-06-24T14:10:43.000Z</published>
-    <updated>2018-06-24T14:23:30.290Z</updated>
+    <updated>2018-06-24T14:54:22.800Z</updated>
     
     <content type="html"><![CDATA[<h4 id="1-RPM的安装、卸载、升级、查询、验证"><a href="#1-RPM的安装、卸载、升级、查询、验证" class="headerlink" title="1.RPM的安装、卸载、升级、查询、验证"></a>1.RPM的安装、卸载、升级、查询、验证</h4><p>安装rpm   -i<br>如rpm -i <a href="ftp://ftp.redhat.com/pub/RPMS/zip2.2-1.i386.rpm" target="_blank" rel="noopener">ftp://ftp.redhat.com/pub/RPMS/zip2.2-1.i386.rpm</a><br>卸载 rpm -e<br>升级 rpm -U<br>查询 rpm -q<br>验证 rpm -V</p>]]></content>
     
@@ -182,10 +182,10 @@
   
   <entry>
     <title>GUI和文本编辑</title>
-    <link href="http://www.daikersec.com/wiki/undefined.html"/>
-    <id>http://www.daikersec.com/wiki/undefined.html</id>
+    <link href="http://www.daikersec.com/wiki/4f7c637d.html"/>
+    <id>http://www.daikersec.com/wiki/4f7c637d.html</id>
     <published>2018-06-24T14:10:28.000Z</published>
-    <updated>2018-06-24T14:38:47.530Z</updated>
+    <updated>2018-06-24T14:53:19.073Z</updated>
     
     <content type="html"><![CDATA[<h4 id="1-远程X的设置"><a href="#1-远程X的设置" class="headerlink" title="1. 远程X的设置"></a>1. 远程X的设置</h4><p>X Window系统是一个网络化的视窗系统，它能 够在位映象的屏幕上显示窗口式的文本和图形。<br>X Window系统还可以叫做X11或者X<br>使用X 的两种启动方式：<br>1 先进入命令行界面，然后运行：startx<br>2 开机自动进入图形界面：在/etc/inittab中配置运行 级别为5 </p><p>在X应用程序后面加上-display和显示的名字<br>如：xeyes -display  192.168.0.3:0<br>表示xeyes在192.168.0.3的显示0上显示</p><p>远程的X安全性<br> 基于主机的访问控制</p><ul><li>xhost  +  允许任何人访问</li><li>xhost  -   限制访问 <ul><li>在限制访问下为某个主机打开访问控制，使用 xhost +主机名（或IP）</li><li>去除某个主机的连接，使用 xhost  -主机名（或IP）s</li></ul></li></ul><h4 id="2-vi（教案第3章P21中红色标注的命令）"><a href="#2-vi（教案第3章P21中红色标注的命令）" class="headerlink" title="2.vi（教案第3章P21中红色标注的命令）"></a>2.vi（教案第3章P21中红色标注的命令）</h4><p><img src="https://upload-images.jianshu.io/upload_images/5443560-ad625889a788ed49.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>]]></content>
     
@@ -209,10 +209,10 @@
   
   <entry>
     <title>安装和启动</title>
-    <link href="http://www.daikersec.com/wiki/undefined.html"/>
-    <id>http://www.daikersec.com/wiki/undefined.html</id>
+    <link href="http://www.daikersec.com/wiki/ac994e7.html"/>
+    <id>http://www.daikersec.com/wiki/ac994e7.html</id>
     <published>2018-06-24T14:10:21.000Z</published>
-    <updated>2018-06-24T14:22:30.320Z</updated>
+    <updated>2018-06-24T14:53:42.799Z</updated>
     
     <content type="html"><![CDATA[<h4 id="1-文本安装模式进入到shell的方式"><a href="#1-文本安装模式进入到shell的方式" class="headerlink" title="1. 文本安装模式进入到shell的方式"></a>1. 文本安装模式进入到shell的方式</h4><p>alt+F2</p><h4 id="2-硬盘及分区代号"><a href="#2-硬盘及分区代号" class="headerlink" title="2. 硬盘及分区代号"></a>2. 硬盘及分区代号</h4><p><img src="https://upload-images.jianshu.io/upload_images/5443560-231b6f9b65c351b3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>Master就是主盘的意思，Slave就是从盘的意思<br>除了这个还有promary分区(主分区)和Logical 分区(逻辑分区)<br><img src="https://upload-images.jianshu.io/upload_images/5443560-2a4ae344befa614a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p><p>一个硬盘最多有4个主分区。那以第一个从 扩展分区分出来的逻辑分区为/dev/hda5<br>看下面这个例题<br><img src="https://upload-images.jianshu.io/upload_images/5443560-20122906cbfdd018.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p><h4 id="3-分区划分原则"><a href="#3-分区划分原则" class="headerlink" title="3. 分区划分原则"></a>3. 分区划分原则</h4><p><img src="https://upload-images.jianshu.io/upload_images/5443560-b8c9ade017b74758.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p><h4 id="4-inittab文件的作用（关键字不用记）"><a href="#4-inittab文件的作用（关键字不用记）" class="headerlink" title="4. inittab文件的作用（关键字不用记）"></a>4. inittab文件的作用（关键字不用记）</h4><p><img src="https://upload-images.jianshu.io/upload_images/5443560-c4b34f17976fe486.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>level<br><img src="https://upload-images.jianshu.io/upload_images/5443560-a611d4621f470456.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p><p><img src="https://upload-images.jianshu.io/upload_images/5443560-04a1f5add6270c9a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p><h4 id="5-系统初始化流程"><a href="#5-系统初始化流程" class="headerlink" title="5. 系统初始化流程"></a>5. 系统初始化流程</h4><p><img src="https://upload-images.jianshu.io/upload_images/5443560-ec05480240cb20c2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br><img src="https://upload-images.jianshu.io/upload_images/5443560-54c1ac24d02c6a91.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br><img src="https://upload-images.jianshu.io/upload_images/5443560-55fb05ce7b710d43.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p><p><img src="https://upload-images.jianshu.io/upload_images/5443560-666111e29b8c5fae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br><img src="https://upload-images.jianshu.io/upload_images/5443560-7003dea72c436114.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br><img src="https://upload-images.jianshu.io/upload_images/5443560-c4d60b125bce40ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>]]></content>
     
@@ -263,10 +263,10 @@
   
   <entry>
     <title>简介</title>
-    <link href="http://www.daikersec.com/wiki/undefined.html"/>
-    <id>http://www.daikersec.com/wiki/undefined.html</id>
+    <link href="http://www.daikersec.com/wiki/4b7d48f2.html"/>
+    <id>http://www.daikersec.com/wiki/4b7d48f2.html</id>
     <published>2018-06-24T14:09:17.000Z</published>
-    <updated>2018-06-24T14:31:58.054Z</updated>
+    <updated>2018-06-24T14:54:10.658Z</updated>
     
     <content type="html"><![CDATA[<h4 id="1-一个Linux操作系统包含了Linux内核、标准-GNU（由自由软件基金会组织的）实用工具和-开放源代码应用程序"><a href="#1-一个Linux操作系统包含了Linux内核、标准-GNU（由自由软件基金会组织的）实用工具和-开放源代码应用程序" class="headerlink" title="1. 一个Linux操作系统包含了Linux内核、标准 GNU（由自由软件基金会组织的）实用工具和 开放源代码应用程序"></a>1. 一个Linux操作系统包含了Linux内核、标准 GNU（由自由软件基金会组织的）实用工具和 开放源代码应用程序</h4><h4 id="2-自由软件"><a href="#2-自由软件" class="headerlink" title="2. 自由软件"></a>2. 自由软件</h4><p>自由软件不等于开源软件<br>如果一个软件是自由软件，那么它必须为用户提供以下四项基本自由：</p><ul><li>自由度0：无论用户出于何种目的，必须可以按照用户意愿，自由地运行该软件。</li><li>自由度1：用户可以自由地学习并修改该软件，以此来帮助用户完成用户自己的计算。作为前提，用户必须可以访问到该软件的源代码。</li><li>自由度2：用户可以自由地分发该软件的拷贝，这样就可以助人。</li><li>自由度3：用户可以自由地分发该软件修改后的拷贝。借此，用户可以把改进后的软件分享给整个社区令他人也从中受益。作为前提，用户必须可以访问到该软件的源代码。<br>####3. GPL规则<br>如果你使用并且修改了我的GPL软件，那么你的软件也必须要开源，否则就不能使用我的软件，你是否把你的软件商用和我没关系。<br>出售自由软件的组织一定要遵循一定的GPL规则：<br>1）不能限制购买软件的用户自由权；<br>2）必须告诉 用户软件属于GPL范畴；<br>3）必须提供软件完整的 源代码。</li></ul>]]></content>
     

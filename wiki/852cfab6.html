@@ -3,29 +3,31 @@
 <head>
     <meta charset="utf-8">
     
-    <title>基础 | daiker&#39;s wiki</title>
+    <title>进程管理 | daiker&#39;s wiki</title>
     
     
         <meta name="keywords" content="Linux" />
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="1. shell的版本Linux 结构内核:运行程序和 管理像磁盘和打印机等硬件设备的核心程序,要设计得尽可能的 小。Shell:Shell是系统的用户界面，提供了用户与内核进 行交互操作的一种接口。它接收用户输入的命 令并把它送入内核去执行。版本：Bourne Shell：是贝尔实验室开发的。 (sh)oBASH：是GNU的Bourne Again Shell，是GNU 操作系统上默认的shel">
+    <meta name="description" content="代码段、数据段和PCB（进程控制块)同一 个进程下可以拥有多个线程，它们共享这个进程的资源， 它们之间的切换也不再需要PCB，而只需要极少一点资 源就可以了。在这样的操作系统里，线程变成了系统调 度和分派的基本单位。  1. PID 每一个进程都有唯一的ID（PID），是在进程表中识别 进程的标识第一栏就是pid 2. PPID这个进程的父进程父进程跟子进程:Linux下，进程的创建，采用的是Fo">
 <meta name="keywords" content="Linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="基础">
-<meta property="og:url" content="http://www.daikersec.com/wiki/20dbfd00.html">
+<meta property="og:title" content="进程管理">
+<meta property="og:url" content="http://www.daikersec.com/wiki/852cfab6.html">
 <meta property="og:site_name" content="daiker&#39;s wiki">
-<meta property="og:description" content="1. shell的版本Linux 结构内核:运行程序和 管理像磁盘和打印机等硬件设备的核心程序,要设计得尽可能的 小。Shell:Shell是系统的用户界面，提供了用户与内核进 行交互操作的一种接口。它接收用户输入的命 令并把它送入内核去执行。版本：Bourne Shell：是贝尔实验室开发的。 (sh)oBASH：是GNU的Bourne Again Shell，是GNU 操作系统上默认的shel">
+<meta property="og:description" content="代码段、数据段和PCB（进程控制块)同一 个进程下可以拥有多个线程，它们共享这个进程的资源， 它们之间的切换也不再需要PCB，而只需要极少一点资 源就可以了。在这样的操作系统里，线程变成了系统调 度和分派的基本单位。  1. PID 每一个进程都有唯一的ID（PID），是在进程表中识别 进程的标识第一栏就是pid 2. PPID这个进程的父进程父进程跟子进程:Linux下，进程的创建，采用的是Fo">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-d876d23ed5670729.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-bb5b75f110d0d09b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-7e5f38d852ef7e45.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-c3ddfdd31f0010ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-06-24T14:30:19.942Z">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-48593238d35b39f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-a7b388db723b6485.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-9469bc3fa851c104.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-c782b1a6d353b1fe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-99490727b440d622.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5443560-cfac5d45c04c7462.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-06-24T14:54:28.855Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="基础">
-<meta name="twitter:description" content="1. shell的版本Linux 结构内核:运行程序和 管理像磁盘和打印机等硬件设备的核心程序,要设计得尽可能的 小。Shell:Shell是系统的用户界面，提供了用户与内核进 行交互操作的一种接口。它接收用户输入的命 令并把它送入内核去执行。版本：Bourne Shell：是贝尔实验室开发的。 (sh)oBASH：是GNU的Bourne Again Shell，是GNU 操作系统上默认的shel">
-<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/5443560-d876d23ed5670729.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="进程管理">
+<meta name="twitter:description" content="代码段、数据段和PCB（进程控制块)同一 个进程下可以拥有多个线程，它们共享这个进程的资源， 它们之间的切换也不再需要PCB，而只需要极少一点资 源就可以了。在这样的操作系统里，线程变成了系统调 度和分派的基本单位。  1. PID 每一个进程都有唯一的ID（PID），是在进程表中识别 进程的标识第一栏就是pid 2. PPID这个进程的父进程父进程跟子进程:Linux下，进程的创建，采用的是Fo">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/5443560-48593238d35b39f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
     
 
     
@@ -245,7 +247,7 @@
                             &nbsp;
                             基础学习
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/4f7c637d.html">GUI和文本编辑</a></li>  <li class="file"><a href="/wiki/fb27c52e.html">Linux简易入门绪</a></li>  <li class="file"><a href="/wiki/fb0a66e4.html">shell和shell编程</a></li>  <li class="file active"><a href="/wiki/20dbfd00.html">基础</a></li>  <li class="file"><a href="/wiki/ac994e7.html">安装和启动</a></li>  <li class="file"><a href="/wiki/62e89ee7.html">权限管理</a></li>  <li class="file"><a href="/wiki/500fed5c.html">用户管理</a></li>  <li class="file"><a href="/wiki/4b7d48f2.html">简介</a></li>  <li class="file"><a href="/wiki/9b3ccf99.html">调度任务</a></li>  <li class="file"><a href="/wiki/be55afaa.html">软件管理</a></li>  <li class="file"><a href="/wiki/852cfab6.html">进程管理</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/4f7c637d.html">GUI和文本编辑</a></li>  <li class="file"><a href="/wiki/fb27c52e.html">Linux简易入门绪</a></li>  <li class="file"><a href="/wiki/fb0a66e4.html">shell和shell编程</a></li>  <li class="file"><a href="/wiki/20dbfd00.html">基础</a></li>  <li class="file"><a href="/wiki/ac994e7.html">安装和启动</a></li>  <li class="file"><a href="/wiki/62e89ee7.html">权限管理</a></li>  <li class="file"><a href="/wiki/500fed5c.html">用户管理</a></li>  <li class="file"><a href="/wiki/4b7d48f2.html">简介</a></li>  <li class="file"><a href="/wiki/9b3ccf99.html">调度任务</a></li>  <li class="file"><a href="/wiki/be55afaa.html">软件管理</a></li>  <li class="file active"><a href="/wiki/852cfab6.html">进程管理</a></li>  </ul> 
                     </li> 
                      </ul> 
                     </li> 
@@ -484,7 +486,7 @@
     <div id="toTop" class="fa fa-angle-up"></div>
 </aside>
             
-            <section id="main"><article id="post-基础" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-进程管理" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -506,8 +508,8 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/wiki/20dbfd00.html">
-            <time datetime="2018-06-24T14:09:50.000Z" itemprop="datePublished">2018-06-24</time>
+        <a href="/wiki/852cfab6.html">
+            <time datetime="2018-06-24T14:11:26.000Z" itemprop="datePublished">2018-06-24</time>
         </a>
     </div>
 
@@ -518,13 +520,13 @@
                         
                         
                             <div class="article-meta-button">
-                                <a href='https://github.com/daikersec/daikersec.github.io/raw/hexo/source/_posts/基础.md'> Source </a>
+                                <a href='https://github.com/daikersec/daikersec.github.io/raw/hexo/source/_posts/进程管理.md'> Source </a>
                             </div>
                             <div class="article-meta-button">
-                                <a href='https://github.com/daikersec/daikersec.github.io/edit/hexo/source/_posts/基础.md'> Edit </a>
+                                <a href='https://github.com/daikersec/daikersec.github.io/edit/hexo/source/_posts/进程管理.md'> Edit </a>
                             </div>
                             <div class="article-meta-button">
-                                <a href='https://github.com/daikersec/daikersec.github.io/commits/hexo/source/_posts/基础.md'> History </a>
+                                <a href='https://github.com/daikersec/daikersec.github.io/commits/hexo/source/_posts/进程管理.md'> History </a>
                             </div>
                         
                     </div>
@@ -532,7 +534,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-            基础
+            进程管理
         </h1>
     
 
@@ -545,47 +547,28 @@
             
         
         
-            <h4 id="1-shell的版本"><a href="#1-shell的版本" class="headerlink" title="1. shell的版本"></a>1. shell的版本</h4><p>Linux 结构<br><img src="https://upload-images.jianshu.io/upload_images/5443560-d876d23ed5670729.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>内核:运行程序和 管理像磁盘和打印机等硬件设备的核心程序,要设计得尽可能的 小。<br>Shell:Shell是系统的用户界面，提供了用户与内核进 行交互操作的一种接口。它接收用户输入的命 令并把它送入内核去执行。<br>版本：<br>Bourne Shell：是贝尔实验室开发的。 (sh)<br>oBASH：是GNU的Bourne Again Shell，是GNU 操作系统上默认的shell。<br>oKorn Shell：是对Bourne Shell的发展，在大部分 内容上与Bourne Shell兼容。<br>oC Shell：是SUN公司Shell的BSD版本</p>
-<h4 id="2-虚拟控制台的切换"><a href="#2-虚拟控制台的切换" class="headerlink" title="2.虚拟控制台的切换"></a>2.虚拟控制台的切换</h4><p>（alt＋F1～F6可切换） </p>
-<h4 id="3-文件命名规则-跟变量名挺像的"><a href="#3-文件命名规则-跟变量名挺像的" class="headerlink" title="3. 文件命名规则(跟变量名挺像的)"></a>3. 文件命名规则(跟变量名挺像的)</h4><p>1 字母数字下划线<br>3 不规定扩展名<br>4 习惯上用类似扩展名的方式来表示文件系统，如prog.c为C源程序<br>5  以<code>.</code>开头的文件名为隐藏文件</p>
-<p>比如<code>1.txt</code>,<code>abc.txt</code>,<code>1_1.txt</code>,</p>
-<h4 id="4-绝对路径和相对路径"><a href="#4-绝对路径和相对路径" class="headerlink" title="4. 绝对路径和相对路径"></a>4. 绝对路径和相对路径</h4><p>绝对路径:从根开始的路径，比如<code>/home</code><br>相对路径:从当前目录开始的路径,比如<code>dir/</code></p>
-<h4 id="5-硬连接和软连接（符号连接）"><a href="#5-硬连接和软连接（符号连接）" class="headerlink" title="5. 硬连接和软连接（符号连接）"></a>5. 硬连接和软连接（符号连接）</h4><p> 硬连接：<code>ln file targetfile o</code></p>
+            <p>代码段、数据段和PCB（进程控制块)<br>同一 个进程下可以拥有多个线程，它们共享这个进程的资源， 它们之间的切换也不再需要PCB，而只需要极少一点资 源就可以了。在这样的操作系统里，线程变成了系统调 度和分派的基本单位。 </p>
+<h4 id="1-PID"><a href="#1-PID" class="headerlink" title="1. PID"></a>1. PID</h4><p> 每一个进程都有唯一的ID（PID），是在进程表中识别 进程的标识<br><img src="https://upload-images.jianshu.io/upload_images/5443560-48593238d35b39f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>第一栏就是pid</p>
+<h4 id="2-PPID"><a href="#2-PPID" class="headerlink" title="2. PPID"></a>2. PPID</h4><p>这个进程的父进程<br><img src="https://upload-images.jianshu.io/upload_images/5443560-a7b388db723b6485.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>父进程跟子进程:<br>Linux下，进程的创建，采用的是Fork（派生）：用一个程序创建一个新进程的方法 。比如我创建一个进程<code>ping</code>，必须通过另外的一个进程来派生，另外的进程就叫做父进程。比如<br><img src="https://upload-images.jianshu.io/upload_images/5443560-9469bc3fa851c104.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br><code>ping</code>在控制台下运行，是bash派生的<br>fork-exec：先用fork生成一个子进程,然后利用 exec函数族用新进程映像取代调用进程映像。 这时候shell将等待fork-exec子进程执行完毕，并 重新显示shell提示信息。</p>
+<h4 id="3-EUID（effective-user-id）"><a href="#3-EUID（effective-user-id）" class="headerlink" title="3. EUID（effective user id）"></a>3. EUID（effective user id）</h4><p>uid和euid（effective user id）的区别：uid就是你 login的时候使用的id，而euid则是你当前的有效id。比如在setuid的程序里面<br><img src="https://upload-images.jianshu.io/upload_images/5443560-c782b1a6d353b1fe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>去执行的时候会暂时性将euid变成文件所有者的sid,但是sid 没变</p>
+<h4 id="5-监视进程"><a href="#5-监视进程" class="headerlink" title="5. 监视进程"></a>5. 监视进程</h4><p>ps 命令<br>以短横（-）开始，与System-V兼容。 n 没有短横，与BSD兼容<br> -e （-A）：显示所有进程<br> -f  ：全格式 n -H （f）：显示树状结构，表示程序间的相互关系。<br>a  ：显示现行终端机下的所有程序，包括其他用户的程序。<br>u  ：以用户为主的格式来显示程序状况。<br>x  ：显示所有程序，不以终端机来区分。<br>所以一般就<code>ps -ef</code>或者 <code>ps aux</code><br><img src="https://upload-images.jianshu.io/upload_images/5443560-99490727b440d622.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/5443560-cfac5d45c04c7462.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<p><code>PID USER      PRI  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND</code><br> <code>PRI</code>：进程优先权方案。较大的数表示较低的优先权<br><code>NI</code>：该进程的优先级值(niceness )<br><code>SIZE</code>：该进程的代码大小加上数据大小再加上堆栈空 间大小的总数。单位是KB<br><code>RSS</code>：进程占用的物理内存的总量<br><code>SHARE</code>：该进程使用共享内存的数量<br><code>STAT</code>：进程的状态有这几种</p>
 <ul>
-<li>不用任何参数；</li>
-<li>源文件与目标文件须在同一文件系统</li>
-<li>只能用于文件连接</li>
-<li><p>源文件和目标文件都引用同一个inode（索引节 点）和盘上相同的数据（文件内容）。</p>
-<p>符号连接：<code>ln –s  file target</code></p>
-</li>
-<li>目标文件指向源文件的路径和名字而不是它的数据。 </li>
-<li>符号连接对所有命令是透明的（除ls和rm） </li>
-<li>目标文件指向一个新的inode，不同于源文件的 inode<br>####6.UID和GID<br>每个用户都有一个UID（User ID）和GID（Group ID），可通过/etc/passwd修改UID和GID<br>用id命令查看当前的用户和组的值<br>文件权限的确认是通过识别当前用户的UID或GID进行 的。而和用户的名字或组的名字无关<br>####7. 文件属性、修改文件权限<br><img src="https://upload-images.jianshu.io/upload_images/5443560-bb5b75f110d0d09b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>第一位属性： </li>
-<li>为 d 表示是目录； </li>
-<li>为 - 表示是文件； </li>
-<li>为 l  表示是连接文件； </li>
-<li>为 b 表示是可供存储的设备； <ul>
-<li>为 c  表示是其他外围设备，如键盘、鼠标等。 </li>
+<li>R：是正在CPU中运行的进程，或者是准备就绪，只等 CPU空闲即可运行的进程。<ul>
+<li>S：休眠的进程是那些等待某些事件触发以继续执行的进 程。通常它会等待某类I/O操作或某个信号。</li>
+<li>T：已终止的进程是被用户中断的进程。</li>
+<li>D：该进程不能被中断，因为此时内核程序正忙 于该进程的某些I/O操作<br><code>TIME</code>：该进程自启动以来所占用的总CPU时间 </li>
 </ul>
 </li>
 </ul>
-<p>其他9位属性称为保护标志（权限字），每3位为一组，即 对三类用户（用户、组和其他）提供保护<br>要存取一个文件或目录，对于每一个用户，都必须提供相 应的权限<br><img src="https://upload-images.jianshu.io/upload_images/5443560-7e5f38d852ef7e45.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br><img src="https://upload-images.jianshu.io/upload_images/5443560-c3ddfdd31f0010ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h4 id="8-备份和压缩工具"><a href="#8-备份和压缩工具" class="headerlink" title="8. 备份和压缩工具"></a>8. 备份和压缩工具</h4><p>tar 命令</p>
+<h4 id="6-管理进程"><a href="#6-管理进程" class="headerlink" title="6. 管理进程"></a>6. 管理进程</h4><p> 内核程序利用优先级大小来判断何时及如何安排进程。<br>每个进程都有两个优先级值：静态值和动态值。<br>我们通常讨论的优先级是指静态优先级，因为我们无法 控制动态优先级。<br>优先级值的范围从-20到20（实际上为19）。大部分优 先级的值为0<br>优先级值小的进程具有更高的优先级。即减少niceness 值（优先级值）就意味着进程能获得更多的CPU时间。<br>子进程会继承父进程的优先级。<br><code>nice</code> 更改优先级(直接 – niceness )<br>nice -19 tar(19是 niceness)<br>把这个tar 命令执行后的优先级调到最低<br> <code>renice</code>改变运行中进程的优先级<br>renice 19 50<br>(19为niceness,50为pid)<br>第二个参数是niceness，第三个参数是pid</p>
+<p>  <code>查看后台程序</code><br>jobs<br><code>将后台程序放到前台</code><br>bg %id<br><code>将进程放到后台</code></p>
 <ul>
-<li>-c：创建一个档案 n<ul>
-<li>-x：从档案中解开文件 </li>
-<li>-v：详细显示过程（verbose） </li>
-<li>-f：指定操作的tar文件名 </li>
-<li>-t：浏览档案的内容</li>
-<li>-z：用gzip进行压缩 </li>
-<li>-Z：用compress进行压缩 </li>
-<li>-j：用bzip2进行压缩 </li>
-<li>-N/–newer  ‘date’：备份指定日期以后变化 的文件</li>
+<li>刚要执行的时候直接在后面加&amp;<br>如<code>python run.pu &amp;</code></li>
+<li>将正在执行的程序放到后台,ctrl+z,这个时候是挂起在后台的，通过<code>bg %id</code>是它在后台运行</li>
 </ul>
-</li>
-</ul>
-<p>常用压缩命令<br><code>tar zcvf haha.gz haha</code><br>要解压就吧c变成x<br><code>tar zxvf haha.gz</code></p>
-<p>如果是bzip2的格式，，就把z变成j<br><code>tar jcvf haha.bz2 haha</code></p>
+<h4 id="7-信号发送的命令kill"><a href="#7-信号发送的命令kill" class="headerlink" title="7. 信号发送的命令kill"></a>7. 信号发送的命令kill</h4><p>kill   [option]  pid…<br> -l：列出所有可用信号名称<br>-s  signal  /  -signal ：指定发送特定的信号<br>kill  -s   9   471<br>强制杀死pid为471的进程<br>可缩写为<br>kill -9 471</p>
 
             </div>
         
@@ -598,19 +581,19 @@
     
 <nav id="article-nav">
     
-        <a href="/wiki/ac994e7.html" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/wiki/62e89ee7.html" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">上一篇</strong>
             <div class="article-nav-title">
                 
-                    安装和启动
+                    权限管理
                 
             </div>
         </a>
     
     
-        <a href="/wiki/4b7d48f2.html" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/wiki/500fed5c.html" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">简介</div>
+            <div class="article-nav-title">用户管理</div>
         </a>
     
 </nav>
